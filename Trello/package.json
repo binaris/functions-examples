@@ -1,0 +1,43 @@
+{
+  "name": "trello-demo-app",
+  "version": "1.0.0",
+  "description": "A Trello webhook backend using Binaris Functions",
+  "scripts": {
+    "test": "mocha",
+    "lint": "./node_modules/.bin/eslint --ignore-pattern '!.eslintrc.js' --config .eslintrc.js .eslintrc.js functions",
+    "docs": "jsdoc --readme README.md functions",
+    "deploy": "parallel --bar bn deploy ::: `ls functions | cut -d'.' -f 1`",
+    "clean": "rm -rf out"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binaris/apps.git"
+  },
+  "keywords": [
+    "Binaris",
+    "Trello",
+    "FaaS",
+    "Serverless",
+    "Functions"
+  ],
+  "author": "Adam Matan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/binaris/apps/issues"
+  },
+  "homepage": "https://github.com/binaris/apps",
+  "dependencies": {
+    "binaris": "^5.4.1",
+    "lodash.get": "^4.4.2",
+    "moment": "^2.22.2",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0"
+  }
+}

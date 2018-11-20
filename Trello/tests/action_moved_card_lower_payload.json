@@ -1,0 +1,102 @@
+{
+  "test": true,
+  "model": {
+    "id": "modelxxxxxxxxxxxxxxxxxxx",
+    "name": "Demo Board",
+    "desc": "",
+    "descData": null,
+    "closed": false,
+    "idOrganization": "orgxxxxxxxxxxxxxxxxxxxxx",
+    "pinned": false,
+    "url": "https://trello.com/b/xxxxxxxx/demo-board",
+    "shortUrl": "https://trello.com/b/xxxxxxxx",
+    "prefs": {
+      "permissionLevel": "public",
+      "voting": "disabled",
+      "comments": "members",
+      "invitations": "members",
+      "selfJoin": true,
+      "cardCovers": true,
+      "cardAging": "regular",
+      "calendarFeedEnabled": false,
+      "background": "sky",
+      "backgroundImage": null,
+      "backgroundImageScaled": null,
+      "backgroundTile": false,
+      "backgroundBrightness": "dark",
+      "backgroundColor": "#00AECC",
+      "backgroundBottomColor": "#00AECC",
+      "backgroundTopColor": "#00AECC",
+      "canBePublic": true,
+      "canBeOrg": true,
+      "canBePrivate": true,
+      "canInvite": true
+    },
+    "labelNames": {
+      "green": "",
+      "yellow": "",
+      "orange": "",
+      "red": "",
+      "purple": "",
+      "blue": "",
+      "sky": "",
+      "lime": "",
+      "pink": "",
+      "black": ""
+    }
+  },
+  "action": {
+    "id": "actionxxxxxxxxxxxxxxxxxx",
+    "idMemberCreator": "memberxxxxxxxxxxxxxxxxxx",
+    "data": {
+      "list": {
+        "name": "Avner",
+        "id": "member1xxxxxxxxxxxxxxxxx"
+      },
+      "board": {
+        "shortLink": "KNU6Zc22",
+        "name": "Demo Board",
+        "id": "boardxxxxxxxxxxxxxxxxxxx"
+      },
+      "card": {
+        "shortLink": "W2T8A2Da",
+        "idShort": 32,
+        "name": "b",
+        "id": "cardxxxxxxxxxxxxxxxxxxxx",
+        "pos": 5040
+      },
+      "old": {
+        "pos": 5088
+      }
+    },
+    "type": "updateCard",
+    "date": "2018-10-28T13:38:40.847Z",
+    "limits": {},
+    "display": {
+      "translationKey": "action_moved_card_lower",
+      "entities": {
+        "card": {
+          "type": "card",
+          "pos": 5040,
+          "id": "card2xxxxxxxxxxxxxxxxxxx",
+          "shortLink": "zzzzzzzz",
+          "text": "b"
+        },
+        "memberCreator": {
+          "type": "member",
+          "id": "member2xxxxxxxxxxxxxxxxx",
+          "username": "adammatan",
+          "text": "Adam Matan"
+        }
+      }
+    },
+    "memberCreator": {
+      "id": "member3xxxxxxxxxxxxxxxxx",
+      "avatarHash": "avatarxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "avatarUrl": "https://trello-avatars.s3.amazonaws.com/avatarxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "fullName": "Adam Matan",
+      "initials": "AM",
+      "username": "adammatan"
+    }
+  }
+}

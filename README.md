@@ -1,2 +1,1 @@
-# apps
-Applications built with Binaris Functions
+Apps built with Binaris Functions.

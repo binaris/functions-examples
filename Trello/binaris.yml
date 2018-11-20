@@ -1,0 +1,35 @@
+functions:
+  handleTrelloEvent:
+    file: functions/handleTrelloEvent.js
+    entrypoint: handleTrelloEvent
+    runtime: node8
+    env:
+      BINARIS_API_KEY:
+  updateTrelloCard:
+    file: functions/updateTrelloCard.js
+    entrypoint: updateTrelloCard
+    runtime: node8
+    env:
+      TRELLO_API_KEY:
+      TRELLO_TOKEN:
+  listWebhooks:
+    file: functions/listWebhooks.js
+    entrypoint: listWebhooks
+    runtime: node8
+    env:
+      TRELLO_API_KEY:
+      TRELLO_TOKEN:
+  createWebhook:
+    file: functions/createWebhook.js
+    entrypoint: createWebhook
+    runtime: node8
+    env:
+      TRELLO_API_KEY:
+      TRELLO_TOKEN:
+  getBoardMembers:
+    file: functions/getBoardMembers.js
+    entrypoint: getBoardMembers
+    runtime: node8
+    env:
+      TRELLO_API_KEY:
+      TRELLO_TOKEN:
