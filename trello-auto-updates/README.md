@@ -23,8 +23,8 @@ $ npm install -g binaris
 $ bn login
 
 # Clone this repo.
-$ git clone https://github.com/binaris/trelloDemoApp.git
-$ cd trelloDemoApp
+$ git clone https://github.com/binaris/functions-examples.git
+$ cd functions-examples/trello-auto-updates
 
 # Install the function dependencies
 $ npm install
