@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import * as log from 'loglevel';
 
 import { WorkerHandle } from './workerPool';
-import { Tile, tileKey } from './Tile';
+import { Tile, tileKey } from './tile';
 import msleep from './msleep';
 
 import { GEN_SUCCESS } from './sharedTypes';
