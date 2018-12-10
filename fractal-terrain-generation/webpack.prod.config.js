@@ -47,7 +47,7 @@ module.exports = {
           {
               'process.env':
               {
-                    'FRACTAL_URL': JSON.stringify(process.env.FRACTAL_URL),
+                    'FRACTAL_ENDPOINT': JSON.stringify(process.env.FRACTAL_ENDPOINT),
               }
           }
         ),
