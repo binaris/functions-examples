@@ -1,0 +1,44 @@
+{
+  "name": "fractal-conf-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.prod.config.js && (bn deploy public_fractal)",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc.js src/ function_lib/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dat.gui": "^0.7.2",
+    "loglevel": "^1.6.1",
+    "mime-types": "^2.1.21",
+    "mz": "^2.7.0",
+    "path": "^0.12.7",
+    "simplex-noise": "^2.4.0",
+    "superagent": "^3.8.3",
+    "three": "^0.94.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "browser-sync": "^2.18.8",
+    "browser-sync-webpack-plugin": "^1.1.4",
+    "eslint": "^3.14.1",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.12.0",
+    "glslify-loader": "^1.0.2",
+    "raw-loader": "^0.5.1",
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5",
+    "worker-loader": "^2.0.0"
+  }
+}
