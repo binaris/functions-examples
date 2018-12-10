@@ -8,8 +8,9 @@ Demo originally created for talk given by Ryland Goldstein at _Serverless conf 2
 
     `export FRACTAL_ENDPOINT=https://run-sandbox.binaris.com/v2/run/${BINARIS_ACCOUNT_NUMBER}/public_fractal`
 1. Run `npm install`
-1. Run `npm run build`
 1. Run `bn deploy public_fractal`
-1. Navigate to the generated Binaris function URL in your browser
+1. Run `npm run build`
+1. Run `bn deploy public_servePage`
+1. Navigate to the generated Binaris function URL for `servePage` in your browser
 
 For even faster generation consider upgrading to the Binaris paid tier.

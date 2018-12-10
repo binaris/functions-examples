@@ -6,7 +6,7 @@ module.exports = {
     entry: [ 'babel-polyfill', './src/gen.worker.js', './src/main.js' ],
     output: {
         path: path.resolve(__dirname, 'dist/js'),
-        publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_fractal/js/`,
+        publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_servePage/js/`,
         filename: 'three.bundle.js'
     },
     module: {
@@ -77,7 +77,7 @@ module.exports = {
     ],
     devServer: {
         contentBase: path.resolve(__dirname, 'dist'),
-        publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_fractal/js/`,
+        publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_servePage/js/`,
     },
     watch: true,
     devtool: 'cheap-eval-source-map'
