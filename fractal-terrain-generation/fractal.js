@@ -21,7 +21,7 @@ async function servePage(body, ctx) {
   const webpage = await fs.readFile(`${prefix}${resourcePath}`);
   const resourceType = mime.contentType(path.extname(resourcePath));
 
-  return new ctx.Response({
+  return new ctx.HTTPResponse({
     statusCode: 200,
     headers: {
       'Content-Type': resourceType,
@@ -82,7 +82,7 @@ exports.handler = async (body, ctx) => {
       'Gen-Data-Time-Running-MS': genDataTimeStr,
     };
 
-    return new ctx.Response({
+    return new ctx.HTTPResponse({
       statusCode: 200,
       headers: {
         'Access-Control-Expose-Headers': Object.keys(customHeaders).join(','),
