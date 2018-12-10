@@ -1,5 +1,5 @@
 {
-  "name": "fractal-conf-demo",
+  "name": "fractal-terrain-generation",
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
@@ -10,7 +10,7 @@
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js src/ function_lib/"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ryland Goldstein",
   "license": "MIT",
   "dependencies": {
     "dat.gui": "^0.7.2",
