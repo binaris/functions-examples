@@ -1,0 +1,5 @@
+functions:                
+  public_fractal:
+    file: fractal.js
+    entrypoint: handler
+    runtime: node8

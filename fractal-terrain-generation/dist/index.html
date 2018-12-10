@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Binaris terrain</title>
+  <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+            font-family: arial;
+        }
+        #blocker {
+
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            background-color: rgba(0,0,0,0.5);
+
+        }
+
+        #instructions {
+
+            width: 100%;
+            height: 100%;
+
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            box-pack: center;
+
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            box-align: center;
+
+            color: #ffffff;
+            text-align: center;
+
+            cursor: pointer;
+
+        }
+
+        #overlay {
+            position: absolute;
+            left: 12px;
+            top: 70px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-family: monospace;
+            padding: 1em;
+        }
+
+        #pause-popup {
+            position: absolute;
+            left: 50%;
+            top: 5%;
+            width: 100px;
+            height: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-family: monospace;
+            text-align: center;
+            padding: 1em;
+            margin-left: -100px; /*half width*/
+            margin-top: -20px; /*half height*/
+            display: none;
+        }
+
+        body .dg .c,
+        body .dg .cr.function,
+        body .dg .c select,
+        body .dg .property-name,
+        body .dg .title {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        
+        body .dg.main.taller-than-window .close-button {
+            border-top: 1px solid #ddd;
+        }
+        
+        body .dg.main .close-button {
+            background-color: #fff;
+        }
+         
+        body .dg.main .close-button:hover {
+            background-color: #eee;
+        }
+        
+        body .dg {
+            color: #555;
+            text-shadow: none !important;
+        }
+        
+        body .dg.main::-webkit-scrollbar {
+            background: #fafafa;
+        }
+        
+        body .dg.main::-webkit-scrollbar-thumb {
+            background: #bbb;
+        }
+         
+        body .dg li:not(.folder) {
+            background: #fafafa;
+            border-bottom: 1px solid #ddd;
+        }
+         
+        body .dg li.save-row .button {
+            text-shadow: none !important;
+        }
+        
+        body .dg li.title {
+            background: #e8e8e8 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
+        }
+        
+        body .dg li.folder {
+            border-left: 0;
+        }
+        
+        body .dg .cr.function:hover,
+        body .dg .cr.boolean:hover {
+            background: #fff;
+        }
+         
+        body .dg .c input[type=text] {
+            background: #e9e9e9;
+        }
+         
+        body .dg .c input[type=text]:hover {
+            background: #eee;
+        }
+         
+        body .dg .c input[type=text]:focus {
+            background: #eee;
+            color: #555;
+        }
+         
+        body .dg .c .slider {
+            background: #e9e9e9;
+        }
+        
+        body .dg .c .slider:hover {
+            background: #eee;
+        }
+        
+        body .dg.a {
+            margin-right: 9px;
+            margin-top: 9px;
+        }
+        
+        body .dg .cr.function {
+            background: #eee;
+        }
+        
+        body .dg .cr.function:hover {
+            background: #dadada;
+            border-bottom: 1px solid #2fa1d6;
+        }
+        
+        body .dg .cr.function:active {
+            background: #ddd;
+            border-bottom: 1px solid #2fa1d6;
+        }
+  </style>
+</head>
+<body>
+    <div id="blocker">
+
+        <div id="instructions">
+            <span style="font-size:40px">Click to start</span>
+            <br />
+        </div>
+
+
+    </div>
+    <div class="container">
+      <div id="overlay">
+        <div>Total blocks: <span id="totalBlocks"></span></div>
+        <div>Gen Time/Block: <span id="avgBlockGenTime"></span></div>
+      </div>
+      <div id="pause-popup">
+        <div>Paused<span id="pause"></span></div>
+      </div>
+    </div>
+  <script src="/v2/run/<BINARIS_ACCOUNT_NUMBER>/public_fractal/js/three.bundle.js"></script>
+</body>
+</html>
