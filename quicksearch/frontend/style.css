@@ -1,0 +1,9 @@
+.container {
+    max-width: 960px;
+}
+.image-col {
+    max-height: 150px;
+}
+.search-row {
+    padding-bottom: 20px;
+}

@@ -1,0 +1,17 @@
+functions:
+  update:
+    file: functions/update.js
+    entrypoint: update
+    runtime: node8
+    env:
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_PASSWORD:       
+  search:
+    file: functions/search.js
+    entrypoint: searchWithCors
+    runtime: node8
+    env:
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_PASSWORD:

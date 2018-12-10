@@ -1,0 +1,4 @@
+module.exports = {
+  WORDS_TO_TITLES: 'WORDS_TO_TITLES',
+  TITLES_TO_PICTURES: 'TITLES_TO_PICTURES',
+};
