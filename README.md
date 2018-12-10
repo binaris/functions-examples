@@ -15,5 +15,5 @@ Each example contains a README.md with an explanation about the solution and it'
 | Example | Runtime  |
 |:--------------------------- |:-----|
 | [`trello-auto-updates`](trello-auto-updates) <br/> Implement Trello webhooks to extend a dashboard behavior | nodeJS |
-| [`quicksearch-demo-app`](quicksearch-demo-app) <br/> Fetch textual results as you type with function-based quicksearch | nodeJS |
-| [`fractal-conf-demo`](trello-auto-updates) <br/> Render terrain in a browser with a backbend implemented in Serverless functions | nodeJS |
+| [`quicksearch`](quicksearch) <br/> Fetch textual results as you type with function-based quicksearch | nodeJS |
+| [`fractal-terrain-generation`](fractal-terrain-generation) <br/> Render terrain in a browser with a backbend implemented in Serverless functions | nodeJS |
