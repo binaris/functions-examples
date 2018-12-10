@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server",
-    "build": "webpack --config webpack.prod.config.js && (bn deploy public_fractal)",
+    "build": "webpack --config webpack.prod.config.js",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js src/ function_lib/"
   },
   "keywords": [],
