@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Quicksearch example</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="Adam Matan <adam@binaris.com>">
+        <meta name="description" content="A Quicksearch backend built entirely with Binaris functions">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body class="bg-light">
+        <div class="container">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="https://binaris.com/kubecon/images/logo.svg" alt="Binaris Logo" width="200">
+                <p class="lead">A Quicksearch backend built entirely with Binaris functions.</p>
+                <p class="lead" id="searchCounter">⚡</p>
+            </div>
+            <div class="row">
+                <div class="col order-md-1">
+                    <form>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="searchTermsInput" placeholder="e.g. Harry Potter" required>
+                        </div>
+                    </form>
+                    <div id="results" class="container">
+                    </div>
+                </div>
+            </div>
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; Binaris 2018</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://binaris.com/privacy.html">Privacy</a></li>
+                    <li class="list-inline-item"><a href="https://binaris.com/terms.html">Terms</a></li>
+                </ul>
+            </footer>
+        </div>
+        <script src="search.js"></script>
+    </body>
+</html>

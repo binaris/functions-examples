@@ -1,0 +1,38 @@
+{
+  "name": "quicksearch-demo-app",
+  "version": "0.1.0",
+  "description": "A quicksearch app with Binaris functions and Redis",
+  "scripts": {
+    "test": "ava --serial",
+    "test-watch": "ava --serial --watch",
+    "lint": "./node_modules/.bin/eslint --ignore-pattern '!.eslintrc.js' --config .eslintrc.js .eslintrc.js functions frontend",
+    "docs": "jsdoc functions",
+    "deploy": "echo 'update\nsearch' | time node_modules/parallel/bin/parallel.js bn deploy",
+    "deploy-watch": "node_modules/grunt/bin/grunt watch"
+  },
+  "keywords": [
+    "Binaris",
+    "FaaS",
+    "Functions",
+    "Redis",
+    "Quicksearch",
+    "Search"
+  ],
+  "author": "Avner Braverman <avner@binaris.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async-redis": "^1.1.4",
+    "binaris": "^5.4.2"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "grunt": "^1.0.3",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-run": "^0.8.1",
+    "jsdoc": "^3.5.5",
+    "parallel": "^1.2.0"
+  }
+}

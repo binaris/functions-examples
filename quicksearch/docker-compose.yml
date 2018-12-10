@@ -1,0 +1,20 @@
+version: '3.2'
+services:
+  redis:
+    image: redis
+    command: redis-server --save ""
+  functions:
+    image: quicksearch-app
+    depends_on: [redis]
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ''
+    volumes:
+      - type: bind
+        source: ./test
+        target: /app/test
+      - type: bind
+        source: ./functions
+        target: /app/functions
+    command: "npm run ${COMMAND:-test}"
