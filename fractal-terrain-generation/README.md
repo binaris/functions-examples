@@ -6,7 +6,7 @@ Demo originally created for talk given by Ryland Goldstein at _Serverless conf 2
 1. Export `BINARIS_ACCOUNT_NUMBER` to your environment
 1. Run the following command
 
-    `export FRACTAL_ENDPOINT=https://run.binaris.com/v2/run/${BINARIS_ACCOUNT_NUMBER}/public_fractal`
+    `export FRACTAL_ENDPOINT=https://run-sandbox.binaris.com/v2/run/${BINARIS_ACCOUNT_NUMBER}/public_fractal`
 1. Run `npm install`
 1. Run `npm run build`
 1. Run `bn deploy public_fractal`
