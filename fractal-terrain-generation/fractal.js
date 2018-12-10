@@ -85,7 +85,7 @@ exports.handler = async (body, ctx) => {
     return new ctx.HTTPResponse({
       statusCode: 200,
       headers: {
-        'Access-Control-Expose-Headers': Object.keys(customHeaders).join(','),
+        'Access-Control-Expose-Headers': Object.keys(customHeaders).join(', '),
         'Content-Type': 'application/octet-stream',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
