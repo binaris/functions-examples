@@ -1,4 +1,4 @@
-[Website](http://www.binaris.com) • [Docs](https://dev.binaris.com/) • [Blog](https://blog.binaris.com/)
+[Website](https://www.binaris.com) • [Docs](https://dev.binaris.com/) • [Blog](https://blog.binaris.com/)
 
 # Binaris Functions Examples
 
