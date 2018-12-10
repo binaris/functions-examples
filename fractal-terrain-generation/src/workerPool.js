@@ -15,6 +15,14 @@ class WorkerHandle {
   }
 }
 
+// We use multiple threads in addition to functions in order
+// to give the browser a fair chance. Javascript performs very
+// poorly when the main thread is blocked.
+//
+// To validate the rationale that functions are the best solution
+// we need to at least move as much compute off the main thread as
+// possible.
+
 class WorkerPool {
   /**
    * Create a pool of workers which can be reused for similar
