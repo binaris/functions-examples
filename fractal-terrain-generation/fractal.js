@@ -76,10 +76,10 @@ exports.handler = async (body, ctx) => {
     const genTime = process.hrtime(genStartTime);
     const genDataTimeStr = (genTime[0] * 1000) + (genTime[1] / 1000000);
     const customHeaders = {
-      'Gen-Data-Blockcount': blockCount,
-      'Gen-Data-Max-Height': maxHeight,
-      'Gen-Data-Payload-Bytes': buffer.length,
-      'Gen-Data-Time-Running-MS': genDataTimeStr,
+      'X-Gen-Data-Blockcount': blockCount,
+      'X-Gen-Data-Max-Height': maxHeight,
+      'X-Gen-Data-Payload-Bytes': buffer.length,
+      'X-Gen-Data-Time-Running-MS': genDataTimeStr,
     };
 
     return new ctx.HTTPResponse({
