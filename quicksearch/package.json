@@ -7,7 +7,7 @@
     "test-watch": "ava --serial --watch",
     "lint": "./node_modules/.bin/eslint --ignore-pattern '!.eslintrc.js' --config .eslintrc.js .eslintrc.js functions frontend",
     "docs": "jsdoc functions",
-    "deploy": "echo 'update\nsearch' | time node_modules/parallel/bin/parallel.js bn deploy",
+    "deploy": "echo 'update\npublic_search' | time node_modules/parallel/bin/parallel.js bn deploy",
     "deploy-watch": "node_modules/grunt/bin/grunt watch"
   },
   "keywords": [
@@ -21,11 +21,11 @@
   "author": "Avner Braverman <avner@binaris.com>",
   "license": "MIT",
   "dependencies": {
-    "async-redis": "^1.1.4",
-    "binaris": "^5.4.2"
+    "async-redis": "^1.1.4"
   },
   "devDependencies": {
     "ava": "^0.25.0",
+    "binaris": "^6.0.6",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",

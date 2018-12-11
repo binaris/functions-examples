@@ -7,7 +7,7 @@ functions:
       REDIS_HOST:
       REDIS_PORT:
       REDIS_PASSWORD:       
-  search:
+  public_search:
     file: functions/search.js
     entrypoint: searchWithCors
     runtime: node8

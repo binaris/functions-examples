@@ -13,7 +13,7 @@ Fetch textual results as you type with function-based quicksearch.
 # Install the Binaris CLI
 $ npm install -g binaris
 
-# Set your API key
+# Set your API key in ~/.binaris.yml
 $ bn login
 
 # Clone this repo.
@@ -29,15 +29,22 @@ $ export REDIS_HOST={your-redis-host}
 $ export REDIS_HOST={your-redis-port}
 $ export REDIS_PASSWORD={your-redis-password}
 
-# Deploy the function
+# Deploy the functions:
+#   Calls to 'update' require your API Key (taken from ~/.binaris.yml)
+#   Calls to 'public_search' require no credentials
 $ bn deploy update
-$ bn deploy search
+$ bn deploy public_search
 
 # Index some sample data
 $ bn invoke update -j test/data_1.json
 
-# Open the webpage at the browser, with the API key as a query string argument
-index.html?apiKey=<api-key-here>
+# Set the search function URL in frontend/search.js, with sed or your favourite editor.
+# Don't forget to change <your-actual-search-url> to the actual URL from the invoke command!
+# You can always recover from a failed attempt with 'git checkout frontend/search.js'
+$ sed -i '' s%YOUR_SEARCH_FUNCTION_URL%<your-actual-search-url>% frontend/search.js
+
+# Open the webpage in your browser
+frontend/index.html
 ```
 
 # Why Serverless? Why Binaris?
