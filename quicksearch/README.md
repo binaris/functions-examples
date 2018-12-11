@@ -1,8 +1,6 @@
 # Quicksearch With Functions
 Fetch textual results as you type with function-based quicksearch.
 
-![flow](images/quicksearch.gif)
-
 # What does it do?
 1. Index textual data in Redis by uploading JSON to a function endpoint.
 1. Super-fast search for textual terms by calling a function endpoint.
