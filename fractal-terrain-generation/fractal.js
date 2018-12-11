@@ -2,9 +2,30 @@
 const noiseGen = require('./function_lib/noiseGen');
 const simplify = require('./function_lib/simplify');
 
+function makeHeaders(blockCount, maxHeight,
+  payloadBytes, genTime) {
+  const statusHeaders = {
+    'X-Gen-Data-Blockcount': blockCount,
+    'X-Gen-Data-Max-Height': maxHeight,
+    'X-Gen-Data-Payload-Bytes': payloadBytes,
+    'X-Gen-Data-Time-Running-MS': genTime,
+  };
+  const customHeaders = {
+    'Access-Control-Expose-Headers': Object.keys(statusHeaders).join(', '),
+    'Content-Type': 'application/octet-stream',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin X-Requested-With, Content-Type, Accept',
+    ... statusHeaders,
+  };
+  return customHeaders;
+}
+
 exports.handler = async (body, ctx) => {
   const { size, xPos, zPos, downscale, heightFactor } = ctx.request.query;
 
+  let respBody;
+  let headers;
+  let statusCode = 500;
   const genStartTime = process.hrtime();
 
   const { blockCount, data, maxHeight } = noiseGen(
@@ -42,24 +63,18 @@ exports.handler = async (body, ctx) => {
   const buffer = Buffer.from(mergedData.buffer);
   console.log(`buffer size is ${buffer.length / 1000}`);
 
-  const genTime = process.hrtime(genStartTime);
-  const genDataTimeStr = (genTime[0] * 1000) + (genTime[1] / 1000000);
-  const customHeaders = {
-    'X-Gen-Data-Blockcount': blockCount,
-    'X-Gen-Data-Max-Height': maxHeight,
-    'X-Gen-Data-Payload-Bytes': buffer.length,
-    'X-Gen-Data-Time-Running-MS': genDataTimeStr,
-  };
-
+    const genTime = process.hrtime(genStartTime);
+    const genDataTimeStr = (genTime[0] * 1000) + (genTime[1] / 1000000);
+    headers = makeHeaders(blockCount, maxHeight, respBody.length, genDataTimeStr);
+    statusCode = 200;
+  }
+  if (ctx.request.query.express_server) {
+    ctx.set(headers);
+    return ctx.send(respBody);
+  }
   return new ctx.HTTPResponse({
-    statusCode: 200,
-    headers: {
-      'Access-Control-Expose-Headers': Object.keys(customHeaders).join(', '),
-      'Content-Type': 'application/octet-stream',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Origin X-Requested-With, Content-Type, Accept',
-      ...customHeaders,
-    },
-    body: buffer,
+    statusCode,
+    headers,
+    body: respBody,
   });
 };
