@@ -24,7 +24,6 @@ $ cd quicksearch
 $ npm install
 
 # Set the environment variables for deployment
-$ export BINARIS_API_KEY={binaris-api-key}
 $ export REDIS_HOST={your-redis-host}
 $ export REDIS_HOST={your-redis-port}
 $ export REDIS_PASSWORD={your-redis-password}
