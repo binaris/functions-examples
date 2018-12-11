@@ -44,22 +44,26 @@ exports.handler = async (body, ctx) => {
 
   const genTime = process.hrtime(genStartTime);
   const genDataTimeStr = (genTime[0] * 1000) + (genTime[1] / 1000000);
-  const customHeaders = {
+  const statusHeaders = {
     'X-Gen-Data-Blockcount': blockCount,
     'X-Gen-Data-Max-Height': maxHeight,
     'X-Gen-Data-Payload-Bytes': buffer.length,
     'X-Gen-Data-Time-Running-MS': genDataTimeStr,
   };
-
+  const customHeaders = {
+    'Access-Control-Expose-Headers': Object.keys(statusHeaders).join(', '),
+    'Content-Type': 'application/octet-stream',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin X-Requested-With, Content-Type, Accept',
+    ... statusHeaders,
+  };
+  if (ctx.request.query.express_server) {
+    ctx.set(customHeaders);
+    return ctx.send(buffer);
+  }
   return new ctx.HTTPResponse({
     statusCode: 200,
-    headers: {
-      'Access-Control-Expose-Headers': Object.keys(customHeaders).join(', '),
-      'Content-Type': 'application/octet-stream',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Origin X-Requested-With, Content-Type, Accept',
-      ...customHeaders,
-    },
+    headers: customHeaders,
     body: buffer,
   });
 };
