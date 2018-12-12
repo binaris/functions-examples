@@ -8,6 +8,59 @@ import msleep from './msleep';
 
 import { GEN_SUCCESS } from './sharedTypes';
 
+import VertShader from './shaders/simple_shader.vert';
+import FragShader from './shaders/simple_shader.frag';
+
+const loader = new THREE.TextureLoader();
+
+const modifiedRemoteEndpoint = process.env.FRACTAL_ENDPOINT.replace('fractal', 'servePage');
+const resEndpoint = `${process.env.FRACTAL_RESOURCE_ENDPOINT || modifiedRemoteEndpoint}/resources`;
+
+/**
+ * Needed as of now because of our rate limiting.
+ */
+function keepTryLoadTex(texURL) {
+  let loaded = false;
+  while (!loaded) {
+    return loader.load(texURL);
+  }
+}
+
+const lightBlueTex = keepTryLoadTex(`${resEndpoint}/light_blue.png`);
+const redBrownTex = keepTryLoadTex(`${resEndpoint}/brown_red.png`);
+const yellowTex = keepTryLoadTex(`${resEndpoint}/yellow.png`);
+const darkBlueTex = keepTryLoadTex(`${resEndpoint}/dark_blue.png`);
+const orangeTex = keepTryLoadTex(`${resEndpoint}/orange.png`);
+const limeTex = keepTryLoadTex(`${resEndpoint}/lime_green.png`);
+const redTex = keepTryLoadTex(`${resEndpoint}/dark_red.png`);
+
+const texArray = [
+  darkBlueTex, lightBlueTex, limeTex, yellowTex,
+  orangeTex, redTex, redBrownTex
+];
+
+const numTex = texArray.length;
+
+texArray.forEach((tex) => {
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(2, 2);
+});
+
+const uniforms = THREE.UniformsUtils.merge([
+  THREE.UniformsLib['lights'], {
+    textures: {
+       type: 'tv',
+       value: texArray,
+    },
+  },
+]);
+
+const shaderMat = new THREE.ShaderMaterial({
+  uniforms,
+  lights: true,
+  vertexShader: VertShader,
+  fragmentShader: FragShader,
+});
 
 // Allow for buffers longer than their type can express
 function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
@@ -17,6 +70,7 @@ function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
   const numVerts = rawData[0] + (rawData[1] << 16);
   // eslint-disable-next-line no-bitwise
   const numTex = rawData[2] + (rawData[3] << 16);
+  const numMats = numVerts / 3;
   log.trace(`#verts "${numVerts}" #tex "${numTex}"`);
   const bytesPerEle = 2;
   const initOffset = bytesPerEle * 4;
@@ -24,13 +78,15 @@ function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
   const vertView = new Int16Array(rawData.buffer, initOffset, numVerts);
   const normView = new Int16Array(rawData.buffer, initOffset + vertOff, numVerts);
   const texView = new Int16Array(rawData.buffer, initOffset + (2 * vertOff), numTex);
+  const matsView = new Uint16Array(rawData.buffer, initOffset + (2 * vertOff) + (bytesPerEle * numTex), numMats);
   const indexView = new Uint16Array(rawData.buffer,
-    initOffset + (2 * vertOff) + (bytesPerEle * numTex));
+    initOffset + (2 * vertOff) + (bytesPerEle * numTex) + (numMats * bytesPerEle));
 
   buffGeom.addAttribute('position', new THREE.Int16BufferAttribute(vertView, 3));
   buffGeom.addAttribute('normal', new THREE.Float32BufferAttribute(normView, 3, true));
   // TODO(Ry): Get UV coordinates working and enable this
   buffGeom.addAttribute('uv', new THREE.Int16BufferAttribute(texView, 2));
+  buffGeom.addAttribute('textureIdx', new THREE.Int16BufferAttribute(matsView, 1));
   buffGeom.setIndex(new THREE.Uint32BufferAttribute(indexView, 1));
   buffGeom.scale(sizeScalar, sizeScalar, sizeScalar);
   return buffGeom;
@@ -121,7 +177,7 @@ class TileWorld {
     const endpoint = this.currEndpoint % this.maxEndpoints;
     const endpointString = endpoint > 0 ? `${endpoint - 1}` : '';
     this.currEndpoint += 1;
-    return `${this.rootEndpoint}${endpointString}`;
+    return `${this.rootEndpoint}${endpointString}/generate`;
   }
 
   /**
@@ -217,7 +273,7 @@ class TileWorld {
     tilesToGen.forEach(async (tile) => {
       this.inGen += 1;
       tile.generating = true;
-      this.workerGenTile(tile, this.getAndIncrementEndpoint());
+      this.workerGenTile(tile);
     });
     this.updating = false;
   }
@@ -228,7 +284,7 @@ class TileWorld {
    * @param {object} tile - tile instance to generate data for
    * @param {number} endpoint - numerical endpoint to use for generation
    */
-  async workerGenTile(tile, endpoint) {
+  async workerGenTile(tile) {
     log.trace(`Passing tile gen task to worker using endpoint ${endpoint} for ${tile.describe()}`);
     const handle = await this.workerPool.getAvailableWorker();
     // if we weren't able to get a valid worker or the world is
@@ -238,7 +294,7 @@ class TileWorld {
       tile.generating = false;
       return;
     }
-
+    const endpoint = this.getAndIncrementEndpoint()
     tile.genTime = performance.now();
     handle.worker.postMessage({
       ID: handle.ID,
@@ -246,6 +302,7 @@ class TileWorld {
       downscale: this.downScale,
       heightFactor: (this.maxHeight * this.tileSize),
       numRetries: 5,
+      numTex,
       xPos: tile.xPos,
       yPos: tile.yPos,
       zPos: tile.zPos,
@@ -270,7 +327,7 @@ class TileWorld {
     const tileGeom = createGeomFromBuffer(workerData.data,
       tile.xPos, tile.yPos, tile.zPos, this.sizeScalar);
     if (!tile.stale) {
-      const tileMesh = new THREE.Mesh(tileGeom, this.getCurrentMaterial());
+      const tileMesh = new THREE.Mesh(tileGeom, shaderMat);
       tileMesh.name = tile.key;
       log.trace(`adding mesh ${tileMesh.name} to scene`);
       this.game.addMesh(tileMesh);

@@ -6,9 +6,18 @@ const WEST = 3;
 const TOP = 4;
 const BOTTOM = 5;
 
+function getMat(currHeight, maxHeight, numColors) {
+  const heightIncr = maxHeight / numColors;
+  for (let i = 0; i < numColors; i += 1) {
+    if (currHeight <= i * heightIncr) {
+      return i;
+    }
+  }
+  return numColors - 1;
+}
+
 // Credit to https://0fps.net/2012/06/30/meshing-in-a-minecraft-game/ for
 // the theory and code structure for this algorithm.
-
 class Vector3 {
   constructor(x, y, z) {
     this.x = x;
@@ -70,7 +79,7 @@ class BlockFace {
  * @param {number} yPos - y coordinate offset of geometry
  * @param {number} zPos - z coordinate offset of geometry
  */
-function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor) {
+function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor, numColors) {
   const nX = [0, 0, xSize - 1, 0, 0, 0];
   const nY = [0, 0, 0, 0, ySize - 1, 0];
 
@@ -119,6 +128,7 @@ function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor) {
   const indices = [];
   let normals = [];
   const tex = [];
+  const mats = [];
   let indexExtend = 0;
 
   const x = [0, 0, 0];
@@ -243,18 +253,22 @@ function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor) {
                 verts.push(x[0] + xPos); // v0
                 verts.push(x[1] + yPos);
                 verts.push(x[2] + zPos);
+                mats.push(parseInt(getMat(x[1], heightFactor, numColors), 10) + 0);
 
                 verts.push(x[0] + du[0] + xPos); // v1
                 verts.push(x[1] + du[1] + yPos);
                 verts.push(x[2] + du[2] + zPos);
+                mats.push(parseInt(getMat(x[1] + du[1], heightFactor, numColors), 10) + 0);
 
                 verts.push(x[0] + dv[0] + xPos);  // v2
                 verts.push(x[1] + dv[1] + yPos);
                 verts.push(x[2] + dv[2] + zPos);
+                mats.push(parseInt(getMat(x[1] + dv[1], heightFactor, numColors), 10) + 0);
 
                 verts.push(x[0] + du[0] + dv[0] + xPos); // v3
                 verts.push(x[1] + du[1] + dv[1] + yPos);
                 verts.push(x[2] + du[2] + dv[2] + zPos);
+                mats.push(parseInt(getMat(x[1] + du[1] + dv[1], heightFactor, numColors), 10) + 0);
 
                 tex.push(g);
                 tex.push(0);
@@ -342,10 +356,11 @@ function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor) {
   calcNormals();
 
   return {
-    verts,
-    tex,
-    normals,
     indices,
+    mats,
+    normals,
+    tex,
+    verts,
   };
 }
 
