@@ -2,53 +2,13 @@
 const noiseGen = require('./function_lib/noiseGen');
 const simplify = require('./function_lib/simplify');
 
-exports.handler = async (body, ctx) => {
-  const { size, xPos, zPos, downscale, heightFactor } = ctx.request.query;
-
-  const genStartTime = process.hrtime();
-
-  const { blockCount, data, maxHeight } = noiseGen(
-    parseInt(xPos, 10), parseInt(zPos, 10), size,
-    downscale, heightFactor
-  );
-  const { verts, indices, normals, tex } = simplify(
-    data, size, maxHeight, size,
-    parseInt(xPos, 10), parseInt(zPos, 10)
-  );
-
-  // how many elements make up the lookup table
-  const tableElements = 4;
-
-  const mergedData = new Int16Array(verts.length + indices.length
-    + normals.length + tex.length + tableElements);
-
-  // this is an unfortunate bit of logic required to make sure
-  // that our buffers length value doesn't get truncated/overflowed
-  // in the lookup table.
-  function split32BitValue(value) {
-    return [value & 0xFFFF, (value >> 16) & 0xFFFF];
-  }
-  const splitVertsLength = split32BitValue(verts.length);
-  const splitTexLength = split32BitValue(tex.length);
-  mergedData[0] = splitVertsLength[0];
-  mergedData[1] = splitVertsLength[1];
-  mergedData[2] = splitTexLength[0];
-  mergedData[3] = splitTexLength[1];
-
-  mergedData.set(verts, tableElements);
-  mergedData.set(normals, tableElements + verts.length);
-  mergedData.set(indices, verts.length + tableElements + normals.length + tex.length);
-
-  const buffer = Buffer.from(mergedData.buffer);
-  console.log(`buffer size is ${buffer.length / 1000}`);
-
-  const genTime = process.hrtime(genStartTime);
-  const genDataTimeStr = (genTime[0] * 1000) + (genTime[1] / 1000000);
+function makeHeaders(blockCount, maxHeight,
+  payloadBytes, genTime) {
   const statusHeaders = {
     'X-Gen-Data-Blockcount': blockCount,
     'X-Gen-Data-Max-Height': maxHeight,
-    'X-Gen-Data-Payload-Bytes': buffer.length,
-    'X-Gen-Data-Time-Running-MS': genDataTimeStr,
+    'X-Gen-Data-Payload-Bytes': payloadBytes,
+    'X-Gen-Data-Time-Running-MS': genTime,
   };
   const customHeaders = {
     'Access-Control-Expose-Headers': Object.keys(statusHeaders).join(', '),
@@ -57,13 +17,80 @@ exports.handler = async (body, ctx) => {
     'Access-Control-Allow-Headers': 'Origin X-Requested-With, Content-Type, Accept',
     ... statusHeaders,
   };
+  return customHeaders;
+}
+
+exports.handler = async (body, ctx) => {
+  const {
+    size,
+    xPos,
+    yPos,
+    zPos,
+    downscale,
+    heightFactor,
+  } = ctx.request.query;
+
+  let respBody;
+  let headers;
+  let statusCode = 500;
+  const genStartTime = process.hrtime();
+
+  const { blockCount, data, maxHeight } = noiseGen(
+    parseInt(xPos, 10), parseInt(yPos, 10),
+    parseInt(zPos, 10), parseInt(size, 10),
+    downscale, parseInt(heightFactor, 10)
+  );
+  if (blockCount === 0) {
+    const failedGenTime = process.hrtime(genStartTime);
+    const genStr = (failedGenTime[0] * 1000) + (failedGenTime[1] / 1000000);
+    headers = makeHeaders(blockCount, maxHeight, 0, genStr);
+    respBody = new Buffer(2);
+  } else {
+    const { verts, indices, normals, tex } = simplify(
+      data, size, size, size,
+      parseInt(xPos, 10), parseInt(yPos, 10),
+      parseInt(zPos, 10), heightFactor
+    );
+
+    // how many elements make up the lookup table
+    const tableElements = 4;
+
+    const mergedData = new Int16Array(verts.length + indices.length
+      + normals.length + tex.length + tableElements);
+
+    // this is an unfortunate bit of logic required to make sure
+    // that our buffers length value doesn't get truncated/overflowed
+    // in the lookup table.
+    function split32BitValue(value) {
+      return [value & 0xFFFF, (value >> 16) & 0xFFFF];
+    }
+    const splitVertsLength = split32BitValue(verts.length);
+    const splitTexLength = split32BitValue(tex.length);
+    mergedData[0] = splitVertsLength[0];
+    mergedData[1] = splitVertsLength[1];
+    mergedData[2] = splitTexLength[0];
+    mergedData[3] = splitTexLength[1];
+
+    mergedData.set(verts, tableElements);
+    mergedData.set(normals, tableElements + verts.length);
+    mergedData.set(tex, tableElements + verts.length + normals.length);
+    mergedData.set(indices, verts.length + tableElements + normals.length + tex.length);
+
+    respBody = Buffer.from(mergedData.buffer);
+    console.log(`buffer size is ${respBody.length / 1000}`);
+
+    const genTime = process.hrtime(genStartTime);
+    const genDataTimeStr = (genTime[0] * 1000) + (genTime[1] / 1000000);
+    headers = makeHeaders(blockCount, maxHeight, respBody.length, genDataTimeStr);
+    statusCode = 200;
+  }
   if (ctx.request.query.express_server) {
-    ctx.set(customHeaders);
-    return ctx.send(buffer);
+    ctx.set(headers);
+    return ctx.send(respBody);
   }
   return new ctx.HTTPResponse({
-    statusCode: 200,
-    headers: customHeaders,
-    body: buffer,
+    statusCode,
+    headers,
+    body: respBody,
   });
 };

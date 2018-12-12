@@ -1,8 +1,9 @@
 class Tile {
-  constructor(xPos, zPos) {
+  constructor(xPos, yPos, zPos) {
     this.xPos = xPos;
+    this.yPos = yPos;
     this.zPos = zPos;
-    this.key = `${this.xPos},${this.zPos}`;
+    this.key = `${this.xPos},${this.yPos},${this.zPos}`;
     this.mesh = undefined;
     this.stale = false;
     this.generated = false;
@@ -22,6 +23,7 @@ class Tile {
     if (verbose) {
       const tileData = JSON.stringify({
         x: this.xPos,
+        y: this.yPos,
         z: this.zPos,
         hasMesh: this.mesh !== undefined,
         generating: this.generating,
@@ -29,12 +31,12 @@ class Tile {
       });
       return `Tile info ${tileData}`;
     }
-    return `Tile @ x=${this.xPos} z=${this.zPos}`;
+    return `Tile @ x=${this.xPos} y=${this.yPos} z=${this.zPos}`;
   }
 }
 
-function tileKey(x, z) {
-  return `${x},${z}`;
+function tileKey(x, y, z) {
+  return `${x},${y},${z}`;
 }
 
 // TODO(Ry): change tileKey method of usage

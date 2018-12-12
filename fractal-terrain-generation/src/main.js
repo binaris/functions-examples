@@ -191,10 +191,11 @@ function setupDemo() {
   // currently a hack which is used to "fake" concurrency
   const downScale = 80;
   const heightFactor = (2 ** tileSize) * 0.8;
+  const maxHeight = 3;
 
   const world = new TileWorld(game, pool, mats,
-    tileRadius, 2 ** tileSize, downScale, heightFactor,
-    0, 0, rootEndpoint, 1000, numFunctions);
+    tileRadius, maxHeight, 2 ** tileSize, downScale,
+    heightFactor, 0, 0, rootEndpoint, 1000, numFunctions);
 
   // ADD GENS PER SECOND
   game.setBackgroundColor(new THREE.Color(skyboxColor));

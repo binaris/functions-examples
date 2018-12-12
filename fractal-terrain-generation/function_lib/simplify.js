@@ -67,9 +67,11 @@ class BlockFace {
  * @param {number} ySize - volumes size in Y dimension
  * @param {number} zSize - volumes size in Z dimension
  * @param {number} xPos - x coordinate offset of geometry
+ * @param {number} yPos - y coordinate offset of geometry
  * @param {number} zPos - z coordinate offset of geometry
  */
-function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
+function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor) {
+  console.log(`x is ${xPos} y is ${yPos} z is ${zPos}`);
   const nX = [0, 0, xSize - 1, 0, 0, 0];
   const nY = [0, 0, 0, 0, ySize - 1, 0];
 
@@ -241,19 +243,19 @@ function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
 
 
                 verts.push(x[0] + xPos); // v0
-                verts.push(x[1]);
+                verts.push(x[1] + yPos);
                 verts.push(x[2] + zPos);
 
                 verts.push(x[0] + du[0] + xPos); // v1
-                verts.push(x[1] + du[1]);
+                verts.push(x[1] + du[1] + yPos);
                 verts.push(x[2] + du[2] + zPos);
 
                 verts.push(x[0] + dv[0] + xPos);  // v2
-                verts.push(x[1] + dv[1]);
+                verts.push(x[1] + dv[1] + yPos);
                 verts.push(x[2] + dv[2] + zPos);
 
                 verts.push(x[0] + du[0] + dv[0] + xPos); // v3
-                verts.push(x[1] + du[1] + dv[1]);
+                verts.push(x[1] + du[1] + dv[1] + yPos);
                 verts.push(x[2] + du[2] + dv[2] + zPos);
 
                 tex.push(g);
