@@ -7,7 +7,7 @@ import { Game } from './game';
 import TileWorld from './worldGen';
 import { WorkerPool } from './workerPool';
 
-const rootEndpoint = `${process.env.FRACTAL_ENDPOINT}/generate`;
+const rootEndpoint = `${process.env.FRACTAL_ENDPOINT}`;
 
 const defaultTileSize = 4;
 const defaultTileRadius = 8;
@@ -127,7 +127,7 @@ function setupGUIMenus(gui, world, game) {
     }
   });
 
-  const numFunctionsEle = gui.add(fullOptions, 'numFunctions').min(1).max(5).step(1);
+  const numFunctionsEle = gui.add(fullOptions, 'numFunctions').min(1).max(7).step(1);
   numFunctionsEle.onChange(async (value) => {
     if (value === world.maxEndpoints) {
       log.info('value is unchanged');

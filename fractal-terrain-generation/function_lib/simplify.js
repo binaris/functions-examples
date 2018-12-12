@@ -78,6 +78,7 @@ function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
   const cY = [0, 0, 0, 0, 1, -1];
   const cZ = [1, -1, 0, 0, 0, 0];
 
+  console.log(`x ${xSize}, y ${ySize}, z ${zSize}`);
   const faces = new Array(xSize * ySize * zSize);
   for (let i = 0; i < volume.length; i += 1) {
     faces[i] = new BlockFace(volume[i]);

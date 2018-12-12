@@ -8,6 +8,62 @@ import msleep from './msleep';
 
 import { GEN_SUCCESS } from './sharedTypes';
 
+import VertShader from './shaders/shader.vert';
+import FragShader from './shaders/shader.frag';
+
+// const endpoint = `/v2/run/${BINARIS_API_KEY}/public_servePage`
+// const lightBlueURL = `/dist/textures/light_blue.png`;
+// const redBrownURL = `${endpoint}/dist/textures/brown_red.png`;
+// const yellowURL = `${endpoint}/dist/textures/yellow.png`;
+// const darkBlueURL = `${endpoint}/dist/textures/dark_blue.png`;
+// const orangeURL = `${endpoint}/dist/textures/orange.png`;
+// const limeURL = `${endpoint}/dist/textures/lime_green.png`;
+// const redURL = `${endpoint}/dist/textures/dark_red.png`;
+const lightBlueURL = 'https://i.imgur.com/2UV1HBI.png';
+const redBrownURL = 'https://i.imgur.com/GbOuHYf.png';
+const yellowURL = 'https://i.imgur.com/jWh91a4.png';
+const darkBlueURL = 'https://i.imgur.com/nZPDBvc.png';
+const orangeURL = 'https://i.imgur.com/rZuJVJY.png';
+const limeURL = 'https://i.imgur.com/eU3YGdW.png';
+const redURL = 'https://i.imgur.com/4Igsxw0.png';
+
+
+const loader = new THREE.TextureLoader();
+const lightBlueTex = loader.load(lightBlueURL);
+const redBrownTex = loader.load(redBrownURL);
+const yellowTex = loader.load(yellowURL);
+const darkBlueTex = loader.load(darkBlueURL);
+const orangeTex = loader.load(orangeURL);
+const limeTex = loader.load(limeURL);
+const redTex = loader.load(redURL);
+
+const texArray = [
+  darkBlueTex, lightBlueTex, limeTex, yellowTex,
+  orangeTex, redTex, redBrownTex
+];
+
+const numTex = texArray.length;
+
+texArray.forEach((tex) => {
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(2, 2);
+});
+
+const uniforms = THREE.UniformsUtils.merge([
+  THREE.UniformsLib['lights'], {
+    textures: {
+       type: 'tv',
+       value: texArray,
+    },
+  },
+]);
+
+const shaderMat = new THREE.ShaderMaterial({
+  uniforms,
+  lights: true,
+  vertexShader: VertShader,
+  fragmentShader: FragShader,
+});
 
 // Allow for buffers longer than their type can express
 function createGeomFromBuffer(rawData, xPos, zPos, sizeScalar) {
@@ -120,7 +176,7 @@ class TileWorld {
     const endpoint = this.currEndpoint % this.maxEndpoints;
     const endpointString = endpoint > 0 ? `${endpoint - 1}` : '';
     this.currEndpoint += 1;
-    return `${this.rootEndpoint}${endpointString}`;
+    return `${this.rootEndpoint}${endpointString}/generate`;
   }
 
   /**
@@ -214,7 +270,7 @@ class TileWorld {
     tilesToGen.forEach(async (tile) => {
       this.inGen += 1;
       tile.generating = true;
-      this.workerGenTile(tile, this.getAndIncrementEndpoint());
+      this.workerGenTile(tile);
     });
     this.updating = false;
   }
@@ -225,7 +281,7 @@ class TileWorld {
    * @param {object} tile - tile instance to generate data for
    * @param {number} endpoint - numerical endpoint to use for generation
    */
-  async workerGenTile(tile, endpoint) {
+  async workerGenTile(tile) {
     log.trace(`Passing tile gen task to worker using endpoint ${endpoint} for ${tile.describe()}`);
     const handle = await this.workerPool.getAvailableWorker();
     // if we weren't able to get a valid worker or the world is
@@ -235,7 +291,7 @@ class TileWorld {
       tile.generating = false;
       return;
     }
-
+    const endpoint = this.getAndIncrementEndpoint()
     tile.genTime = performance.now();
     handle.worker.postMessage({
       ID: handle.ID,
@@ -260,7 +316,7 @@ class TileWorld {
     const tileGeom = createGeomFromBuffer(workerData.data,
       tile.xPos, tile.zPos, this.sizeScalar);
     if (!tile.stale) {
-      const tileMesh = new THREE.Mesh(tileGeom, this.getCurrentMaterial());
+      const tileMesh = new THREE.Mesh(tileGeom, shaderMat);
       tileMesh.name = tile.key;
       log.trace(`adding mesh ${tileMesh.name} to scene`);
       this.game.addMesh(tileMesh);
