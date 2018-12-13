@@ -22,12 +22,13 @@ function makeHeaders(blockCount, maxHeight,
 
 exports.handler = async (body, ctx) => {
   const {
+    downscale,
+    heightFactor,
+    numTex,
     size,
     xPos,
     yPos,
     zPos,
-    downscale,
-    heightFactor,
   } = ctx.request.query;
 
   let respBody;
@@ -46,17 +47,17 @@ exports.handler = async (body, ctx) => {
     headers = makeHeaders(blockCount, maxHeight, 0, genStr);
     respBody = new Buffer(2);
   } else {
-    const { verts, indices, normals, tex } = simplify(
+    const { indices, mats, normals, tex, verts } = simplify(
       data, size, size, size,
       parseInt(xPos, 10), parseInt(yPos, 10),
-      parseInt(zPos, 10), heightFactor
+      parseInt(zPos, 10), heightFactor, numTex,
     );
 
     // how many elements make up the lookup table
     const tableElements = 4;
 
     const mergedData = new Int16Array(verts.length + indices.length
-      + normals.length + tex.length + tableElements);
+      + normals.length + tex.length + mats.length + tableElements);
 
     // this is an unfortunate bit of logic required to make sure
     // that our buffers length value doesn't get truncated/overflowed
@@ -74,7 +75,8 @@ exports.handler = async (body, ctx) => {
     mergedData.set(verts, tableElements);
     mergedData.set(normals, tableElements + verts.length);
     mergedData.set(tex, tableElements + verts.length + normals.length);
-    mergedData.set(indices, verts.length + tableElements + normals.length + tex.length);
+    mergedData.set(mats, tableElements + verts.length + normals.length + tex.length);
+    mergedData.set(indices, verts.length + tableElements + normals.length + tex.length + mats.length);
 
     respBody = Buffer.from(mergedData.buffer);
     console.log(`buffer size is ${respBody.length / 1000}`);

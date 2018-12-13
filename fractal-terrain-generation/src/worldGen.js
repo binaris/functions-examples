@@ -8,17 +8,9 @@ import msleep from './msleep';
 
 import { GEN_SUCCESS } from './sharedTypes';
 
-import VertShader from './shaders/shader.vert';
-import FragShader from './shaders/shader.frag';
+import VertShader from './shaders/simple_shader.vert';
+import FragShader from './shaders/simple_shader.frag';
 
-// const endpoint = `/v2/run/${BINARIS_API_KEY}/public_servePage`
-// const lightBlueURL = `/dist/textures/light_blue.png`;
-// const redBrownURL = `${endpoint}/dist/textures/brown_red.png`;
-// const yellowURL = `${endpoint}/dist/textures/yellow.png`;
-// const darkBlueURL = `${endpoint}/dist/textures/dark_blue.png`;
-// const orangeURL = `${endpoint}/dist/textures/orange.png`;
-// const limeURL = `${endpoint}/dist/textures/lime_green.png`;
-// const redURL = `${endpoint}/dist/textures/dark_red.png`;
 const lightBlueURL = 'https://i.imgur.com/2UV1HBI.png';
 const redBrownURL = 'https://i.imgur.com/GbOuHYf.png';
 const yellowURL = 'https://i.imgur.com/jWh91a4.png';
@@ -26,7 +18,6 @@ const darkBlueURL = 'https://i.imgur.com/nZPDBvc.png';
 const orangeURL = 'https://i.imgur.com/rZuJVJY.png';
 const limeURL = 'https://i.imgur.com/eU3YGdW.png';
 const redURL = 'https://i.imgur.com/4Igsxw0.png';
-
 
 const loader = new THREE.TextureLoader();
 const lightBlueTex = loader.load(lightBlueURL);
@@ -73,6 +64,7 @@ function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
   const numVerts = rawData[0] + (rawData[1] << 16);
   // eslint-disable-next-line no-bitwise
   const numTex = rawData[2] + (rawData[3] << 16);
+  const numMats = numVerts / 3;
   log.trace(`#verts "${numVerts}" #tex "${numTex}"`);
   const bytesPerEle = 2;
   const initOffset = bytesPerEle * 4;
@@ -80,13 +72,15 @@ function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
   const vertView = new Int16Array(rawData.buffer, initOffset, numVerts);
   const normView = new Int16Array(rawData.buffer, initOffset + vertOff, numVerts);
   const texView = new Int16Array(rawData.buffer, initOffset + (2 * vertOff), numTex);
+  const matsView = new Uint16Array(rawData.buffer, initOffset + (2 * vertOff) + (bytesPerEle * numTex), numMats);
   const indexView = new Uint16Array(rawData.buffer,
-    initOffset + (2 * vertOff) + (bytesPerEle * numTex));
+    initOffset + (2 * vertOff) + (bytesPerEle * numTex) + (numMats * bytesPerEle));
 
   buffGeom.addAttribute('position', new THREE.Int16BufferAttribute(vertView, 3));
   buffGeom.addAttribute('normal', new THREE.Float32BufferAttribute(normView, 3, true));
   // TODO(Ry): Get UV coordinates working and enable this
   buffGeom.addAttribute('uv', new THREE.Int16BufferAttribute(texView, 2));
+  buffGeom.addAttribute('textureIdx', new THREE.Int16BufferAttribute(matsView, 1));
   buffGeom.setIndex(new THREE.Uint32BufferAttribute(indexView, 1));
   buffGeom.scale(sizeScalar, sizeScalar, sizeScalar);
   return buffGeom;
@@ -300,8 +294,9 @@ class TileWorld {
       ID: handle.ID,
       size: this.tileSize,
       downscale: this.downScale,
-      heightFactor: (this.maxHeight * this.tileSize),
+      heightFactor: ((this.maxHeight * this.tileSize) - this.tileSize - this.tileSize),
       numRetries: 5,
+      numTex,
       xPos: tile.xPos,
       yPos: tile.yPos,
       zPos: tile.zPos,
