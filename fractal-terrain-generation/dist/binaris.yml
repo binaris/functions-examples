@@ -1,0 +1,5 @@
+functions:                
+  public_servePage:
+    file: servePage.js
+    entrypoint: handler
+    runtime: node8

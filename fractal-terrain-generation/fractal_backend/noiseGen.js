@@ -43,6 +43,7 @@ function createDensities(cX, cY, cZ, size, downscale = 1000, scaleHeight = 50) {
     }
   }
 
+  console.log(`minHeight ${minHeight}, size ${size}`);
   if ((minHeight) > (cY + size)) {
     return {
       blockCount: 0,

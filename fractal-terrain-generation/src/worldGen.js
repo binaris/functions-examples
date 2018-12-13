@@ -294,7 +294,7 @@ class TileWorld {
       ID: handle.ID,
       size: this.tileSize,
       downscale: this.downScale,
-      heightFactor: ((this.maxHeight * this.tileSize) - this.tileSize - this.tileSize),
+      heightFactor: (this.maxHeight * this.tileSize),
       numRetries: 5,
       numTex,
       xPos: tile.xPos,

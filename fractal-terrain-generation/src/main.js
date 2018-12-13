@@ -189,7 +189,7 @@ function setupDemo() {
   const pool = new WorkerPool(numWorkers, 1);
 
   // currently a hack which is used to "fake" concurrency
-  const downScale = 500;
+  const downScale = 80;
   const heightFactor = (2 ** tileSize) * 0.8;
   const maxHeight = 3;
 
