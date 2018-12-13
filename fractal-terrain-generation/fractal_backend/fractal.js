@@ -1,6 +1,6 @@
 /* eslint-disable no-console,no-bitwise */
-const noiseGen = require('./function_lib/noiseGen');
-const simplify = require('./function_lib/simplify');
+const noiseGen = require('./noiseGen');
+const simplify = require('./simplify');
 
 function makeHeaders(blockCount, maxHeight,
   payloadBytes, genTime) {
@@ -45,6 +45,7 @@ exports.handler = async (body, ctx) => {
     const genStr = (failedGenTime[0] * 1000) + (failedGenTime[1] / 1000000);
     headers = makeHeaders(blockCount, maxHeight, 0, genStr);
     respBody = new Buffer(2);
+    statusCode = 200;
   } else {
     const { verts, indices, normals, tex } = simplify(
       data, size, size, size,

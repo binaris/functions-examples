@@ -4,7 +4,7 @@ const fs = require('mz/fs');
 const mime = require('mime-types');
 const path = require('path');
 
-const prefix = './dist';
+const prefix = '.';
 
 exports.handler = async (body, ctx) => {
   let resourcePath = ctx.request.path;

@@ -3,7 +3,3 @@ functions:
     file: fractal.js
     entrypoint: handler
     runtime: node8
-  public_servePage:
-    file: servePage.js
-    entrypoint: handler
-    runtime: node8

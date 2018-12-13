@@ -1,0 +1,14 @@
+{
+  "name": "fractal_backend",
+  "version": "1.0.0",
+  "description": "Binaris fractal backend function",
+  "main": "fractal.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryland Goldstein",
+  "license": "ISC",
+  "dependencies": {
+    "simplex-noise": "^2.4.0"
+  }
+}

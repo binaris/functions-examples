@@ -1,6 +1,6 @@
 const express = require('express');
 
-const fractal = require('../fractal');
+const fractal = require('./fractal_backend/fractal');
 const app = express();
 
 async function handleReq(req, res) {
