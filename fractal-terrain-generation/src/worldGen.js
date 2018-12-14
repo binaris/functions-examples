@@ -10,7 +10,7 @@ import { GEN_SUCCESS } from './sharedTypes';
 
 
 // Allow for buffers longer than their type can express
-function createGeomFromBuffer(rawData, xPos, zPos, sizeScalar) {
+function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
   log.debug(`generating geom from buffer @pos x "${xPos}" z "${zPos}"`);
   const buffGeom = new THREE.BufferGeometry();
   // eslint-disable-next-line no-bitwise
@@ -38,7 +38,7 @@ function createGeomFromBuffer(rawData, xPos, zPos, sizeScalar) {
 
 class TileWorld {
   constructor(game, workerPool, materials, radius,
-    tileSize, downScale, heightFactor, startX,
+    maxHeight, tileSize, downScale, heightFactor, startX,
     startZ, rootEndpoint, maxGeomGen = 1000, maxEndpoints = 1) {
     this.game = game;
     this.workerPool = workerPool;
@@ -47,6 +47,7 @@ class TileWorld {
     this.tileMap = {};
     this.currX = startX;
     this.currZ = startZ;
+    this.maxHeight = maxHeight;
     this.radius = radius;
     this.tileSize = tileSize;
     this.downScale = downScale;
@@ -82,9 +83,9 @@ class TileWorld {
      */
     this.workerPool.setWorkersMessageEvent((e) => {
       this.workerPool.releaseWorker(new WorkerHandle(e.data.ID));
-      const currTile = this.tileMap[tileKey(e.data.xPos, e.data.zPos)];
+      const currTile = this.tileMap[tileKey(e.data.xPos, e.data.yPos, e.data.zPos)];
       if (!currTile) {
-        log.warn(`tile ${tileKey(e.data.xPos, e.data.zPos)} not valid`);
+        log.warn(`tile ${tileKey(e.data.xPos, e.data.yPos, e.data.zPos)} not valid`);
       }
       if (e.data.type === GEN_SUCCESS) {
         const timeToGen = performance.now() - currTile.genTime;
@@ -94,15 +95,15 @@ class TileWorld {
         this.runningTime += timeToGen;
         this.totalGenTime += timeToGen;
         this.totalGens += 1;
-        log.trace(`finished generation for tile at x "${e.data.xPos}" z "${e.data.zPos}"`);
+        log.trace(`finished generation for tile at x "${e.data.xPos}" y "${e.data.yPos}" z "${e.data.zPos}"`);
         // now that our worker has finished its task we can pass the raw
         // geometry data to the GPU for rendering
         this.processRawGeom(currTile, e.data);
       } else {
-        const { xPos, zPos, data } = e.data;
+        const { xPos, yPos, zPos, data } = e.data;
         this.inGen -= 1;
         currTile.generating = false;
-        log.error(`Tile at x "${xPos}" z "${zPos}" failed to generate`);
+        log.error(`Tile at x "${xPos}" y "${yPos}" z "${zPos}" failed to generate`);
         log.error(data);
       }
     });
@@ -200,13 +201,15 @@ class TileWorld {
     let newZ;
     let newLoc;
     for (let i = -this.radius; i < this.radius; i += 1) {
-      for (let j = -this.radius; j < this.radius; j += 1) {
-        newX = i + this.currX;
-        newZ = j + this.currZ;
-        newLoc = tileKey(newX, newZ);
-        if (!this.tileMap[newLoc]) {
-          this.tileMap[newLoc] = new Tile(newX, newZ);
-          tilesToGen.push(this.tileMap[newLoc]);
+      for (let j = 0; j < this.maxHeight; j += 1) {
+        for (let k = -this.radius; k < this.radius; k += 1) {
+          newX = i + this.currX;
+          newZ = k + this.currZ;
+          newLoc = tileKey(newX, j, newZ);
+          if (!this.tileMap[newLoc]) {
+            this.tileMap[newLoc] = new Tile(newX, j, newZ);
+            tilesToGen.push(this.tileMap[newLoc]);
+          }
         }
       }
     }
@@ -241,15 +244,22 @@ class TileWorld {
       ID: handle.ID,
       size: this.tileSize,
       downscale: this.downScale,
-      heightFactor: this.heightFactor,
+      heightFactor: (this.maxHeight * this.tileSize),
       numRetries: 5,
       xPos: tile.xPos,
+      yPos: tile.yPos,
       zPos: tile.zPos,
       endpoint,
     });
   }
 
   async processRawGeom(tile, workerData) {
+    if (parseInt(workerData.blockCount, 10) === 0) {
+      tile.generated = true;
+      tile.generating = false;
+      this.inGen -= 1;
+      return;
+    }
     // since this may be one of the few operations
     // on the main thread, care needs to be taken
     // so we avoid blocking
@@ -258,7 +268,7 @@ class TileWorld {
     }
     this.inGeomGen += 1;
     const tileGeom = createGeomFromBuffer(workerData.data,
-      tile.xPos, tile.zPos, this.sizeScalar);
+      tile.xPos, tile.yPos, tile.zPos, this.sizeScalar);
     if (!tile.stale) {
       const tileMesh = new THREE.Mesh(tileGeom, this.getCurrentMaterial());
       tileMesh.name = tile.key;

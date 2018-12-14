@@ -14,7 +14,7 @@ const simplex = new SimplexNoise('default');
  * @param {number} scaleHeight - sets the defacto maxHeight of the volume
  * @return {object} - generated data and metadata
  */
-function createDensities(cX, cZ, size, downscale = 1000, scaleHeight = 50) {
+function createDensities(cX, cY, cZ, size, downscale = 1000, scaleHeight = 50) {
   let maxHeight = -1;
   let minHeight = 10000;
   let blockCount = 0;
@@ -42,19 +42,30 @@ function createDensities(cX, cZ, size, downscale = 1000, scaleHeight = 50) {
       }
     }
   }
-  // if the calculated max height isn't divisible by
-  // the volume size granularity, we need to modify it
-  // to be an increment of size.
-  if (maxHeight % size !== 0) {
-    maxHeight = Math.ceil(maxHeight / size) * size;
+
+  if ((minHeight) > (cY + size)) {
+    return {
+      blockCount: 0,
+      data: [],
+      maxHeight,
+      minHeight,
+    };
   }
-  const densities = new Int8Array(size * size * maxHeight).fill(1);
+
+  let maxRelevantHeight = maxHeight;
+  if (maxHeight > (cY + size)) {
+    maxRelevantHeight = size;
+  } else {
+    maxRelevantHeight = maxHeight - cY;
+  }
+
+  const densities = new Int8Array(size * size * size).fill(1);
   let currIdx = -1;
   for (let i = 0; i < size; i += 1) {
-    for (let j = 0; j < maxHeight; j += 1) {
+    for (let j = 0; j < size; j += 1) {
       for (let k = 0; k < size; k += 1) {
-        currIdx = i + (j * size) + (k * maxHeight * size);
-        densities[currIdx] = (j <= heights[i + (k * size)]) ? 1 : 0;
+        currIdx = i + (j * size) + (k * size * size);
+        densities[currIdx] = ((j + cY) <= heights[i + (k * size)]) ? 1 : 0;
         blockCount += densities[currIdx];
       }
     }
