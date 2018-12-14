@@ -8,60 +8,6 @@ import msleep from './msleep';
 
 import { GEN_SUCCESS } from './sharedTypes';
 
-import VertShader from './shaders/simple_shader.vert';
-import FragShader from './shaders/simple_shader.frag';
-
-const loader = new THREE.TextureLoader();
-
-const modifiedRemoteEndpoint = process.env.FRACTAL_ENDPOINT.replace('fractal', 'servePage');
-const resEndpoint = `${process.env.FRACTAL_RESOURCE_ENDPOINT || modifiedRemoteEndpoint}/resources`;
-
-/**
- * Needed as of now because of our rate limiting.
- */
-function keepTryLoadTex(texURL) {
-  let loaded = false;
-  while (!loaded) {
-    return loader.load(texURL);
-  }
-}
-
-const lightBlueTex = keepTryLoadTex(`${resEndpoint}/light_blue.png`);
-const redBrownTex = keepTryLoadTex(`${resEndpoint}/brown_red.png`);
-const yellowTex = keepTryLoadTex(`${resEndpoint}/yellow.png`);
-const darkBlueTex = keepTryLoadTex(`${resEndpoint}/dark_blue.png`);
-const orangeTex = keepTryLoadTex(`${resEndpoint}/orange.png`);
-const limeTex = keepTryLoadTex(`${resEndpoint}/lime_green.png`);
-const redTex = keepTryLoadTex(`${resEndpoint}/dark_red.png`);
-
-const texArray = [
-  darkBlueTex, lightBlueTex, limeTex, yellowTex,
-  orangeTex, redTex, redBrownTex
-];
-
-const numTex = texArray.length;
-
-texArray.forEach((tex) => {
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.repeat.set(2, 2);
-});
-
-const uniforms = THREE.UniformsUtils.merge([
-  THREE.UniformsLib['lights'], {
-    textures: {
-       type: 'tv',
-       value: texArray,
-    },
-  },
-]);
-
-const shaderMat = new THREE.ShaderMaterial({
-  uniforms,
-  lights: true,
-  vertexShader: VertShader,
-  fragmentShader: FragShader,
-});
-
 // Allow for buffers longer than their type can express
 function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
   log.debug(`generating geom from buffer @pos x "${xPos}" z "${zPos}"`);
@@ -93,13 +39,13 @@ function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
 }
 
 class TileWorld {
-  constructor(game, workerPool, materials, radius,
+  constructor(game, workerPool, material, numTex, radius,
     maxHeight, tileSize, downScale, heightFactor, startX,
     startZ, rootEndpoint, maxGeomGen = 1000, maxEndpoints = 1) {
     this.game = game;
     this.workerPool = workerPool;
-    this.materials = materials;
-    this.currMaterial = 0;
+    this.material = material;
+    this.numTex = numTex;
     this.tileMap = {};
     this.currX = startX;
     this.currZ = startZ;
@@ -302,7 +248,7 @@ class TileWorld {
       downscale: this.downScale,
       heightFactor: (this.maxHeight * this.tileSize),
       numRetries: 5,
-      numTex,
+      numTex: this.numTex,
       xPos: tile.xPos,
       yPos: tile.yPos,
       zPos: tile.zPos,
@@ -327,7 +273,7 @@ class TileWorld {
     const tileGeom = createGeomFromBuffer(workerData.data,
       tile.xPos, tile.yPos, tile.zPos, this.sizeScalar);
     if (!tile.stale) {
-      const tileMesh = new THREE.Mesh(tileGeom, shaderMat);
+      const tileMesh = new THREE.Mesh(tileGeom, this.material);
       tileMesh.name = tile.key;
       log.trace(`adding mesh ${tileMesh.name} to scene`);
       this.game.addMesh(tileMesh);
@@ -339,21 +285,8 @@ class TileWorld {
     tile.generating = false;
   }
 
-  getCurrentMaterial() {
-    const mat = this.materials[this.currMaterial % this.materials.length];
-    return mat;
-  }
-
-  updateMaterials() {
-    this.currMaterial += 1;
-    const mat = this.materials[this.currMaterial % this.materials.length];
-    Object.keys(this.tileMap).forEach((keyForTile) => {
-      const tileObj = this.game.getObject(keyForTile);
-      if (tileObj) {
-        tileObj.material = mat;
-        tileObj.material.needsUpdate = true;
-      }
-    });
+  updateMaterial() {
+    this.material.wireframe = !this.material.wireframe;
   }
 
   avgGenTime() {
