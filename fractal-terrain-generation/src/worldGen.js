@@ -11,22 +11,28 @@ import { GEN_SUCCESS } from './sharedTypes';
 import VertShader from './shaders/simple_shader.vert';
 import FragShader from './shaders/simple_shader.frag';
 
-const lightBlueURL = 'https://i.imgur.com/2UV1HBI.png';
-const redBrownURL = 'https://i.imgur.com/GbOuHYf.png';
-const yellowURL = 'https://i.imgur.com/jWh91a4.png';
-const darkBlueURL = 'https://i.imgur.com/nZPDBvc.png';
-const orangeURL = 'https://i.imgur.com/rZuJVJY.png';
-const limeURL = 'https://i.imgur.com/eU3YGdW.png';
-const redURL = 'https://i.imgur.com/4Igsxw0.png';
-
 const loader = new THREE.TextureLoader();
-const lightBlueTex = loader.load(lightBlueURL);
-const redBrownTex = loader.load(redBrownURL);
-const yellowTex = loader.load(yellowURL);
-const darkBlueTex = loader.load(darkBlueURL);
-const orangeTex = loader.load(orangeURL);
-const limeTex = loader.load(limeURL);
-const redTex = loader.load(redURL);
+
+const modifiedRemoteEndpoint = process.env.FRACTAL_ENDPOINT.replace('fractal', 'servePage');
+const resEndpoint = `${process.env.FRACTAL_RESOURCE_ENDPOINT || modifiedRemoteEndpoint}/resources`;
+
+/**
+ * Needed as of now because of our rate limiting.
+ */
+function keepTryLoadTex(texURL) {
+  let loaded = false;
+  while (!loaded) {
+    return loader.load(texURL);
+  }
+}
+
+const lightBlueTex = keepTryLoadTex(`${resEndpoint}/light_blue.png`);
+const redBrownTex = keepTryLoadTex(`${resEndpoint}/brown_red.png`);
+const yellowTex = keepTryLoadTex(`${resEndpoint}/yellow.png`);
+const darkBlueTex = keepTryLoadTex(`${resEndpoint}/dark_blue.png`);
+const orangeTex = keepTryLoadTex(`${resEndpoint}/orange.png`);
+const limeTex = keepTryLoadTex(`${resEndpoint}/lime_green.png`);
+const redTex = keepTryLoadTex(`${resEndpoint}/dark_red.png`);
 
 const texArray = [
   darkBlueTex, lightBlueTex, limeTex, yellowTex,

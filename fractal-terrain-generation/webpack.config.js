@@ -71,12 +71,13 @@ module.exports = {
               'process.env':
               {
                     'FRACTAL_ENDPOINT': JSON.stringify(process.env.FRACTAL_ENDPOINT),
+                    'FRACTAL_RESOURCE_ENDPOINT': JSON.stringify(process.env.FRACTAL_RESOURCE_ENDPOINT),
               }
           }
         ),
     ],
     devServer: {
-        contentBase: path.resolve(__dirname, 'dist'),
+        contentBase: [path.resolve(__dirname, 'dist'), path.resolve(__dirname, 'dist/resources')],
         publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_servePage/js/`,
     },
     watch: true,

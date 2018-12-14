@@ -14,7 +14,7 @@
     "install_frontend": "cd dist && npm install",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js src/ function_lib/",
     "local_server": "forever --watch --watchDirectory ./fractal_backend ./localServer.js",
-    "start": "webpack-dev-server",
+    "start": "export FRACTAL_RESOURCE_ENDPOINT='http://localhost:3001' && webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
