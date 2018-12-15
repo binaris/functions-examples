@@ -8,7 +8,7 @@
     "deploy": "npm run deploy_backend && npm run deploy_frontend",
     "deploy_backend": "cd fractal_backend && bn deploy public_fractal",
     "deploy_frontend": "npm run build && cd dist && bn deploy public_servePage",
-    "install_deps": "npm run install_dev && npm run install_frontend && npm run install_backend",
+    "install_deps": "npm install && npm run install_frontend && npm run install_backend",
     "install_backend": "cd fractal_backend && npm install",
     "install_frontend": "cd dist && npm install",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js src/ function_lib/",
