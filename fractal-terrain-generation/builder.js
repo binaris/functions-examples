@@ -4,7 +4,8 @@ const path = require('path');
 
 const YMLUtil = require('binaris/lib/binarisYML');
 
-const { getAccountId, getAPIKey } = require('binaris/lib/userConf');
+const { getAccountId, getAPIKey, getRealm } = require('binaris/lib/userConf');
+const { forceRealm } = require('binaris/sdk');
 
 const backendYAMLPath = path.join(__dirname, 'fractal_backend');
 const servingYAMLPath = path.join(__dirname, 'dist');
@@ -49,6 +50,10 @@ async function replaceHTMLAccountID(accountID) {
 }
 
 async function prebuild() {
+  const realm = await getRealm();
+  if (realm) {
+    forceRealm(realm);
+  }
   const accountID = await getAccountId(undefined);
   await replaceHTMLAccountID(accountID);
   const FRACTAL_ENDPOINT = await getFractalURL(accountID);
