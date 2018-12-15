@@ -10,7 +10,6 @@
     "deploy_frontend": "npm run build && cd dist && bn deploy public_servePage",
     "install_deps": "npm run install_dev && npm run install_frontend && npm run install_backend",
     "install_backend": "cd fractal_backend && npm install",
-    "install_dev": "npm install",
     "install_frontend": "cd dist && npm install",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js src/ function_lib/",
     "local_server": "forever --watch --watchDirectory ./fractal_backend ./localServer.js",
