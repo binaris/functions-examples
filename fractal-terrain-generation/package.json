@@ -21,12 +21,15 @@
   "author": "Ryland Goldstein",
   "license": "MIT",
   "dependencies": {
+    "binaris": "binaris/binaris#feature-updated-endpoints",
     "dat.gui": "^0.7.2",
     "forever": "^0.15.3",
+    "fs-extra": "^7.0.1",
     "loglevel": "^1.6.1",
     "mime-types": "^2.1.21",
     "mz": "^2.7.0",
     "path": "^0.12.7",
+    "replace-in-file": "^3.4.2",
     "superagent": "^3.8.3",
     "three": "^0.94.0"
   },

@@ -2,11 +2,16 @@ const webpack = require('webpack');
 const path = require('path');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-module.exports = {
+const { prebuild } = require('./builder');
+const localResourceEndpoint = 'http://localhost:3001';
+
+module.exports = async () => {
+  const { FRACTAL_ENDPOINT, PUBLIC_PATH } = await prebuild();
+  return {
     entry: [ 'babel-polyfill', './src/gen.worker.js', './src/main.js' ],
     output: {
         path: path.resolve(__dirname, 'dist/js'),
-        publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_servePage/js/`,
+        publicPath: `${PUBLIC_PATH}/js`,
         filename: 'three.bundle.js'
     },
     module: {
@@ -24,8 +29,7 @@ module.exports = {
                     options: {
                         presets: ['env']
                     }
-                }
-            },
+                } },
             {
                 test: /\.(glsl|frag|vert)$/,
                 loader: 'raw-loader',
@@ -70,16 +74,17 @@ module.exports = {
           {
               'process.env':
               {
-                    'FRACTAL_ENDPOINT': JSON.stringify(process.env.FRACTAL_ENDPOINT),
-                    'FRACTAL_RESOURCE_ENDPOINT': JSON.stringify(process.env.FRACTAL_RESOURCE_ENDPOINT),
+                    FRACTAL_ENDPOINT: JSON.stringify(FRACTAL_ENDPOINT),
+                    FRACTAL_RESOURCE_ENDPOINT: JSON.stringify(localResourceEndpoint),
               }
           }
         ),
     ],
     devServer: {
         contentBase: [path.resolve(__dirname, 'dist'), path.resolve(__dirname, 'dist/resources')],
-        publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_servePage/js/`,
+        publicPath: `${PUBLIC_PATH}/js`,
     },
     watch: true,
     devtool: 'cheap-eval-source-map'
+  };
 }
