@@ -109,7 +109,7 @@ class WorkerPool {
         this.workers.push(addedWorker);
         this.workersAvailable.push(0);
         // TODO(Ry): remove this once concurrent loading is fixed:w
-        await msleep(100);
+        await msleep(400);
       }
       this.numWorkers = numWorkers;
       this.adjusting = false;
