@@ -15,17 +15,11 @@ void main() {
   vec3 lightVector = normalize(vPosition - vec3(0, 50, 0));
   lights.rgb += clamp(dot(-vec3(0, -1, 0), vNormal), 0.0, 1.0) * vec3(2,2,2);
 
-  int textureIndex = int(floor(vTextureIdx));
-
   for (int k = 0; k < 7; ++k) {
-    if (textureIndex == k) {
+    if (vTextureIdx - float(k) <= 0.1) {
       vec4 lowTex = texture2D(textures[k], vUv);
-      vec4 highTex = vec4(0, 0, 0, 1);
-      if (k < 6) {
-        highTex = texture2D(textures[k], vUv);
-      }
-      vec4 lerp = mix(lowTex, highTex, vTextureIdx - float(textureIndex));
-      gl_FragColor = (lerp * lights) + (lerp * ambient);
+      gl_FragColor = (lowTex * lights) + (lowTex * ambient);
+      break;
     }
   }
 }

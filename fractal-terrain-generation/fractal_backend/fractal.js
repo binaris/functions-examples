@@ -39,7 +39,7 @@ exports.handler = async (body, ctx) => {
   const { blockCount, data, maxHeight } = noiseGen(
     parseInt(xPos, 10), parseInt(yPos, 10),
     parseInt(zPos, 10), parseInt(size, 10),
-    downscale, parseInt(heightFactor, 10)
+    numTex, downscale, parseInt(heightFactor, 10)
   );
   if (blockCount === 0) {
     const failedGenTime = process.hrtime(genStartTime);

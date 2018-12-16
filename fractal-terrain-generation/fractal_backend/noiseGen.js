@@ -2,6 +2,16 @@ const SimplexNoise = require('simplex-noise');
 
 const simplex = new SimplexNoise('default');
 
+function getMat(currHeight, maxHeight, numColors) {
+  const heightIncr = maxHeight / numColors;
+  for (let i = 0; i < numColors; i += 1) {
+    if (currHeight <= i * heightIncr) {
+      return i;
+    }
+  }
+  return numColors - 1;
+}
+
 /**
  * Create a volumetric density field representing the state
  * of a given region of terrain.
@@ -14,7 +24,7 @@ const simplex = new SimplexNoise('default');
  * @param {number} scaleHeight - sets the defacto maxHeight of the volume
  * @return {object} - generated data and metadata
  */
-function createDensities(cX, cY, cZ, size, downscale = 1000, scaleHeight = 50) {
+function createDensities(cX, cY, cZ, size, numColors, downscale = 1000, scaleHeight = 50) {
   let maxHeight = -1;
   let minHeight = 10000;
   let blockCount = 0;
@@ -66,7 +76,10 @@ function createDensities(cX, cY, cZ, size, downscale = 1000, scaleHeight = 50) {
       for (let k = 0; k < size; k += 1) {
         currIdx = i + (j * size) + (k * size * size);
         densities[currIdx] = ((j + cY) <= heights[i + (k * size)]) ? 1 : 0;
-        blockCount += densities[currIdx];
+        if (densities[currIdx] !== 0) {
+          densities[currIdx] = getMat(j + cY, scaleHeight, numColors);
+          blockCount += 1;
+        }
       }
     }
   }

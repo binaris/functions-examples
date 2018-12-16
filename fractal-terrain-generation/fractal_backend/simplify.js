@@ -6,16 +6,6 @@ const WEST = 3;
 const TOP = 4;
 const BOTTOM = 5;
 
-function getMat(currHeight, maxHeight, numColors) {
-  const heightIncr = maxHeight / numColors;
-  for (let i = 0; i < numColors; i += 1) {
-    if (currHeight <= i * heightIncr) {
-      return i;
-    }
-  }
-  return numColors - 1;
-}
-
 // Credit to https://0fps.net/2012/06/30/meshing-in-a-minecraft-game/ for
 // the theory and code structure for this algorithm.
 class Vector3 {
@@ -89,8 +79,13 @@ function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor, n
   const cZ = [1, -1, 0, 0, 0, 0];
 
   const faces = new Array(xSize * ySize * zSize);
-  for (let i = 0; i < volume.length; i += 1) {
-    faces[i] = new BlockFace(volume[i]);
+  for (let x0 = 0; x0 < xSize; x0++) {
+    for (let y0 = 0; y0 < ySize; y0++) {
+      for (let z0 = 0; z0 < zSize; z0++) {
+        const sharedIDX = x0 + (y0 * xSize) + (z0 * xSize * ySize);
+        faces[sharedIDX] = new BlockFace(volume[sharedIDX]);
+      }
+    }
   }
 
   function getBlockData(x, y, z) {
@@ -253,22 +248,22 @@ function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor, n
                 verts.push(x[0] + xPos); // v0
                 verts.push(x[1] + yPos);
                 verts.push(x[2] + zPos);
-                mats.push(parseInt(getMat(x[1], heightFactor, numColors), 10) + 0);
+                mats.push(mask[n].type);
 
                 verts.push(x[0] + du[0] + xPos); // v1
                 verts.push(x[1] + du[1] + yPos);
                 verts.push(x[2] + du[2] + zPos);
-                mats.push(parseInt(getMat(x[1] + du[1], heightFactor, numColors), 10) + 0);
+                mats.push(mask[n].type);
 
                 verts.push(x[0] + dv[0] + xPos);  // v2
                 verts.push(x[1] + dv[1] + yPos);
                 verts.push(x[2] + dv[2] + zPos);
-                mats.push(parseInt(getMat(x[1] + dv[1], heightFactor, numColors), 10) + 0);
+                mats.push(mask[n].type);
 
                 verts.push(x[0] + du[0] + dv[0] + xPos); // v3
                 verts.push(x[1] + du[1] + dv[1] + yPos);
                 verts.push(x[2] + du[2] + dv[2] + zPos);
-                mats.push(parseInt(getMat(x[1] + du[1] + dv[1], heightFactor, numColors), 10) + 0);
+                mats.push(mask[n].type);
 
                 tex.push(g);
                 tex.push(0);

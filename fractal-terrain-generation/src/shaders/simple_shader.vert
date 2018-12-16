@@ -14,5 +14,5 @@ void main() {
     vPosition = position;
     vec4 mPosition = modelMatrix * vec4(position, 1.0 );	
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-    worldPosition = mPosition.xyz;
+    worldPosition = position;
 }
