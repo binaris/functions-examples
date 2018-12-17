@@ -20,7 +20,7 @@
   "author": "Ryland Goldstein",
   "license": "MIT",
   "dependencies": {
-    "binaris": "binaris/binaris#feature-updated-endpoints",
+    "binaris": "^6.0.6",
     "dat.gui": "^0.7.2",
     "forever": "^0.15.3",
     "fs-extra": "^7.0.1",
