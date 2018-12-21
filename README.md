@@ -17,3 +17,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`trello-auto-updates`](trello-auto-updates) <br/> Implement Trello webhooks to extend a dashboard behavior | nodeJS |
 | [`quicksearch`](quicksearch) <br/> Fetch textual results as you type with function-based quicksearch | nodeJS |
 | [`fractal-terrain-generation`](fractal-terrain-generation) <br/> Render terrain in a browser with a backbend implemented in Serverless functions | nodeJS |
+| [`python-crud-s3`](python-crud-s3) <br/> Serverless CRUD backend that uses Amazon s3 for storage. | python3 |
