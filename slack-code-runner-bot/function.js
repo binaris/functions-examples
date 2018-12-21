@@ -8,7 +8,6 @@ const {
 } = process.env;
 const web = new WebClient(token);
 
-const NL = '\n';
 const triBacktick = '```';
 // code is only valid if it starts with ``` and ends with ```
 const codeRegex = new RegExp(/(.*`{3,})([\s\S]*)(`{3,}.*)/m);
@@ -27,9 +26,18 @@ const timeoutRejection = `Invocation timed out in ${maxTimeMS} ms`;
  * @return {string} - final and complete response output
  */
 function constructFinalMsg(logs, result) {
-  let finalMsg = `\`Code output\`${NL}${triBacktick}${result}${triBacktick}`;
+  let finalMsg =
+`\`Code output\`
+${triBacktick}
+${result}
+${triBacktick}`;
   if (logs && logs.length) {
-    finalMsg = `${finalMsg}${NL}\`Log output\`${NL}${triBacktick}${logs.join(NL)}${triBacktick}`;
+    finalMsg =
+`${finalMsg}
+\`Log output\`
+${triBacktick}
+${logs.join('\n')}
+${triBacktick}`;
   }
   return finalMsg;
 }
