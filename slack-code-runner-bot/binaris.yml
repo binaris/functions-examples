@@ -1,0 +1,7 @@
+functions:
+  public_slackCodeRunner:
+    file: function.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      SLACK_BOT_TOKEN:
