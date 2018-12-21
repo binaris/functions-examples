@@ -5,6 +5,9 @@ A simple bot which allows users to execute short-lived Javascript code snippets 
 ## Getting Started
 
 1. Create a new app on Slack or have your administrator do it for you
+  
+    https://api.slack.com/apps?new_app=1
+    
 2. Obtain the `Bot User OAuth Access Token` from the Slack webUI (inside the red box)
    and export it 
    
