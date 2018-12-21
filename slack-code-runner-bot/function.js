@@ -1,10 +1,9 @@
 const { WebClient } = require('@slack/client');
+const { VM } = require('vm2');
 const decode = require('decode-html');
 
 const token = process.env.SLACK_BOT_TOKEN;
 const web = new WebClient(token);
-
-const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
 // text that if present should elicit a response from the bot
 const botTrigger = '@provemeright';
@@ -43,34 +42,29 @@ function constructFinalMsg(logs, result) {
  * @param {string} - id of channel to post output to
  */
 async function runCode(code, channel) {
-  // replace the default console.log with an intercepter,
-  // the intercepted messages will be included in the
-  // response output
   const interceptMessages = [];
-  const realLogger = console.log;
-  console.log = (...args) => {
-    interceptMessages.push(args);
-    // still give the intended log message to the original console
-    realLogger.apply(console, args);
+  // replacement for logic usually handled by "console"
+  function pushLogs(data) {
+    interceptMessages.push(data);
+  }
+  const redirectConsole = {
+    err: pushLogs,
+    log: pushLogs,
+    warn: pushLogs,
   };
 
   let result;
   // only exec the code if it meets our regex format
   if (codeRegex.test(code)) {
     const extractText = codeRegex.exec(decode(code));
+    const vm = new VM({
+      timeout: maxTimeMS,
+      sandbox: { console: redirectConsole },
+      require: { external: true },
+    });
+
     try {
-      // create a new AsyncFunction to run the extracted code
-      const userfuncPromise = new AsyncFunction(extractText[2])
-      // enforce a maximum time limit on the running code to avoid
-      // long running segments
-      result = await Promise.race([
-        new Promise((resolve, reject) => {
-          setTimeout(() => {
-            reject(timeoutRejection);
-          }, maxTimeMS);
-        }),
-        userfuncPromise(),
-      ]);
+      result = await vm.run(`(async function run() { ${extractText[2]} })()`);
     } catch (err) {
       result = `Error: ${err.message || err}`;
     }

@@ -9,6 +9,7 @@
   "author": "Ryland Goldstein",
   "dependencies": {
     "@slack/client": "^4.8.0",
-    "decode-html": "^2.0.0"
+    "decode-html": "^2.0.0",
+    "vm2": "^3.6.4"
   }
 }
