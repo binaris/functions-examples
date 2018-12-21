@@ -12,7 +12,7 @@ A simple bot which allows users to execute short-lived Javascript code snippets 
    
       `export SLACK_BOT_TOKEN=<YOUR_TOKEN_HERE>`
 
-3. Deploy the Binaris function `bn deploy public_slackRunner`
+3. Deploy the Binaris function `bn deploy public_slackCodeRunner`
 4. Copy the URL printed by `bn deploy` and enter it as the `Request URL` on the "Event Subscriptions" page in the Slack webUI. This will send your function-bot a challenge.
    ![challenge](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/challenge.png)
 5. Finally, on the same "Event Subscriptions" page scroll slightly down and "Add Workspace Event". There are many options here but if you want your bot to respond in all public channels use `message.channels`
