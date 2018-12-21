@@ -1,0 +1,22 @@
+functions:
+  create_or_update:
+    file: src/create_or_update.py
+    entrypoint: handler
+    runtime: python3
+    env:
+      <<: &COMMON
+        AWS_ACCESS_KEY:
+        AWS_SECRET_KEY:
+        S3_BUCKET_NAME:
+  read:
+    file: src/read.py
+    entrypoint: handler
+    runtime: python3
+    env:
+      <<: *COMMON
+  delete:
+    file: src/delete.py
+    entrypoint: handler
+    runtime: python3
+    env:
+      <<: *COMMON
