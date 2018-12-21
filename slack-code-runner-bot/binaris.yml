@@ -5,3 +5,4 @@ functions:
     runtime: node8
     env:
       SLACK_BOT_TOKEN:
+      BOT_TRIGGER_STATEMENT: '@provemeright'

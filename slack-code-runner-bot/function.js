@@ -2,11 +2,11 @@ const { WebClient } = require('@slack/client');
 const { VM } = require('vm2');
 const decode = require('decode-html');
 
-const token = process.env.SLACK_BOT_TOKEN;
+const {
+  SLACK_BOT_TOKEN: token,
+  BOT_TRIGGER_STATEMENT: triggerStatement,
+} = process.env;
 const web = new WebClient(token);
-
-// text that if present should elicit a response from the bot
-const botTrigger = '@provemeright';
 
 const NL = '\n';
 const triBacktick = '```';
@@ -85,7 +85,7 @@ exports.handler = async (body, context) => {
   const codeText = body.event.text;
   // if the input includes our trigger statement begin
   // to evaluate the content as code
-  if (codeText && codeText.includes(botTrigger)) {
+  if (codeText && codeText.includes(triggerStatement)) {
     runCode(codeText, body.event.channel);
   }
   return 200;
