@@ -26,20 +26,19 @@ const timeoutRejection = `Invocation timed out in ${maxTimeMS} ms`;
  * @return {string} - final and complete response output
  */
 function constructFinalMsg(logs, result) {
-  let finalMsg =
+  const codeMsg =
 `\`Code output\`
 ${triBacktick}
 ${result}
 ${triBacktick}`;
   if (logs && logs.length) {
-    finalMsg =
-`${finalMsg}
+    return `${codeMsg}
 \`Log output\`
 ${triBacktick}
 ${logs.join('\n')}
 ${triBacktick}`;
   }
-  return finalMsg;
+  return codeMsg;
 }
 
 /**
