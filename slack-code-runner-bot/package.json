@@ -1,0 +1,14 @@
+{
+  "name": "slack-code-runner-bot",
+  "version": "1.0.0",
+  "description": "A simple slack bot that can run Javascript code",
+  "main": "function.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryland Goldstein",
+  "dependencies": {
+    "@slack/client": "^4.8.0",
+    "decode-html": "^2.0.0"
+  }
+}
