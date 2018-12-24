@@ -21,3 +21,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`slack-pi-command`](slack-pi-command) <br/> Calculate PI to `n` digits in Slack | nodeJS |
 | [`trello-auto-updates`](trello-auto-updates) <br/> Implement Trello webhooks to extend a dashboard behavior | nodeJS |
 | [`whiteboard`](whiteboard) <br/> Synchronized web whiteboard based on functions, Redis and websockets | nodeJS |
+| [`quines`](quines) <br/> A small collection of self-replicating functions | nodeJS and python2 |
