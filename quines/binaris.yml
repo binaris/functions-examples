@@ -1,0 +1,17 @@
+functions:
+  quine_js:
+    file: quine.js
+    entrypoint: handler
+    runtime: node8
+  quine_py:
+    file: quine.py
+    entrypoint: handler
+    runtime: python2
+  ouroboros_js:
+    file: ouroboros.js
+    entrypoint: handler
+    runtime: node8
+  ouroboros_py:
+    file: ouroboros.py
+    entrypoint: handler
+    runtime: python2
