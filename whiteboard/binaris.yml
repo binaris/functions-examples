@@ -1,0 +1,33 @@
+functions:
+  public_draw:
+    file: functions/draw.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_PASSWORD:
+      PUSHER_APP_ID:
+      PUSHER_KEY:
+      PUSHER_SECRET:
+      PUSHER_CLUSTER:
+  public_get:
+    file: functions/get.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_PASSWORD:
+  public_clear:
+    file: functions/clear.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_PASSWORD:
+      PUSHER_APP_ID:
+      PUSHER_KEY:
+      PUSHER_SECRET:
+      PUSHER_CLUSTER:
