@@ -6,3 +6,4 @@ functions:
     env:
       SLACK_BOT_TOKEN:
       BOT_TRIGGER_STATEMENT: '@provemeright'
+      MAX_CODE_RUNTIME_MS: '2000'
