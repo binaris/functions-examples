@@ -5,16 +5,54 @@ const decode = require('decode-html');
 const {
   SLACK_BOT_TOKEN: token,
   BOT_TRIGGER_STATEMENT: triggerStatement,
+  MAX_CODE_RUNTIME_MS: maxTimeMS,
 } = process.env;
 const web = new WebClient(token);
 
 const triBacktick = '```';
-// code is only valid if it starts with ``` and ends with ```
-const codeRegex = new RegExp(/(.*`{3,})([\s\S]*)(`{3,}.*)/m);
 
-// maximum time user code should be allowed to evaluate
-const maxTimeMS = 2000;
-const timeoutRejection = `Invocation timed out in ${maxTimeMS} ms`;
+/**
+ * Extracts the potential JavaScript code segment located
+ * between leading and trailing triple backticks ```
+ *
+ * @param {string} textToExtractFrom - segment to attempt code extraction on
+ *
+ * @return {string} - extracted code segment
+ */
+function extractBetweenBackticks(textToExtractFrom) {
+  const startIdx = textToExtractFrom.indexOf(triBacktick);
+  const endIdx = textToExtractFrom.lastIndexOf(triBacktick);
+
+  if (startIdx === -1 || endIdx === -1 || (startIdx === endIdx)) {
+    throw new Error('Javascript input must begin and end with triple backticks');
+  }
+  return extractText.substring(startIdx + 3, endIdx);
+}
+
+/**
+ * Runs the provided code and returns computed output.
+ *
+ * @param {string} code - Javascript code to evaluate
+ * @param {Array} logBuffer - buffer to insert stdout ouput into
+ */
+async function runCode(code, logBuffer) {
+  // replacement for logic usually handled by "console"
+  const pushLogs = (data) => logBuffer.push(data);
+  const redirectConsole = {
+    err: pushLogs,
+    log: pushLogs,
+    warn: pushLogs,
+  };
+
+  let result;
+  const vm = new VM({
+    timeout: maxTimeMS,
+    sandbox: { console: redirectConsole },
+    require: { external: true },
+  });
+
+  return vm.run(`(async function run() { ${code} })()`);
+}
 
 /**
  * Create the final representation of the message that should be sent
@@ -26,13 +64,16 @@ const timeoutRejection = `Invocation timed out in ${maxTimeMS} ms`;
  * @return {string} - final and complete response output
  */
 function constructFinalMsg(logs, result) {
-  const codeMsg =
+  let codeMsg = '';
+  if (result) {
+    codeMsg =
 `\`Code output\`
 ${triBacktick}
 ${result}
 ${triBacktick}`;
+  }
   if (logs && logs.length) {
-    return `${codeMsg}
+    codeMsg = `${codeMsg}
 \`Log output\`
 ${triBacktick}
 ${logs.join('\n')}
@@ -42,45 +83,24 @@ ${triBacktick}`;
 }
 
 /**
- * Runs the provided code and responds with the output
- * in the specified channel.
+ * Extracts, and then evaluates the input code segment and
+ * then notifies the trigger slack channel based on response.
  *
- * @param {string} - Javascript code to evaluate
- * @param {string} - id of channel to post output to
+ * @param {string} codeText - code to execute
+ * @param {string} channel - Slack channel which should receive execution output
  */
-async function runCode(code, channel) {
-  const interceptMessages = [];
-  // replacement for logic usually handled by "console"
-  function pushLogs(data) {
-    interceptMessages.push(data);
-  }
-  const redirectConsole = {
-    err: pushLogs,
-    log: pushLogs,
-    warn: pushLogs,
-  };
-
+async function evaluateAndNotifySlack(codeText, channel) {
   let result;
-  // only exec the code if it meets our regex format
-  if (codeRegex.test(code)) {
-    const extractText = codeRegex.exec(decode(code));
-    const vm = new VM({
-      timeout: maxTimeMS,
-      sandbox: { console: redirectConsole },
-      require: { external: true },
-    });
-
-    try {
-      result = await vm.run(`(async function run() { ${extractText[2]} })()`);
-    } catch (err) {
-      result = `Error: ${err.message || err}`;
-    }
-  } else {
-    result = 'Error: Javascript input must be enclosed with triple backticks ```';
+  const logBuffer = [];
+  try {
+    const code = extractBetweenBackticks(decode(codeText));
+    result = await runCode(code, logBuffer);
+  } catch (err) {
+    result = `Error: ${err.message || err}`;
   }
-  const finalMsg = constructFinalMsg(interceptMessages, result);
-  // finally, send the computed response back to slack
-  await web.chat.postMessage({ channel, text: finalMsg });
+
+  const finalMsg = constructFinalMsg(logBuffer, result);
+  web.chat.postMessage({ channel, text: finalMsg });
 }
 
 exports.handler = async (body, context) => {
@@ -89,11 +109,13 @@ exports.handler = async (body, context) => {
     return body.challenge;
   }
 
-  const codeText = body.event.text;
+  const { channel, text } = body.event;
   // if the input includes our trigger statement begin
   // to evaluate the content as code
-  if (codeText && codeText.includes(triggerStatement)) {
-    runCode(codeText, body.event.channel);
+  if (text.includes(triggerStatement)) {
+    evaluateAndNotifySlack(text, channel);
   }
+
+  // web.chat.postMessage({ channel, text: result });
   return 200;
 };
