@@ -23,7 +23,7 @@ $ cd python-crud-s3
 $ git clone git@github.com:binaris/bob.git
 
 # Set the environment variables for deployment
-$ export BUCKET={your-designated-s3-bucket}
+$ export S3_BUCKET_NAME={your-designated-s3-bucket}
 
 # Deploy the functions:
 $ ./deploy.sh
