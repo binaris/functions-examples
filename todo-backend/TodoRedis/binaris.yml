@@ -1,0 +1,9 @@
+functions:
+  TodoRedis:
+    file: function.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PWD:

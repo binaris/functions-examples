@@ -1,0 +1,6 @@
+{
+    "name": "binaris-todo-backend",
+    "dependencies": {
+        "ioredis": "4.3.0"
+    }
+}

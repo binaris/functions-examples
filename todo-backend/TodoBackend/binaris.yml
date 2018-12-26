@@ -1,0 +1,8 @@
+functions:
+  public_TodoBackend:
+    file: function.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      BINARIS_API_KEY:
+      BINARIS_ACCOUNT_NUMBER:
