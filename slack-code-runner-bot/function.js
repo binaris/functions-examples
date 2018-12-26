@@ -34,6 +34,8 @@ function extractBetweenBackticks(textToExtractFrom) {
  *
  * @param {string} code - Javascript code to evaluate
  * @param {Array} logBuffer - buffer to insert stdout ouput into
+ *
+ * @return {string} - output of evaluated code
  */
 async function runCode(code, logBuffer) {
   // replacement for logic usually handled by "console"
