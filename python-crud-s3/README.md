@@ -17,7 +17,7 @@ $ bn login
 
 # Clone this repo
 $ git clone git@github.com:binaris/functions-examples.git
-$ cd crud-s3
+$ cd python-crud-s3
 
 # Pull the bob repo so you can compile the pip dependencies.
 $ git clone git@github.com:binaris/bob.git
