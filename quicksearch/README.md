@@ -7,8 +7,11 @@ Fetch textual results as you type with function-based quicksearch.
 
 # Deploy me!
 
-[Get a Binaris API Key](https://binaris.com/) and a managed Redis instance (which is free from [Redis Labs](www.redislabs.com)).
+## Get some API Keys
+1. [Binaris API Key](https://binaris.com/)
+1. A Redis instance. A free, managed one is available from [Redis Labs](https://redislabs.com)
 
+## Deploy
 ```bash
 # Install the Binaris CLI
 $ npm install -g binaris
