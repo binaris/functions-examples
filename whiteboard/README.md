@@ -11,7 +11,7 @@ Synchronized web whiteboard based on functions, Redis and websockets.
 
 ## Get some API Keys
 1. [Binaris API Key](https://binaris.com/)
-1. A Redis instance. A free, managed one is available from [Redis Labs](www.redislabs.com)
+1. A Redis instance. A free, managed one is available from [Redis Labs](https://redislabs.com)
 1. A [managed websockets account ("channels") from pusher.com](https://pusher.com/channels), which is also free
 
 
