@@ -1,4 +1,3 @@
-const rp = require('request-promise-native');
 const { invoke } = require('binaris/sdk');
 const { 
   BINARIS_ACCOUNT_ID, 
