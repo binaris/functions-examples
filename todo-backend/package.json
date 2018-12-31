@@ -2,8 +2,6 @@
     "name": "binaris-todo-backend",
     "dependencies": {
         "binaris": "^6.0.9",
-        "ioredis": "4.3.0",
-        "request": "2.88.0",
-        "request-promise-native": "1.0.5"
+        "ioredis": "4.3.0"
     }
 }
