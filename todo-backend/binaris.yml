@@ -1,0 +1,15 @@
+functions:
+  public_TodoBackend:
+    file: functions/api.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      BINARIS_API_KEY:
+  TodoRedis:
+    file: functions/redis.js
+    entrypoint: handler
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PWD:

@@ -28,21 +28,16 @@ $ git clone git@github.com:binaris/functions-examples.git
 $ cd functions-examples/todo-backend
 
 # Set the environment variables for deployment
-$ export BINARIS_ACCOUNT_ID={your-binaris-account-id}
 $ export BINARIS_API_KEY={your-binaris-api-key}
 $ export REDIS_HOST={your-redis-host}
-$ export REDIS_HOST={your-redis-port}
-$ export REDIS_PASSWORD={your-redis-password}
+$ export REDIS_PORT={your-redis-port}
+$ export REDIS_PWD={your-redis-password}
 
-# Install the dependencies and deploy the API function
-$ cd TodoBackend
+# Install the dependencies
 $ npm install
+
+# Deploy the functions
 $ bn deploy public_TodoBackend
-$ cd ..
-
-# Install the dependencies and deploy the storage function
-$ cd TodoRedis
-$ npm install
 $ bn deploy TodoRedis
 ```
 
