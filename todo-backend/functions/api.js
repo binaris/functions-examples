@@ -1,4 +1,10 @@
 const rp = require('request-promise-native');
+const { invoke } = require('binaris/sdk');
+const { 
+  BINARIS_ACCOUNT_ID, 
+  BINARIS_API_KEY, 
+  BN_FUNCTION 
+} = process.env;
 
 const execute = async (command, field, value) => {
   const request = {
@@ -7,18 +13,10 @@ const execute = async (command, field, value) => {
     field: field,
     value: JSON.stringify(value)
   };
-  const options = {
-    url: `https://run-sandbox.binaris.com/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/redis_todobackend`,
-    headers: {
-      'X-Binaris-Api-Key': `${process.env.BINARIS_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: request,
-    json: true
-  };
-  const response = await rp.post(options);
-  return response 
-    ? (Array.isArray(response) ? response.map(json => JSON.parse(json)) : JSON.parse(response)) 
+  const response = await invoke(BINARIS_ACCOUNT_ID, 'TodoRedis', BINARIS_API_KEY, JSON.stringify(request));
+  const body = JSON.parse(response.body);
+  return body
+    ? (Array.isArray(body) ? body.map(JSON.parse) : JSON.parse(body))
     : undefined;
 }
 
@@ -55,7 +53,7 @@ const handler = async (body, context) => {
       const todo = { 
         completed: false,
         id: generatedId,
-        url: `https://run-sandbox.binaris.com/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/${process.env.BN_FUNCTION}/${generatedId}`,
+        url: `https://run-sandbox.binaris.com/v2/run/${BINARIS_ACCOUNT_ID}/${BN_FUNCTION}/${generatedId}`,
         ...body 
       };
       return await execute('hset', generatedId, todo);
