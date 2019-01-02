@@ -49,7 +49,6 @@ async function runCode(code, logBuffer) {
   const vm = new VM({
     timeout: maxTimeMS,
     sandbox: { console: redirectConsole },
-    require: { external: true },
   });
 
   return vm.run(`(async function run() { ${code} })()`);
