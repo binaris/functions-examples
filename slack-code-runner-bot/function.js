@@ -8,7 +8,6 @@ const {
   MAX_CODE_RUNTIME_MS: maxTimeMS,
 } = process.env;
 const web = new WebClient(token);
-
 const triBacktick = '```';
 
 /**
@@ -26,7 +25,7 @@ function extractBetweenBackticks(textToExtractFrom) {
   if (startIdx === -1 || endIdx === -1 || (startIdx === endIdx)) {
     throw new Error('Javascript input must begin and end with triple backticks');
   }
-  return extractText.substring(startIdx + 3, endIdx);
+  return textToExtractFrom.substring(startIdx + 3, endIdx);
 }
 
 /**
