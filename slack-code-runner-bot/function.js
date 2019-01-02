@@ -23,7 +23,7 @@ function extractBetweenBackticks(textToExtractFrom) {
   const endIdx = textToExtractFrom.lastIndexOf(triBacktick);
 
   if (startIdx === -1 || endIdx === -1 || (startIdx === endIdx)) {
-    throw new Error('Javascript input must begin and end with triple backticks');
+    throw new Error('ECMAScript input must begin and end with triple backticks');
   }
   return textToExtractFrom.substring(startIdx + 3, endIdx);
 }
