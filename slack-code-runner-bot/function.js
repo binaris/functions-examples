@@ -32,7 +32,7 @@ function extractBetweenBackticks(textToExtractFrom) {
  * Runs the provided code and returns computed output.
  *
  * @param {string} code - Javascript code to evaluate
- * @param {Array} logBuffer - buffer to insert stdout ouput into
+ * @param {Array} logBuffer - buffer to insert stdout output into
  *
  * @return {string} - output of evaluated code
  */
