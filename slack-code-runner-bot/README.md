@@ -24,8 +24,8 @@ A simple bot which allows users to execute short-lived Javascript code snippets 
    https://api.slack.com/apps/<APP_ID>/event-subscriptions?
 
    ![challenge](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/challenge.png)
-5. Finally, on the same "Event Subscriptions" page scroll slightly down and "Add Workspace Event". There are many options here but if you want your bot to respond in all public channels use `message.channels`
-   ![channel_reg](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/channel_reg.png)
+5. Finally, on the same "Event Subscriptions" page scroll slightly down and "Add Bot User Event". There are many options here but if you want your bot to respond in all public channels (that it's been invited to) use `message.channels`
+   ![bot_events](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/bot_events.png)
 6. You may need to reinstall your slack application to take advantage of the changes
 
     https://api.slack.com/apps/<APP_ID>/install-on-team?
@@ -34,6 +34,11 @@ A simple bot which allows users to execute short-lived Javascript code snippets 
    ![reinstall](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/reinstall.png)
 
 ### Running some code
+
+You will first need to invite your bot to any channels you plan to interact with it on.
+
+   ![add_to_channel](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/add_to_channel.png)
+
 
 You should now be able to test your function-bot in action by sending a message such as
 
