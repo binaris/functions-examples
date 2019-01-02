@@ -1,12 +1,14 @@
 const webpack = require('webpack');
 const path = require('path');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const fs = require('mz/fs');
+const dot = require('dot');
 
 const { prebuild } = require('./builder');
 const localResourceEndpoint = 'http://localhost:3001';
 
 module.exports = async () => {
-  const { FRACTAL_ENDPOINT, PUBLIC_PATH } = await prebuild();
+  const { FRACTAL_ENDPOINT, PUBLIC_PATH, BINARIS_ACCOUNT_ID } = await prebuild();
   return {
     entry: [ 'babel-polyfill', './src/gen.worker.js', './src/main.js' ],
     output: {
@@ -54,7 +56,7 @@ module.exports = async () => {
                 proxy: 'http://localhost:8080/',
                 files: [
                     {
-                        match: ['**/*.html'],
+                        match: ['**/*.html*'],
                         fn: event => {
                             if (event === 'change') {
                                 const bs = require('browser-sync').get(
@@ -81,6 +83,14 @@ module.exports = async () => {
         ),
     ],
     devServer: {
+        before: function(app, server) {
+          app.get(['/', '/index.html'], async (req, res) => {
+            const file = await fs.readFile(__dirname + '/dist/index.html.dot', 'utf8');
+            const template = dot.template(file);
+            res.set('content-type', 'text/html');
+            res.send(template({ binarisAccountId: BINARIS_ACCOUNT_ID }));
+          });
+        },
         contentBase: [path.resolve(__dirname, 'dist'), path.resolve(__dirname, 'dist/resources')],
         publicPath: `${PUBLIC_PATH}/js`,
     },

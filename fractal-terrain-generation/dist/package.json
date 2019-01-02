@@ -8,6 +8,7 @@
   "author": "Ryland Goldstein",
   "license": "MIT",
   "dependencies": {
+    "dot": "^1.1.2",
     "mime-types": "^2.1.21",
     "mz": "^2.7.0",
     "path": "^0.12.7"

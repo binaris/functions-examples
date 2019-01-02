@@ -1,4 +1,3 @@
-const replace = require('replace-in-file');
 const fse = require('fs-extra');
 const path = require('path');
 
@@ -36,31 +35,18 @@ async function getFractalURL(accountID) {
   return getInvokeUrl(accountID, backendName);
 }
 
-async function replaceHTMLAccountID(accountID) {
-  const templatePath = path.join(__dirname, 'template.html');
-  const destPath = path.join(__dirname, 'dist', 'index.html');
-  await fse.copy(templatePath, destPath, { overwrite: true, errorOnExist: false });
-
-  const options = {
-    files: destPath,
-    from: /<BINARIS_ACCOUNT_NUMBER>/g,
-    to: accountID,
-  };
-  await replace(options)
-}
-
 async function prebuild() {
   const realm = await getRealm();
   if (realm) {
     forceRealm(realm);
   }
   const accountID = await getAccountId(undefined);
-  await replaceHTMLAccountID(accountID);
   const FRACTAL_ENDPOINT = await getFractalURL(accountID);
   const PUBLIC_PATH = (await getPublicPath(accountID, ' ')).slice(8);
   return {
     FRACTAL_ENDPOINT,
     PUBLIC_PATH,
+    BINARIS_ACCOUNT_ID: accountID,
   };
 }
 

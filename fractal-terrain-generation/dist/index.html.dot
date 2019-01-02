@@ -196,6 +196,6 @@
         <div>Paused<span id="pause"></span></div>
       </div>
     </div>
-  <script src="/v2/run/<BINARIS_ACCOUNT_NUMBER>/public_servePage/js/three.bundle.js"></script>
+  <script src="/v2/run/{{=it.binarisAccountId}}/public_servePage/js/three.bundle.js"></script>
 </body>
 </html>
