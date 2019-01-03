@@ -1,8 +1,5 @@
 # Python3 CRUD + Google Spreadsheet Integration With Functions
-Create, Read, Update, and Delete entries using a google spreadsheet for storage
-
-# What does it do?
-Creates a simple crud service using only binaris functions written in python3.
+Create, Read, Update, and Delete entries using a Google Sheet for storage
 
 # Deploy me!
 
@@ -17,13 +14,14 @@ $ bn login
 
 # Clone this repo
 $ git clone git@github.com:binaris/functions-examples.git
-$ cd python-crud-google-spreadsheet
+$ cd functions-examples/python-crud-google-spreadsheet
 
 # After cloning the repo, move your credentials into the repo working directory
 $ cp {path-to-credentials} ./credentials.json
 
-# Pull the bob repo so you can compile the pip dependencies.
+# Pull the bob repo, and run the build scrip to compile the pip dependencies.
 $ git clone git@github.com:binaris/bob.git
+$ ./bob/build.sh 3
 
 # Set the environment variables for deployment
 # The spreadsheet id can be located in the spreadsheet url
@@ -33,7 +31,7 @@ $ export SPREADSHEET_ID={your-designated-spreadsheet-id}
 $ ./deploy.sh
 
 # Use the endpoints supplied to create, read, and modify data in the sheet using the binaris CLI or curl commands
-$ bn invoke create --data '{"values": [1, 2, 3, 4, 5]}'
+$ bn invoke create_endpoint --data '{"values": [1, 2, 3, 4, 5]}'
 $ curl -H X-Binaris-Api-Key:{your-binaris-api-key} 'https://run.binaris.com/v2/run/{your-account-id}/delete?key={row-number}'
 ```
 
@@ -42,9 +40,9 @@ $ curl -H X-Binaris-Api-Key:{your-binaris-api-key} 'https://run.binaris.com/v2/r
 Proposed changes should adhere to the python [PEP8](https://www.python.org/dev/peps/pep-0008/) style guide, and can be checked using pycodestyle.
 
 ```bash
-# Install pycodestyle
-$ pip3 install pycodestyle
+# Install pylint
+$ pip3 install pylint --upgrade
 
 # Run style check on src directory
-$ pycodestyle src/
+$ pylint src/
 ```

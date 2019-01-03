@@ -1,30 +1,28 @@
 functions:
-  create:
+  create_endpoint:
     file: src/create.py
     entrypoint: handler
     runtime: python3
     env:
-      SCOPES: 'https://www.googleapis.com/auth/spreadsheets'
-      <<: &COMMON
+      <<: &COMMON 
+        SCOPES: 'https://www.googleapis.com/auth/spreadsheets'
         SPREADSHEET_ID: 
-  read:
+  read_endpoint:
     file: src/read.py
     entrypoint: handler
     runtime: python3
     env:
-      SCOPES: 'https://www.googleapis.com/auth/spreadsheets.readonly'
       <<: *COMMON
-  update:
+      SCOPES: 'https://www.googleapis.com/auth/spreadsheets.readonly'
+  update_endpoint:
     file: src/update.py
     entrypoint: handler
     runtime: python3
     env:
-      SCOPES: 'https://www.googleapis.com/auth/spreadsheets'
       <<: *COMMON
-  delete:
+  delete_endpoint:
     file: src/delete.py
     entrypoint: handler
     runtime: python3
     env:
-      SCOPES: 'https://www.googleapis.com/auth/spreadsheets'
       <<: *COMMON
