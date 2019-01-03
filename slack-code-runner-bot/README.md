@@ -58,3 +58,7 @@ return a + b;
 ```
 15
 ```
+
+### Isolation model
+
+In addition to the per function isolation that Binaris provides, this bot uses the [VM2](https://github.com/patriksimek/vm2) module which offers further code execution isolation. By default, `require` and other OS based NodeJS calls are disabled.
