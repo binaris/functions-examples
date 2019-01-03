@@ -16,7 +16,7 @@ A simple bot which allows users to execute short-lived Javascript code snippets 
 
     ![set_permissions](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/set_permissions.png)
 
-1. Install the app to your Slack workspace by using the button located at the top of the same page used to add Permission Scopes.
+1. Install the app to your Slack workspace by using the `Install App to Workspace` button located at the top of the same page you just used to add Permission Scopes.
 
     ![install_app](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/install_app.png)
     
@@ -35,7 +35,7 @@ A simple bot which allows users to execute short-lived Javascript code snippets 
 
    https://api.slack.com/apps/<APP_ID>/event-subscriptions?
 
-   ![challenge](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/challenge.png)
+   ![challenge_test](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/challenge_test.png)
 1. Finally, on the same "Event Subscriptions" page scroll slightly down and "Add Bot User Event". There are many options here but if you want your bot to respond in all public channels (that it's been invited to) use `message.channels`.
    ![bot_events](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/bot_events.png)
 1. You may need to reinstall your slack application to take advantage of the changes.
