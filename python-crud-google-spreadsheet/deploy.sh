@@ -1,6 +1,4 @@
-./bob/build.sh 3
-
-bn deploy create
-bn deploy read
-bn deploy update
-bn deploy delete
+bn deploy create_endpoint
+bn deploy read_endpoint
+bn deploy update_endpoint
+bn deploy delete_endpoint

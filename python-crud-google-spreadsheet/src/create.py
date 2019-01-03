@@ -1,18 +1,12 @@
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import os
+"""Provies a method for creating a new row entry in a Google Sheet"""
+from worksheet_connection import get_sheet
 
-
-def handler(body, req):
+def handler(body):
+    """Handles requests and creates an entry in the Google Sheet"""
     if (body is None or body['values'] is None or
-            type(body['values']) is not list):
+            not isinstance(body['values'], list)):
         raise Exception('Invalid request body.')
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(
-            '/code/credentials.json', os.environ['SCOPES'])
-
-    gc = gspread.authorize(credentials)
-    sheet = gc.open_by_key(os.environ['SPREADSHEET_ID'])
-    ws = sheet.worksheet('Sheet1')
-    ws.append_row(body['values'])
+    worksheet = get_sheet()
+    worksheet.append_row(body['values'])
     return 'Row written successfully!'
