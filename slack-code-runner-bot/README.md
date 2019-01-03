@@ -14,7 +14,7 @@ A simple bot which allows users to execute short-lived Javascript code snippets 
 
 1. Navigate to the `OAuth & Permissions` tab and add a Permissions Scope. To keep things simple for this example `channel:write` is used. This may differ depending on your own security considerations. You can find a list of all possible scopes and their implications [here](https://api.slack.com/methods)
 
-    ![set_permissions](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/set_permissions.png)
+    ![set_permissions](https://raw.githubusercontent.com/binaris/functions-examples/feature-slack-bot/slack-code-runner-bot/assets/set_permissions.png?)
 
 1. Install the app to your Slack workspace by using the `Install App to Workspace` button located at the top of the same page you just used to add Permission Scopes.
 
