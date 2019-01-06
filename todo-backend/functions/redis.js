@@ -15,17 +15,17 @@ const redis = new Redis({
 });
 
 exports.handler = async (input) => {
-  const { command, key, field, value } = {...input};
+  const { command, key, field, value } = { ...input };
   switch (command) {
     case 'hset': {
       await redis.hset(key, field, value);
       return value;
     }
     case 'hget': {
-      return await redis.hget(key, field);
+      return redis.hget(key, field);
     }
     case 'hvals': {
-      return await redis.hvals(key);
+      return redis.hvals(key);
     }
     case 'hdel': {
       await redis.hdel(key, field);
@@ -33,8 +33,10 @@ exports.handler = async (input) => {
     }
     case 'del': {
       await redis.del(key);
-      return '';      
+      return '';
+    }
+    default: {
+      return '';
     }
   }
-  return '';
 };
