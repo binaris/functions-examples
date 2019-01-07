@@ -11,15 +11,10 @@ const execute = async (command, field, value) => {
     command,
     key: 'TodoBackend',
     field,
-    value: JSON.stringify(value),
+    value,
   };
-  const response = await invoke(BINARIS_ACCOUNT_ID, 'TodoRedis', BINARIS_API_KEY, JSON.stringify(request));
-  const body = JSON.parse(response.body);
-  if (body) {
-    return Array.isArray(body) ? body.map(JSON.parse) : JSON.parse(body);
-  }
-
-  return undefined;
+  const response = await invoke(BINARIS_ACCOUNT_ID, 'TodoRedis', BINARIS_API_KEY, request);
+  return JSON.parse(response.body);
 };
 
 const cors = handler => async (body, context) => {

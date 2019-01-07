@@ -18,14 +18,16 @@ exports.handler = async (input) => {
   const { command, key, field, value } = { ...input };
   switch (command) {
     case 'hset': {
-      await redis.hset(key, field, value);
+      await redis.hset(key, field, JSON.stringify(value));
       return value;
     }
     case 'hget': {
-      return redis.hget(key, field);
+      const json = await redis.hget(key, field);
+      return JSON.parse(json);
     }
     case 'hvals': {
-      return redis.hvals(key);
+      const values = await redis.hvals(key);
+      return values.map(JSON.parse);
     }
     case 'hdel': {
       await redis.hdel(key, field);
