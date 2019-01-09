@@ -58,6 +58,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# credentials file required for oauth
+credentials.json
+
 # next.js build output
 .next
 

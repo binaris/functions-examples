@@ -37,7 +37,7 @@ $ curl -H X-Binaris-Api-Key:{your-binaris-api-key} 'https://run.binaris.com/v2/r
 
 # Code Style Checks
 
-Proposed changes should adhere to the python [PEP8](https://www.python.org/dev/peps/pep-0008/) style guide, and can be checked using pycodestyle.
+Proposed changes should adhere to the Python [PEP8](https://www.python.org/dev/peps/pep-0008/) style guide, and can be checked using pylint.
 
 ```bash
 # Install pylint

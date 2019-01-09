@@ -1,28 +1,28 @@
 functions:
   create_endpoint:
-    file: src/create.py
-    entrypoint: handler
+    file: src/crud.py
+    entrypoint: create
     runtime: python3
     env:
       <<: &COMMON 
         SCOPES: 'https://www.googleapis.com/auth/spreadsheets'
         SPREADSHEET_ID: 
   read_endpoint:
-    file: src/read.py
-    entrypoint: handler
+    file: src/crud.py
+    entrypoint: read
     runtime: python3
     env:
       <<: *COMMON
       SCOPES: 'https://www.googleapis.com/auth/spreadsheets.readonly'
   update_endpoint:
-    file: src/update.py
-    entrypoint: handler
+    file: src/crud.py
+    entrypoint: update
     runtime: python3
     env:
       <<: *COMMON
   delete_endpoint:
-    file: src/delete.py
-    entrypoint: handler
+    file: src/crud.py
+    entrypoint: delete
     runtime: python3
     env:
       <<: *COMMON
