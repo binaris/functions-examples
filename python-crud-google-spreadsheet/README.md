@@ -31,8 +31,10 @@ $ export SPREADSHEET_ID={your-designated-spreadsheet-id}
 $ ./deploy.sh
 
 # Use the endpoints supplied to create, read, and modify data in the sheet using the binaris CLI or curl commands
-$ bn invoke create_endpoint --data '{"values": [1, 2, 3, 4, 5]}'
-$ curl -H X-Binaris-Api-Key:{your-binaris-api-key} 'https://run.binaris.com/v2/run/{your-account-id}/delete?key={row-number}'
+$ bn invoke create_endpoint --data '{"row": [1, 2, 3, 4, 5]}'
+$ curl -H X-Binaris-Api-Key:{your-binaris-api-key} 'https://run.binaris.com/v2/run/{your-account-id}/read?row_number={row-number}'
+$ curl -H X-Binaris-Api-Key:{your-binaris-api-key} --data '{"row": [3, "text", 2]}' 'https://run.binaris.com/v2/run/{your-account-id}/update?row_number={row-number}'
+$ curl -H X-Binaris-Api-Key:{your-binaris-api-key} 'https://run.binaris.com/v2/run/{your-account-id}/delete?row_number={row-number}'
 ```
 
 # Code Style Checks
