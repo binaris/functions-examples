@@ -20,7 +20,8 @@
     "path": "^0.12.7",
     "simplex-noise": "^2.4.0",
     "superagent": "^3.8.3",
-    "three": "^0.94.0"
+    "three": "^0.94.0",
+    "webpack-dev-server": "^3.1.14"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -38,7 +39,6 @@
     "glslify-loader": "^1.0.2",
     "raw-loader": "^0.5.1",
     "webpack": "^2.5.1",
-    "webpack-dev-server": "^2.4.5",
     "worker-loader": "^2.0.0"
   }
 }
