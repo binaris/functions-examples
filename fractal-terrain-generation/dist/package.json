@@ -1,0 +1,16 @@
+{
+  "name": "fractal-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "servePage.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "Ryland Goldstein",
+  "license": "MIT",
+  "dependencies": {
+    "dot": "^1.1.2",
+    "mime-types": "^2.1.21",
+    "mz": "^2.7.0",
+    "path": "^0.12.7"
+  }
+}

@@ -3,11 +3,15 @@ import * as THREE from 'three';
 import * as dat from 'dat.gui';
 import * as log from 'loglevel';
 
+import VertShader from './shaders/simple_shader.vert';
+import FragShader from './shaders/simple_shader.frag';
+
 import { Game } from './game';
 import TileWorld from './worldGen';
 import { WorkerPool } from './workerPool';
+import loadTextures from './textureLoader';
 
-const rootEndpoint = `${process.env.FRACTAL_ENDPOINT}/generate`;
+const rootEndpoint = process.env.FRACTAL_ENDPOINT;
 
 const defaultTileSize = 4;
 const defaultTileRadius = 8;
@@ -26,6 +30,16 @@ const guiOptions = {
 };
 
 const currPos = { x: 0, z: 0 };
+
+const textureMap = {
+  lightBlueTex: 'light_blue.png',
+  redBrownTex: 'brown_red.png',
+  yellowTex: 'yellow.png',
+  darkBlueTex: 'dark_blue.png',
+  orangeTex: 'orange.png',
+  limeTex: 'lime_green.png',
+  redTex: 'dark_red.png',
+};
 
 const mats = [
   new THREE.MeshNormalMaterial({
@@ -127,7 +141,7 @@ function setupGUIMenus(gui, world, game) {
     }
   });
 
-  const numFunctionsEle = gui.add(fullOptions, 'numFunctions').min(1).max(5).step(1);
+  const numFunctionsEle = gui.add(fullOptions, 'numFunctions').min(1).max(7).step(1);
   numFunctionsEle.onChange(async (value) => {
     if (value === world.maxEndpoints) {
       log.info('value is unchanged');
@@ -140,7 +154,7 @@ function setupGUIMenus(gui, world, game) {
   // enable/disable wireframe rendering
   const wireframeEle = gui.add(fullOptions, 'wireframe');
   wireframeEle.onChange(() => {
-    world.updateMaterials();
+    world.updateMaterial();
   });
 
   // choose from accepted values
@@ -179,7 +193,13 @@ function createGUI(gui) {
  *
  * @return {object} - the fully configured game instance
  */
-function setupDemo() {
+async function setupDemo() {
+  const maxTexLoadTries = 5;
+  const texLoadRetryDelay = 3;
+  // kick start texture loading to avoid initial delay
+  const inLoading = loadTextures(textureMap,
+    maxTexLoadTries, texLoadRetryDelay);
+
   const gui = new dat.gui.GUI();
   const savedConfig = createGUI(gui);
 
@@ -188,13 +208,31 @@ function setupDemo() {
     tileRadius, skyboxColor } = savedConfig;
   const pool = new WorkerPool(numWorkers, 1);
 
+  const texArray = await inLoading;
+  const uniforms = THREE.UniformsUtils.merge([
+    THREE.UniformsLib['lights'], {
+      textures: {
+         type: 'tv',
+         value: texArray,
+      },
+    },
+  ]);
+
+  const terrainMaterial = new THREE.ShaderMaterial({
+    uniforms,
+    lights: true,
+    vertexShader: VertShader,
+    fragmentShader: FragShader,
+  });
+
   // currently a hack which is used to "fake" concurrency
   const downScale = 80;
   const heightFactor = (2 ** tileSize) * 0.8;
+  const maxHeight = 1;
 
-  const world = new TileWorld(game, pool, mats,
-    tileRadius, 2 ** tileSize, downScale, heightFactor,
-    0, 0, rootEndpoint, 1000, numFunctions);
+  const world = new TileWorld(game, pool, terrainMaterial,
+    texArray.length, tileRadius, maxHeight, 2 ** tileSize, downScale,
+    heightFactor, 0, 0, rootEndpoint, 1000, numFunctions);
 
   // ADD GENS PER SECOND
   game.setBackgroundColor(new THREE.Color(skyboxColor));
@@ -224,7 +262,7 @@ function setupDemo() {
   function onDocumentKeyDown(event) {
     const keyCode = event.which;
     if (keyCode === 77) {
-      world.updateMaterials();
+      world.updateMaterial();
     }
     if (keyCode === 82) {
       world.drain();
@@ -237,6 +275,6 @@ function setupDemo() {
   return game;
 }
 
-const game = setupDemo();
-
-game.animate();
+Promise.resolve(setupDemo()).then((game) => {
+  game.animate();
+});

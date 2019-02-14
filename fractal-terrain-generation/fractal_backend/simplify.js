@@ -8,7 +8,6 @@ const BOTTOM = 5;
 
 // Credit to https://0fps.net/2012/06/30/meshing-in-a-minecraft-game/ for
 // the theory and code structure for this algorithm.
-
 class Vector3 {
   constructor(x, y, z) {
     this.x = x;
@@ -67,9 +66,10 @@ class BlockFace {
  * @param {number} ySize - volumes size in Y dimension
  * @param {number} zSize - volumes size in Z dimension
  * @param {number} xPos - x coordinate offset of geometry
+ * @param {number} yPos - y coordinate offset of geometry
  * @param {number} zPos - z coordinate offset of geometry
  */
-function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
+function simplify(volume, xSize, ySize, zSize, xPos, yPos, zPos, heightFactor, numColors) {
   const nX = [0, 0, xSize - 1, 0, 0, 0];
   const nY = [0, 0, 0, 0, ySize - 1, 0];
 
@@ -79,8 +79,13 @@ function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
   const cZ = [1, -1, 0, 0, 0, 0];
 
   const faces = new Array(xSize * ySize * zSize);
-  for (let i = 0; i < volume.length; i += 1) {
-    faces[i] = new BlockFace(volume[i]);
+  for (let x0 = 0; x0 < xSize; x0++) {
+    for (let y0 = 0; y0 < ySize; y0++) {
+      for (let z0 = 0; z0 < zSize; z0++) {
+        const sharedIDX = x0 + (y0 * xSize) + (z0 * xSize * ySize);
+        faces[sharedIDX] = new BlockFace(volume[sharedIDX]);
+      }
+    }
   }
 
   function getBlockData(x, y, z) {
@@ -118,6 +123,7 @@ function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
   const indices = [];
   let normals = [];
   const tex = [];
+  const mats = [];
   let indexExtend = 0;
 
   const x = [0, 0, 0];
@@ -240,20 +246,24 @@ function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
 
 
                 verts.push(x[0] + xPos); // v0
-                verts.push(x[1]);
+                verts.push(x[1] + yPos);
                 verts.push(x[2] + zPos);
+                mats.push(mask[n].type);
 
                 verts.push(x[0] + du[0] + xPos); // v1
-                verts.push(x[1] + du[1]);
+                verts.push(x[1] + du[1] + yPos);
                 verts.push(x[2] + du[2] + zPos);
+                mats.push(mask[n].type);
 
                 verts.push(x[0] + dv[0] + xPos);  // v2
-                verts.push(x[1] + dv[1]);
+                verts.push(x[1] + dv[1] + yPos);
                 verts.push(x[2] + dv[2] + zPos);
+                mats.push(mask[n].type);
 
                 verts.push(x[0] + du[0] + dv[0] + xPos); // v3
-                verts.push(x[1] + du[1] + dv[1]);
+                verts.push(x[1] + du[1] + dv[1] + yPos);
                 verts.push(x[2] + du[2] + dv[2] + zPos);
+                mats.push(mask[n].type);
 
                 tex.push(g);
                 tex.push(0);
@@ -341,10 +351,11 @@ function simplify(volume, xSize, ySize, zSize, xPos, zPos) {
   calcNormals();
 
   return {
-    verts,
-    tex,
-    normals,
     indices,
+    mats,
+    normals,
+    tex,
+    verts,
   };
 }
 

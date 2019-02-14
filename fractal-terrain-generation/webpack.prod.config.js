@@ -2,11 +2,15 @@ const webpack = require('webpack');
 const path = require('path');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-module.exports = {
+const { prebuild } = require('./builder');
+
+module.exports = async () => {
+  const { FRACTAL_ENDPOINT, PUBLIC_PATH } = await prebuild();
+  return {
     entry: [ 'babel-polyfill', './src/gen.worker.js', './src/main.js' ],
     output: {
         path: path.resolve(__dirname, 'dist/js'),
-        publicPath: `/v2/run/${process.env.BINARIS_ACCOUNT_NUMBER}/public_servePage/js/`,
+        publicPath: `${PUBLIC_PATH}/js/`,
         filename: 'three.bundle.js'
     },
     module: {
@@ -47,9 +51,11 @@ module.exports = {
           {
               'process.env':
               {
-                    'FRACTAL_ENDPOINT': JSON.stringify(process.env.FRACTAL_ENDPOINT),
+                  FRACTAL_ENDPOINT: JSON.stringify(FRACTAL_ENDPOINT),
               }
           }
         ),
     ],
+  };
 }
+

@@ -25,9 +25,10 @@ const timeMSBetweenRetries = 20;
  * @param {Number} numRetries - # of invocation attempts before failing explicitly
  * @param {Number} endpoint - which of the function endpoints to use (if remote gen)
  */
-async function genData(ID, size, xPos, zPos, downscale,
-  heightFactor, endpoint, numRetries = 1) {
+async function genData(ID, size, xPos, yPos, zPos,
+  downscale, heightFactor, numTex, endpoint, numRetries = 1) {
   const scaledX = xPos * size;
+  const scaledY = yPos * size;
   const scaledZ = zPos * size;
   // TODO(Ry): add exponential backoff
   // For now we simply retry based on the specified number
@@ -38,10 +39,12 @@ async function genData(ID, size, xPos, zPos, downscale,
       const { body, headers } = await request
         .get(endpoint)
         .query({
-          size,
           downscale,
           heightFactor,
+          numTex,
+          size,
           xPos: scaledX,
+          yPos: scaledY,
           zPos: scaledZ,
         })
         .responseType('arraybuffer');
@@ -51,6 +54,7 @@ async function genData(ID, size, xPos, zPos, downscale,
         type: GEN_SUCCESS,
         size,
         xPos,
+        yPos,
         zPos,
         heightFactor,
         maxHeight: headers['x-gen-data-max-height'],
@@ -68,6 +72,7 @@ async function genData(ID, size, xPos, zPos, downscale,
           type: GEN_FAILURE,
           size,
           xPos,
+          yPos,
           zPos,
           data: err.message,
         });
@@ -85,14 +90,16 @@ async function genData(ID, size, xPos, zPos, downscale,
  */
 thisWorker.addEventListener('message', async (e) => {
   const {
+    downscale,
+    endpoint,
+    heightFactor,
     ID,
+    numRetries,
+    numTex,
     size,
     xPos,
+    yPos,
     zPos,
-    endpoint,
-    numRetries,
-    downscale,
-    heightFactor,
   } = e.data;
-  genData(ID, size, xPos, zPos, downscale, heightFactor, endpoint, numRetries);
+  genData(ID, size, xPos, yPos, zPos, downscale, heightFactor, numTex, endpoint, numRetries);
 });

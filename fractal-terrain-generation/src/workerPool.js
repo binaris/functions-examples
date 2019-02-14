@@ -94,7 +94,7 @@ class WorkerPool {
     this.workers.forEach(worker => (worker.onmessage = msgEventFunction));
   }
 
-  changeNumWorkers(numWorkers) {
+  async changeNumWorkers(numWorkers) {
     if (this.adjusting) return false;
     if (numWorkers === this.numWorkers) return true;
 
@@ -108,6 +108,8 @@ class WorkerPool {
         addedWorker.onmessage = this.onMessage;
         this.workers.push(addedWorker);
         this.workersAvailable.push(0);
+        // TODO(Ry): remove this once concurrent loading is fixed:w
+        await msleep(400);
       }
       this.numWorkers = numWorkers;
       this.adjusting = false;

@@ -8,15 +8,15 @@ import msleep from './msleep';
 
 import { GEN_SUCCESS } from './sharedTypes';
 
-
 // Allow for buffers longer than their type can express
-function createGeomFromBuffer(rawData, xPos, zPos, sizeScalar) {
+function createGeomFromBuffer(rawData, xPos, yPos, zPos, sizeScalar) {
   log.debug(`generating geom from buffer @pos x "${xPos}" z "${zPos}"`);
   const buffGeom = new THREE.BufferGeometry();
   // eslint-disable-next-line no-bitwise
   const numVerts = rawData[0] + (rawData[1] << 16);
   // eslint-disable-next-line no-bitwise
   const numTex = rawData[2] + (rawData[3] << 16);
+  const numMats = numVerts / 3;
   log.trace(`#verts "${numVerts}" #tex "${numTex}"`);
   const bytesPerEle = 2;
   const initOffset = bytesPerEle * 4;
@@ -24,29 +24,32 @@ function createGeomFromBuffer(rawData, xPos, zPos, sizeScalar) {
   const vertView = new Int16Array(rawData.buffer, initOffset, numVerts);
   const normView = new Int16Array(rawData.buffer, initOffset + vertOff, numVerts);
   const texView = new Int16Array(rawData.buffer, initOffset + (2 * vertOff), numTex);
+  const matsView = new Uint16Array(rawData.buffer, initOffset + (2 * vertOff) + (bytesPerEle * numTex), numMats);
   const indexView = new Uint16Array(rawData.buffer,
-    initOffset + (2 * vertOff) + (bytesPerEle * numTex));
+    initOffset + (2 * vertOff) + (bytesPerEle * numTex) + (numMats * bytesPerEle));
 
   buffGeom.addAttribute('position', new THREE.Int16BufferAttribute(vertView, 3));
   buffGeom.addAttribute('normal', new THREE.Float32BufferAttribute(normView, 3, true));
   // TODO(Ry): Get UV coordinates working and enable this
   buffGeom.addAttribute('uv', new THREE.Int16BufferAttribute(texView, 2));
+  buffGeom.addAttribute('textureIdx', new THREE.Int16BufferAttribute(matsView, 1));
   buffGeom.setIndex(new THREE.Uint32BufferAttribute(indexView, 1));
   buffGeom.scale(sizeScalar, sizeScalar, sizeScalar);
   return buffGeom;
 }
 
 class TileWorld {
-  constructor(game, workerPool, materials, radius,
-    tileSize, downScale, heightFactor, startX,
+  constructor(game, workerPool, material, numTex, radius,
+    maxHeight, tileSize, downScale, heightFactor, startX,
     startZ, rootEndpoint, maxGeomGen = 1000, maxEndpoints = 1) {
     this.game = game;
     this.workerPool = workerPool;
-    this.materials = materials;
-    this.currMaterial = 0;
+    this.material = material;
+    this.numTex = numTex;
     this.tileMap = {};
     this.currX = startX;
     this.currZ = startZ;
+    this.maxHeight = maxHeight;
     this.radius = radius;
     this.tileSize = tileSize;
     this.downScale = downScale;
@@ -82,9 +85,9 @@ class TileWorld {
      */
     this.workerPool.setWorkersMessageEvent((e) => {
       this.workerPool.releaseWorker(new WorkerHandle(e.data.ID));
-      const currTile = this.tileMap[tileKey(e.data.xPos, e.data.zPos)];
+      const currTile = this.tileMap[tileKey(e.data.xPos, e.data.yPos, e.data.zPos)];
       if (!currTile) {
-        log.warn(`tile ${tileKey(e.data.xPos, e.data.zPos)} not valid`);
+        log.warn(`tile ${tileKey(e.data.xPos, e.data.yPos, e.data.zPos)} not valid`);
       }
       if (e.data.type === GEN_SUCCESS) {
         const timeToGen = performance.now() - currTile.genTime;
@@ -94,15 +97,15 @@ class TileWorld {
         this.runningTime += timeToGen;
         this.totalGenTime += timeToGen;
         this.totalGens += 1;
-        log.trace(`finished generation for tile at x "${e.data.xPos}" z "${e.data.zPos}"`);
+        log.trace(`finished generation for tile at x "${e.data.xPos}" y "${e.data.yPos}" z "${e.data.zPos}"`);
         // now that our worker has finished its task we can pass the raw
         // geometry data to the GPU for rendering
         this.processRawGeom(currTile, e.data);
       } else {
-        const { xPos, zPos, data } = e.data;
+        const { xPos, yPos, zPos, data } = e.data;
         this.inGen -= 1;
         currTile.generating = false;
-        log.error(`Tile at x "${xPos}" z "${zPos}" failed to generate`);
+        log.error(`Tile at x "${xPos}" y "${yPos}" z "${zPos}" failed to generate`);
         log.error(data);
       }
     });
@@ -120,7 +123,7 @@ class TileWorld {
     const endpoint = this.currEndpoint % this.maxEndpoints;
     const endpointString = endpoint > 0 ? `${endpoint - 1}` : '';
     this.currEndpoint += 1;
-    return `${this.rootEndpoint}${endpointString}`;
+    return `${this.rootEndpoint}${endpointString}/generate`;
   }
 
   /**
@@ -200,13 +203,15 @@ class TileWorld {
     let newZ;
     let newLoc;
     for (let i = -this.radius; i < this.radius; i += 1) {
-      for (let j = -this.radius; j < this.radius; j += 1) {
-        newX = i + this.currX;
-        newZ = j + this.currZ;
-        newLoc = tileKey(newX, newZ);
-        if (!this.tileMap[newLoc]) {
-          this.tileMap[newLoc] = new Tile(newX, newZ);
-          tilesToGen.push(this.tileMap[newLoc]);
+      for (let j = 0; j < this.maxHeight; j += 1) {
+        for (let k = -this.radius; k < this.radius; k += 1) {
+          newX = i + this.currX;
+          newZ = k + this.currZ;
+          newLoc = tileKey(newX, j, newZ);
+          if (!this.tileMap[newLoc]) {
+            this.tileMap[newLoc] = new Tile(newX, j, newZ);
+            tilesToGen.push(this.tileMap[newLoc]);
+          }
         }
       }
     }
@@ -214,7 +219,7 @@ class TileWorld {
     tilesToGen.forEach(async (tile) => {
       this.inGen += 1;
       tile.generating = true;
-      this.workerGenTile(tile, this.getAndIncrementEndpoint());
+      this.workerGenTile(tile);
     });
     this.updating = false;
   }
@@ -225,7 +230,7 @@ class TileWorld {
    * @param {object} tile - tile instance to generate data for
    * @param {number} endpoint - numerical endpoint to use for generation
    */
-  async workerGenTile(tile, endpoint) {
+  async workerGenTile(tile) {
     log.trace(`Passing tile gen task to worker using endpoint ${endpoint} for ${tile.describe()}`);
     const handle = await this.workerPool.getAvailableWorker();
     // if we weren't able to get a valid worker or the world is
@@ -235,21 +240,29 @@ class TileWorld {
       tile.generating = false;
       return;
     }
-
+    const endpoint = this.getAndIncrementEndpoint()
     tile.genTime = performance.now();
     handle.worker.postMessage({
       ID: handle.ID,
       size: this.tileSize,
       downscale: this.downScale,
-      heightFactor: this.heightFactor,
+      heightFactor: (this.maxHeight * this.tileSize),
       numRetries: 5,
+      numTex: this.numTex,
       xPos: tile.xPos,
+      yPos: tile.yPos,
       zPos: tile.zPos,
       endpoint,
     });
   }
 
   async processRawGeom(tile, workerData) {
+    if (parseInt(workerData.blockCount, 10) === 0) {
+      tile.generated = true;
+      tile.generating = false;
+      this.inGen -= 1;
+      return;
+    }
     // since this may be one of the few operations
     // on the main thread, care needs to be taken
     // so we avoid blocking
@@ -258,9 +271,9 @@ class TileWorld {
     }
     this.inGeomGen += 1;
     const tileGeom = createGeomFromBuffer(workerData.data,
-      tile.xPos, tile.zPos, this.sizeScalar);
+      tile.xPos, tile.yPos, tile.zPos, this.sizeScalar);
     if (!tile.stale) {
-      const tileMesh = new THREE.Mesh(tileGeom, this.getCurrentMaterial());
+      const tileMesh = new THREE.Mesh(tileGeom, this.material);
       tileMesh.name = tile.key;
       log.trace(`adding mesh ${tileMesh.name} to scene`);
       this.game.addMesh(tileMesh);
@@ -272,21 +285,8 @@ class TileWorld {
     tile.generating = false;
   }
 
-  getCurrentMaterial() {
-    const mat = this.materials[this.currMaterial % this.materials.length];
-    return mat;
-  }
-
-  updateMaterials() {
-    this.currMaterial += 1;
-    const mat = this.materials[this.currMaterial % this.materials.length];
-    Object.keys(this.tileMap).forEach((keyForTile) => {
-      const tileObj = this.game.getObject(keyForTile);
-      if (tileObj) {
-        tileObj.material = mat;
-        tileObj.material.needsUpdate = true;
-      }
-    });
+  updateMaterial() {
+    this.material.wireframe = !this.material.wireframe;
   }
 
   avgGenTime() {
