@@ -18,5 +18,6 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`python-crud-s3`](python-crud-s3) <br/> Serverless CRUD backend that uses Amazon s3 for storage | python3 |
 | [`quicksearch`](quicksearch) <br/> Fetch textual results as you type with function-based quicksearch | nodeJS |
 | [`slack-code-runner-bot`](slack-code-runner-bot) <br/> Run JavaScript code snippets directly from your own Slack | nodeJS |
+| [`slack-pi-command`](slack-pi-command) <br/> Calculate PI to `n` digits in Slack | nodeJS |
 | [`trello-auto-updates`](trello-auto-updates) <br/> Implement Trello webhooks to extend a dashboard behavior | nodeJS |
 | [`whiteboard`](whiteboard) <br/> Synchronized web whiteboard based on functions, Redis and websockets | nodeJS |
