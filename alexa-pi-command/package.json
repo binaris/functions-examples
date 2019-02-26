@@ -1,0 +1,19 @@
+{
+  "name": "alexa-pi-command",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ask-sdk": "^2.4.0",
+    "ask-sdk-core": "^2.4.0",
+    "ask-sdk-model": "^1.11.2",
+    "lambda-local": "^1.5.2",
+    "pi": "^2.0.3"
+  }
+}
