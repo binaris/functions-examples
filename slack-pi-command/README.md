@@ -11,8 +11,7 @@ A slack command that returns π to _n_ digits, via a Binaris function.
 
 ## Return _n_ digits of π with a Binaris Function
 
-If this is your first time using Binaris, visit [Getting Started](https://dev.binaris.com/tutorials/nodejs/getting-started/) to learn the ropes.
-
+It is assumed you already have a Binaris account. If you don't have an account yet, worry not, signing up is painless and takes just 2 minutes. Visit [Getting Started](https://dev.binaris.com/tutorials/nodejs/getting-started/) to find concise instructions for the process.
 
 We'll start by creating the skeleton for our π function.
 
