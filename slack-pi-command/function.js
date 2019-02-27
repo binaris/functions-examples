@@ -7,9 +7,9 @@ exports.handler = async (body, context) => {
 
   // ensure the input is a valid whole integer
   const numDigits = parseInt(parsed.text, 10);
-  if (!numDigits || isNaN(numDigits)) {
+  if (isNaN(numDigits) || numDigits <= 0) {
     return {
-      text: `Expected integer param, received ${typeof(numDigits)}`,
+      text: `Expected non-zero, natural number, received "${parsed.text}"`,
       response_type: 'ephemeral',
     };
   }
