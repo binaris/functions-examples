@@ -1,4 +1,4 @@
-# Slack PI command
+# Slack π command (NodeJS)
 
 A slack command that returns PI to `n` digits, via a Binaris function.
 
