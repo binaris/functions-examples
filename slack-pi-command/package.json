@@ -1,14 +1,31 @@
 {
   "name": "slack-pi-command",
   "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
   "description": "Compute PI using a slack command",
   "main": "function.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binaris/functions-examples.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bugs": {
+    "url": "https://github.com/binaris/functions-examples/issues"
+  },
+  "homepage": "https://github.com/binaris/functions-examples",
   "author": "Ryland Goldstein",
   "dependencies": {
     "pi": "^2.0.3",
     "query-string": "^6.2.0"
-  }
+  },
+  "keywords": [
+    "Binaris",
+    "Slack",
+    "FaaS",
+    "Pi",
+    "Command"
+  ]
 }
