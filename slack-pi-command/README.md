@@ -1,20 +1,20 @@
 # Slack π command (NodeJS)
 
-A slack command that returns PI to `n` digits, via a Binaris function.
+A slack command that returns π to _n_ digits, via a Binaris function.
 
 
 ### Table of Contents
-1. [Setting Up the Project](#calculate-pi) 
+1. [Return _n_ digits of π with a Binaris Function](#calculate-pi)
 1. [Integrate with Slack](#integrate-slack)
 
 <a name="calculate-pi"></a>
 
-## Calculate PI with a Binaris function
+## Return _n_ digits of π with a Binaris Function
 
 If this is your first time using Binaris, visit [Getting Started](https://dev.binaris.com/tutorials/nodejs/getting-started/) to learn the ropes.
 
 
-We'll start by creating the skeleton for our PI function.
+We'll start by creating the skeleton for our π function.
 
 ```bash
 bn create node8 public_slack_pi_command
@@ -36,7 +36,7 @@ The first change we'll make, is to parse and convert the input payload Slack sen
  };
 ```
 
-Now that we have the payload in a usable form, let's extract the data we need, so we compute PI to the number of digits requested from our user.
+Now that we have the payload in a usable form, let's extract the data we need, so we compute π to the number of digits requested from our user.
 
 ```diff
    const parsed = parse(context.body.toString('utf8'));
@@ -69,7 +69,7 @@ Now let's add some generic validation
 
 > Note: We return the specific fields `text` & `response_type` because this is the expected format of an "Error" response in the Slack API.
 
-All that's left to do is return PI to the number of digits requested by the user. The `npm` package `pi` makes this very convenient.
+All that's left to do is return π to the number of digits requested by the user. The `npm` package `pi` makes this very convenient.
 
 
 ```diff
@@ -79,7 +79,7 @@ All that's left to do is return PI to the number of digits requested by the user
 
 ```
 
-> Note: We subtract one from the input value because the first 3 in pi is not considered a "digit"
+> Note: We subtract one from the input value because the first 3 in π is not considered a "digit"
 
 Don't forget to include the package at the top
 
@@ -136,7 +136,7 @@ https://run.binaris.com/v2/run/0123456789/public_slack_pi_command
 
 <a name="integrate-slack"></a>
 
-## Setup Slack Integration
+## Integrate with Slack
 
 1. Create a new app on Slack or have your administrator do it for you.
   
