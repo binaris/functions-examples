@@ -122,7 +122,7 @@ exports.handler = async (body, context) => {
 Finally, let's install the dependencies we used and deploy our function (so it's invokable over HTTPS).
 
 ```bash
-$ npm install query-string pi
+$ npm install --save query-string pi
 $ bn deploy public_slack_pi_command
 ```
 
