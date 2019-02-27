@@ -119,7 +119,7 @@ exports.handler = async (body, context) => {
 };
 ```
 
-As a final step, we need to deploy the function so it's invokable on the Binaris backend. We also used some dependencies, so we'll also install those now.
+Finally, let's install the dependencies we used and deploy our function (so it's invokable over HTTPS).
 
 ```bash
 $ npm install query-string pi
