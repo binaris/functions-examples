@@ -13,6 +13,8 @@ A slack command that returns π to _n_ digits, via a Binaris function.
 
 It is assumed you already have a Binaris account. If you don't have an account yet, worry not, signing up is painless and takes just 2 minutes. Visit [Getting Started](https://dev.binaris.com/tutorials/nodejs/getting-started/) to find concise instructions for the process.
 
+> Note: To complete this tutorial you will need administrator permissions on your Slack workspace.
+
 We'll start by creating the skeleton for our π function.
 
 ```bash
