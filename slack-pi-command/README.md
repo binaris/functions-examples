@@ -50,10 +50,10 @@ Now let's add some generic validation
 ```diff
    const numDigits = parseInt(parsed.text, 10);
 +
-+  // ensure the input is a valid, real number
++  // ensure the input is a valid, natural number
 +  if (!numDigits || isNaN(numDigits)) {
 +    return {
-+      text: `Expected integer param, received ${typeof(numDigits)}`,
++      text: `Expected non-zero, natural number, received "${parsed.text}"`,
 +      response_type: 'ephemeral',
 +    };
 +  }
@@ -101,11 +101,11 @@ exports.handler = async (body, context) => {
   // slack unfortunately sends command payloads as x-url-form-encoded
   const parsed = parse(context.body.toString('utf8'));
 
-  // ensure the input is a valid, real number
+  // ensure the input is a valid, natural number
   const numDigits = parseInt(parsed.text, 10);
   if (!numDigits || isNaN(numDigits)) {
     return {
-      text: `Expected integer param, received ${typeof(numDigits)}`,
+      text: `Expected non-zero, natural number, received "${parsed.text}"`,
       response_type: 'ephemeral',
     };
   }

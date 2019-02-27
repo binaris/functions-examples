@@ -5,7 +5,7 @@ exports.handler = async (body, context) => {
   // slack unfortunately sends command payloads as x-url-form-encoded
   const parsed = parse(context.body.toString('utf8'));
 
-  // ensure the input is a valid whole integer
+  // ensure the input is a valid, natural number
   const numDigits = parseInt(parsed.text, 10);
   if (isNaN(numDigits) || numDigits <= 0) {
     return {
