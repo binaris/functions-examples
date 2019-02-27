@@ -80,7 +80,7 @@ All that's left to do is return π to the number of digits requested by the user
 
 > Note: We subtract one from the input value because the first 3 in π is not considered a "digit"
 
-Don't forget to include the package at the top
+Don't forget to `require` the package at the top
 
 ```diff
  const { parse } = require('query-string');
