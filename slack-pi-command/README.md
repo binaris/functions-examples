@@ -84,7 +84,7 @@ Don't forget to `require` the package at the top
 
 ```diff
  const { parse } = require('query-string');
-+const PI = require("pi");
++const PI = require('pi');
 
  exports.handler = async (body, context) => {
 ```
