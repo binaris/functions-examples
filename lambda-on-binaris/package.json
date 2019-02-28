@@ -1,0 +1,28 @@
+{
+  "name": "lambda-on-binaris",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Run basic Lambda functions on Binaris with 0 changes",
+  "main": "function.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binaris/functions-examples.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/binaris/functions-examples/issues"
+  },
+  "homepage": "https://github.com/binaris/functions-examples",
+  "author": "Ryland Goldstein",
+  "dependencies": {
+    "lambda-local": "^1.5.2"
+  },
+  "keywords": [
+    "Binaris",
+    "Lambda",
+    "FaaS"
+  ]
+}

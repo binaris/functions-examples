@@ -1,0 +1,9 @@
+functions:
+  lambda_on_binaris:
+    file: function.js
+    entrypoint: vanillaLambda
+    runtime: node8
+  gateway_lambda_on_binaris:
+    file: function.js
+    entrypoint: gatewayLambda
+    runtime: node8
