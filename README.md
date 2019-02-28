@@ -20,3 +20,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`slack-code-runner-bot`](slack-code-runner-bot) <br/> Run JavaScript code snippets directly from your own Slack | nodeJS |
 | [`trello-auto-updates`](trello-auto-updates) <br/> Implement Trello webhooks to extend a dashboard behavior | nodeJS |
 | [`whiteboard`](whiteboard) <br/> Synchronized web whiteboard based on functions, Redis and websockets | nodeJS |
+| [`five-minute-serverless-backend`](five-minute-serverless-backend) <br/> Build a serverless web backend in 5 minutes | nodeJS |

@@ -1,0 +1,5 @@
+functions:
+  public_backend:
+    file: function.js
+    entrypoint: handler
+    runtime: node8
