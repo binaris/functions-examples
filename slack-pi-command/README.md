@@ -51,7 +51,7 @@ Now let's add some generic validation
    const numDigits = parseInt(parsed.text, 10);
 +
 +  // ensure the input is a valid, natural number
-+  if (!numDigits || isNaN(numDigits)) {
++  if (isNaN(numDigits) || numDigits <= 0) {
 +    return {
 +      text: `Expected non-zero, natural number, received "${parsed.text}"`,
 +      response_type: 'ephemeral',
@@ -103,7 +103,7 @@ exports.handler = async (body, context) => {
 
   // ensure the input is a valid, natural number
   const numDigits = parseInt(parsed.text, 10);
-  if (!numDigits || isNaN(numDigits)) {
+  if (isNaN(numDigits) || numDigits <= 0) {
     return {
       text: `Expected non-zero, natural number, received "${parsed.text}"`,
       response_type: 'ephemeral',
