@@ -4,7 +4,7 @@ const newline = String.fromCharCode(10);
 const marker = quote + quote + quote;
 const quine = 'js = ' + marker + js + marker + newline + 'py = ' + marker + py + marker + py;
 exports.handler = async (body, ctx) => {
-  return new ctx.Response({
+  return new ctx.HTTPResponse({
     body: Buffer.from(quine),
   });
 };
@@ -21,7 +21,7 @@ const newline = String.fromCharCode(10);
 const marker = quote + quote + quote;
 const quine = 'js = ' + marker + js + marker + newline + 'py = ' + marker + py + marker + py;
 exports.handler = async (body, ctx) => {
-  return new ctx.Response({
+  return new ctx.HTTPResponse({
     body: Buffer.from(quine),
   });
 };
