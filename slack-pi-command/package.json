@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/binaris/functions-examples/issues"
   },
-  "homepage": "https://github.com/binaris/functions-examples",
+  "homepage": "https://github.com/binaris/functions-examples/slack-pi-command/README.md#slack-π-command-nodejs",
   "author": "Ryland Goldstein",
   "dependencies": {
     "pi": "^2.0.3",
