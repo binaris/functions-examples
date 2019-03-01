@@ -6,7 +6,7 @@ exports.handler = async (body, ctx) => {
     + backtick + stanza + backtick + ';'
     + stanza;
   return new ctx.Response({
-    body: Buffer.from(quine),
+    body: quine,
   });
 };
 `;
@@ -17,6 +17,6 @@ exports.handler = async (body, ctx) => {
     + backtick + stanza + backtick + ';'
     + stanza;
   return new ctx.Response({
-    body: Buffer.from(quine),
+    body: quine,
   });
 };
