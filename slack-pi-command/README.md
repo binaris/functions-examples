@@ -121,19 +121,23 @@ exports.handler = async (body, context) => {
 };
 ```
 
-Finally, let's install the dependencies we used and deploy our function (so it's invokable over HTTPS).
+Now, install the dependencies we used in our function.
 
 ```bash
 $ npm install --save query-string pi
-$ bn deploy public_slack_pi_command
 ```
 
-Make sure to copy and save the URL printed by `bn deploy`, we will use this URL during the next step
+And finally, deploy our function.
 
 ```bash
-# example URL
-https://run.binaris.com/v2/run/0123456789/public_slack_pi_command
+$ bn deploy public_slack_pi_command
+  Deployed function public_slack_pi_command
+  Invoke with one of:
+    "bn invoke public_slack_pi_command"
+    "curl https://run.binaris.com/v2/run/0123456789/public_slack_pi_command"
 ```
+
+> Note: Please keep the printed URL, as we will use it during the next step
 
 <a name="integrate-slack"></a>
 
