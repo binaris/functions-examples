@@ -2,7 +2,7 @@
 
 Two clustering examples using [sklearn](https://scikit-learn.org/stable/).
 
-It is assumed you already have a Binaris account. If you don't have an account yet, worry not, signing up is painless and takes just 2 minutes. Visit [Getting Started](https://dev.binaris.com/tutorials/python/getting-started/) to find concise instructions for the process.
+If this is your first time using Binaris, visit our [Getting Started](https://dev.binaris.com/tutorials/python/getting-started/) page to set up your account for free.
 
 ## Deploying with pip packages
 
