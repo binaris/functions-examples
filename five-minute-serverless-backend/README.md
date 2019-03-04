@@ -58,7 +58,7 @@ Invoke with one of:
 Our function is up and running and will autoscale with invocations. We can use `curl` to invoke it:
 
 ```
-$ curl https://run.binaris.com/v2/run/<account-id>/public_backend -H 'Content-Type: application/json' -d '"hello"'
+$ curl https://run.binaris.com/v2/run/<account-id>/public_backend -d '"hello"'
 "HELLO"
 ```
 
