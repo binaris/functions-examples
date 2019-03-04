@@ -179,7 +179,7 @@ const invoke = async (name, input) => {
   const url = `https://run.binaris.com/v2/run/${BINARIS_ACCOUNT_ID}/${name}`;
   const data = JSON.stringify(input);
   const headers = { 'Content-Type': 'application/json' };
-  const res = await request('post', url, data, headers);
+  const res = await sendHttpRequest('post', url, data, headers);
   const ct = res.headers['content-type'];
   if (res.status !== 200 || !ct || !ct.startsWith('application/json')) {
     throw new Error(`Backend error: status=${res.status} response: ${res.body}`);
