@@ -33,12 +33,10 @@ Outlined below are the steps needed to build with Bob and then subsequently depl
 
     > Note: The first run of Bob builds a Docker image and may take a while
 
-3. Deploy your functions
+3. Deploy your function
 
     ```bash
     bn deploy public_kmeans_image_quant_py2
-    # or
-    bn deploy public_kmeans_simple_py2
     ```
 
 As a final note, keep in mind that you only need to run Bob again if you add or remove pip packages. Changes to the function code itself only require another `bn deploy`.
