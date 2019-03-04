@@ -33,7 +33,7 @@ Created function public_backend in .../backend
 
 This will create a configuration file `binaris.yml` and source file `function.js`.
 
-For the sake of this tutorial, we'll build the simplest posible backend to convert strings to upper case. Let's edit the source code for our function:
+For the sake of this tutorial, we'll build the simplest possible backend to convert strings to upper case. Let's edit the source code for our function:
 
 ```diff
 > function.js
