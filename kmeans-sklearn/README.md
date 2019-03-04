@@ -4,6 +4,15 @@ Two clustering examples using [sklearn](https://scikit-learn.org/stable/).
 
 If this is your first time using Binaris, visit our [Getting Started](https://dev.binaris.com/tutorials/python/getting-started/) page to set up your account for free.
 
+There are two functions in this example
+
+#### public_kmeans_image_quant_py2
+
+Uses kmeans to quantize an input image potentially reducing the number of unique colors greatly. This can allow for greater compression of the input image or pleasing filter-esque effects.
+
+#### public_kmeans_simple_py2
+Builds a kmeans model using the canonical [iris data set](https://en.wikipedia.org/wiki/Iris_flower_data_set), invocations return the labels of the built model.
+
 ## Deploying with pip packages
 
 To deploy a Binaris function that depends on `pip` packages we need to rely on the [Bob tool](https://github.com/binaris/bob). Bob is simple script, which greatly reduces the hassle of building platform-specific python packages. This is accomplished by building the dependencies against the same architecture used by Binaris functions, this way you can guarantee your dependencies will work at runtime.
