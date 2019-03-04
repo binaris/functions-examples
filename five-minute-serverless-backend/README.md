@@ -26,7 +26,7 @@ Create a new folder and use the CLI to create the template code for your functio
 ```
 $ mkdir backend
 $ cd backend
-$ bn create node8 public_backend --executionModel concurrent
+$ bn create node8 public_backend
 Created function public_backend in .../backend
   (use "bn deploy public_backend" to deploy the function)
   ```
