@@ -1,0 +1,9 @@
+functions:
+  public_kmeans_image_quant_py2:
+    file: kmeans_image_quant.py
+    entrypoint: handler
+    runtime: python2
+  public_kmeans_simple_py2:
+    file: kmeans_simple.py
+    entrypoint: handler
+    runtime: python2
