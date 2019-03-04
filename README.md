@@ -24,3 +24,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`five-minute-serverless-backend`](five-minute-serverless-backend) <br/> Build a serverless web backend in 5 minutes | nodeJS |
 | [`quines`](quines) <br/> A small collection of self-replicating functions | nodeJS and python2 |
 | [`python-crud-google-spreadsheet`](python-crud-google-spreadsheet) <br/> Google Spreadsheet CRUD with functions | python3 |
+| [`kmeans-sklearn`](kmeans-sklearn) <br/> Simple kmeans examples using sklearn | python2 |

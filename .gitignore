@@ -72,3 +72,7 @@ out/
 
 # Binaris
 .binaris
+
+# Pipenv
+Pipfile
+Pipfile.lock
