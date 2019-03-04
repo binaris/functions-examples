@@ -52,17 +52,17 @@ $ bn deploy public_backend
 Deployed function public_backend
 Invoke with one of:
   "bn invoke public_backend"
-  "curl https://run.binaris.com/v2/run/<account id>/public_backend"
+  "curl https://run.binaris.com/v2/run/<account-id>/public_backend"
 ```
 
 Our function is up and running and will autoscale with invocations. We can use `curl` to invoke it:
 
 ```
-$ curl https://run.binaris.com/v2/run/<account id>/public_backend -H 'Content-Type: application/json' -d '"hello"'
+$ curl https://run.binaris.com/v2/run/<account-id>/public_backend -H 'Content-Type: application/json' -d '"hello"'
 "HELLO"
 ```
 
-Make sure to replace `<account id>` with your own account id. If you don't have it handy, you can find that by typing
+Make sure to replace `<account-id>` with your own account ID. If you don't have it handy, you can find that by typing
 
 ```
 $ grep account ~/.binaris.yml
@@ -113,7 +113,7 @@ Our logic remains unchanged. We can now re-deploy and test:
 
 ```
 $ bn delpoy public_backend
-$ curl -i https://run.binaris.com/v2/run/<account id>/public_backend -H 'Content-Type: application/json' -d '"hello"'
+$ curl -i https://run.binaris.com/v2/run/<account-id>/public_backend -H 'Content-Type: application/json' -d '"hello"'
 HTTP/1.1 200 OK
 Server: openresty/1.13.6.1
 Date: Thu, 14 Feb 2019 23:16:06 GMT
@@ -160,13 +160,13 @@ exports.handler = CORS(async (body, context) => {
 
 Our backend is now live and we can use a simple HTML app to call it. The app code is in a single file named `frontend.html`.
 
-First you need to plug in your Binaris account id. At the very top of the file, locate the following line:
+First you need to plug in your Binaris account ID. At the very top of the file, locate the following line:
 
 ```htmlmixed
-    <script>const BINARIS_ACCOUNT_ID = '<account id>'</script>
+    <script>const BINARIS_ACCOUNT_ID = '<account-id>'</script>
 ```
 
-Replace `<account id>` with your actual account id.
+Replace `<account-id>` with your actual account ID.
 
 You can now open `frontend.html` in your browser to run the app. Simply type in some text and hit Enter. The text will be sent to the backend and returned in upper-case to be displayed on screen.
 
@@ -188,7 +188,7 @@ const invoke = async (name, input) => {
 };
 ```
 
-This helper function uses the Binaris URL structure and the account id configured above to form the backend URL. It also handles JSON encoding and decoding, and sets and verifies content type headers.
+This helper function uses the Binaris URL structure and the account ID configured above to form the backend URL. It also handles JSON encoding and decoding, and sets and verifies content type headers.
 
 All that's left now is to call our backend whever the user hits Enter:
 
