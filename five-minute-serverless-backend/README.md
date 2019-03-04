@@ -65,7 +65,7 @@ $ curl https://run.binaris.com/v2/run/<account-id>/public_backend -d '"hello"'
 Make sure to replace `<account-id>` with your own account ID. If you don't have it handy, you can find that by typing
 
 ```
-$ grep account ~/.binaris.yml
+$ bn show accountId
 ```
 
 Note that by default, Binaris functions are configured to receive JSON input and return JSON output.
