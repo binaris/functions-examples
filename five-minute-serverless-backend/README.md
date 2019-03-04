@@ -9,7 +9,7 @@ This tutorial takes you through 5 steps to building a backend for your web appli
 
 ## Setup your Binaris environment
 
-If you do not have a Binaris account, [sign up here](https://binaris.com/signup?t=8CDa37). Binaris is free to use up to 400,000 GB-seconds a month. At the end of the sign-up process you will receive an account id and API key. Save them for the next steps.
+If you do not have a Binaris account, [sign up for free](https://binaris.com/signup?t=8CDa37). At the end of the sign-up process you will receive an account ID and API key. Save them for the next steps.
 
 Install the CLI:
 
