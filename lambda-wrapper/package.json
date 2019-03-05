@@ -1,5 +1,5 @@
 {
-  "name": "lambda-on-binaris",
+  "name": "lambda-wrapper",
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/binaris/functions-examples/issues"
   },
-  "homepage": "https://github.com/binaris/functions-examples/lambda-on-binaris/README.md",
+  "homepage": "https://github.com/binaris/functions-examples/lambda-wrapper/README.md",
   "author": "Ryland Goldstein",
   "dependencies": {
     "lambda-local": "^1.5.2"
