@@ -10,7 +10,7 @@ function makeAPIGatewayEvent(body, context) {
     multiValueHeaders: context.request.headers,
     queryStringParameters: context.request.query,
     multiValueQueryStringParameters: context.request.query,
-    pathParmeters: undefined,
+    pathParmeters: context.request.path,
     isBase64Encoded,
     body: isBase64Encoded ? context.request.body : body,
   };
