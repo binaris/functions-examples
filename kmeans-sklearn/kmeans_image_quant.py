@@ -1,6 +1,6 @@
 import numpy as np
 import urllib2, cStringIO
-import os.path
+import io
 
 from PIL import Image
 from sklearn.cluster import KMeans
@@ -13,10 +13,19 @@ from sklearn.utils import shuffle
 # https://scikit-learn.org/stable/auto_examples/cluster/plot_color_quantization.html
 test_image = 'https://i.imgur.com/F0ceah8.jpg'
 
-default_file_path = '/tmp/output%s'
-
 # num_colors == num_clusters
 default_number_colors = 64
+
+def as_image(np_data):
+    # bring the data back into the 0 - 255 RGB range
+    return Image.fromarray((np_data * 255).astype('uint8'))
+
+def get_image_bytes(data, image_format):
+    intermediate = as_image(data)
+
+    with io.BytesIO() as output:
+        intermediate.save(output, format=image_format)
+        return output.getvalue()
 
 def recreate_image(codebook, labels, w, h):
     d = codebook.shape[1]
@@ -27,11 +36,6 @@ def recreate_image(codebook, labels, w, h):
             image[i][j] = codebook[labels[label_idx]]
             label_idx += 1
     return image
-
-def save_image(data, file_path):
-    # bring the data back into the 0 - 255 RGB range
-    intermediate = Image.fromarray((data * 255).astype('uint8'))
-    intermediate.save(file_path)
 
 def compress_image(image_url, num_colors):
     file = cStringIO.StringIO(urllib2.urlopen(image_url).read())
@@ -59,22 +63,17 @@ def handler(body, ctx):
     # try and use the num_colors query param if it exists
     num_colors = int(query['num_colors']) if ('num_colors' in query) else default_number_colors
 
-    extension = os.path.splitext(image_url)[1]
     image_data = compress_image(image_url, num_colors)
-    image_path = default_file_path % extension
-    save_image(image_data, image_path)
+    # we always save as "png" to avoid losing data
+    image_bytes = get_image_bytes(image_data, 'PNG')
 
-    # our image needs to be in the correct format to return it over HTTP
-    with open(image_path, 'rb') as imageFile:
-        compressed_image = imageFile.read()
-        # we want the image to display in the browser which is
-        # why a specific 'Content-Type' is returned
-        image_type = 'image/%s' % extension[1:]
-        return ctx.HTTPResponse(status_code=200,
-            headers={ 'Content-Type': image_type }, body=compressed_image)
+    # we want the image to display in the browser which is
+    # why a specific 'Content-Type' is returned
+    return ctx.HTTPResponse(status_code=200,
+        headers={ 'Content-Type': 'image/png' }, body=image_bytes)
 
 # allow local testing with a sample image
 if __name__ == '__main__':
     image_data = compress_image(test_image, default_number_colors)
-    extension = os.path.splitext(test_image)[1]
-    save_image(image_data, default_file_path % extension)
+    intermediate = as_image(image_data)
+    intermediate.save('output.png')
