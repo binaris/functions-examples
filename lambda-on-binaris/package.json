@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/binaris/functions-examples/issues"
   },
-  "homepage": "https://github.com/binaris/functions-examples",
+  "homepage": "https://github.com/binaris/functions-examples/lambda-on-binaris/README.md",
   "author": "Ryland Goldstein",
   "dependencies": {
     "lambda-local": "^1.5.2"
