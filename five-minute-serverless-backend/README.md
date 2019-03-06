@@ -206,4 +206,4 @@ The actual invocation is a simple one-liner calling our helper function with the
 
 ## What's next?
 
-That's it! We've seen how simple and fast it is to create a scalable cloud backend using Binaris serverless functions. Visit our [developer site](https://dev.binaris.com/) for more tutorials and documentation. Vist our [binaris.com](https://www.binaris.com/) to learn more about the platform.
+That's it! We've seen how simple and fast it is to create a scalable cloud backend using Binaris serverless functions. Visit our [developer site](https://dev.binaris.com/) for more tutorials and documentation. Visit our [binaris.com](https://www.binaris.com/) to learn more about the platform.
