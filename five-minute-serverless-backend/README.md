@@ -58,11 +58,11 @@ Invoke with one of:
 Our function is up and running and will autoscale with invocations. We can use `curl` to invoke it:
 
 ```
-$ curl https://run.binaris.com/v2/run/<account-id>/public_backend -d '"hello"'
+$ curl https://run.binaris.com/v2/run/$(bn show accountId)/public_backend -d '"hello"'
 "HELLO"
 ```
 
-Make sure to replace `<account-id>` with your own account ID. If you don't have it handy, you can find that by typing
+In the actual deploy printout `<account-id>` will be replaced by your own account ID. If you don't have it handy, you can find that by typing
 
 ```
 $ bn show accountId
