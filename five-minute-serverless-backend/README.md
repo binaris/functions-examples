@@ -1,5 +1,5 @@
 # Five Minute Serverless Backend
-*How to build a **serverless backend** for your web applciation and have it up in running on the cloud in minutes.*
+*How to build a **serverless backend** for your web application and have it up and running on the cloud in minutes.*
 
 This tutorial takes you through 5 steps to building a backend for your web application:
 1. Setup your Binaris environment
