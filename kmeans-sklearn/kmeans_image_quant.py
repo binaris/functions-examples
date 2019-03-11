@@ -8,7 +8,7 @@ from sklearn.metrics import pairwise_distances_argmin
 from sklearn.datasets import load_sample_image
 from sklearn.utils import shuffle
 
-# This function utilizes a modified version of the scikit-learn example available here
+# This function is inspired by the scikit-learn example available here
 #
 # https://scikit-learn.org/stable/auto_examples/cluster/plot_color_quantization.html
 test_image = 'https://i.imgur.com/DUSZHiX.jpg'
