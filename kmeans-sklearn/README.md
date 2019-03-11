@@ -47,11 +47,11 @@ Visit the URL printed by deploy (for `public_kmeans_image_quant_py2`) in your br
 
 _Example URL_
 
-https://run.binaris.com/v2/run/0123456789/public_kmeans_image_quant_py2?image_url=https://i.imgur.com/HLmmVIg.jpg
+ht&#8203;tps://run.binaris.com/v2/run/0123456789/public_kmeans_image_quant_py2?image_url=https://i.imgur.com/HLmmVIg.jpg
 
  The optional query param `num_colors` can also be used to modify the number of clusters kmeans used to quantify your image.
 
 
 _Example URL_
 
-https://run.binaris.com/v2/run/0123456789/public_kmeans_image_quant_py2?image_url=https://i.imgur.com/HLmmVIg.jpg&num_colors=16
+ht&#8203;tps://run.binaris.com/v2/run/0123456789/public_kmeans_image_quant_py2?image_url=https://i.imgur.com/HLmmVIg.jpg&num_colors=16
