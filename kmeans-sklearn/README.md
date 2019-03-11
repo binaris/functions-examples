@@ -55,3 +55,16 @@ ht&#8203;tps://run.binaris.com/v2/run/0123456789/public_kmeans_image_quant_py2?i
 _Example URL_
 
 ht&#8203;tps://run.binaris.com/v2/run/0123456789/public_kmeans_image_quant_py2?image_url=https://i.imgur.com/HLmmVIg.jpg&num_colors=16
+
+
+### Example output
+
+Below are example before and after images after running the function with `num_colors=2`
+
+_Before_
+
+![before_kmeans](./res/before_kmeans.jpg)
+
+_After_
+
+![before_kmeans](./res/after_kmeans.png)
