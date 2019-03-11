@@ -11,7 +11,7 @@ from sklearn.utils import shuffle
 # This function utilizes a modified version of the scikit-learn example available here
 #
 # https://scikit-learn.org/stable/auto_examples/cluster/plot_color_quantization.html
-test_image = 'https://i.imgur.com/F0ceah8.jpg'
+test_image = 'https://i.imgur.com/DUSZHiX.jpg'
 
 # num_colors == num_clusters
 default_number_colors = 64
