@@ -14,7 +14,7 @@ from sklearn.utils import shuffle
 test_image = 'https://i.imgur.com/DUSZHiX.jpg'
 
 # num_colors == num_clusters
-default_number_colors = 64
+default_num_colors = 64
 
 def as_image(np_data):
     # bring the data back into the 0 - 255 RGB range
@@ -61,7 +61,7 @@ def handler(body, ctx):
     query = ctx.request.query
     image_url = query['image_url']
     # try and use the num_colors query param if it exists
-    num_colors = int(query['num_colors']) if ('num_colors' in query) else default_number_colors
+    num_colors = int(query['num_colors']) if ('num_colors' in query) else default_num_colors
 
     image_data = compress_image(image_url, num_colors)
     # we always save as "png" to avoid losing data
@@ -74,6 +74,6 @@ def handler(body, ctx):
 
 # allow local testing with a sample image
 if __name__ == '__main__':
-    image_data = compress_image(test_image, default_number_colors)
+    image_data = compress_image(test_image, default_num_colors)
     intermediate = as_image(image_data)
     intermediate.save('output.png')
