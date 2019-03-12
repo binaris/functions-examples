@@ -26,7 +26,7 @@
     </style>
   </head>
   <body>
-    <div>Type in some text and hit Enter:</div>
+    <div>Type in some text:</div>
     <input type="text" id="input"/>
     <pre id="output"></pre>
     <script>
@@ -48,13 +48,8 @@
 
       const $input = document.getElementById('input');
       const $output = document.getElementById('output');
-      $input.addEventListener('keyup', async e => {
-        if (e.keyCode === 13 && $input.value) {
-          const inputValue = $input.value;
-          $input.value = '';
-          const outputValue = await invoke('public_backend', inputValue);
-          $output.innerHTML += outputValue + '\n';
-        }
+      $input.addEventListener('input', async e => {
+        $output.innerHTML = await invoke('public_backend', $input.value);
       });
       $input.focus();
     </script>
