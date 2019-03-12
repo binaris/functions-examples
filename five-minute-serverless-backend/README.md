@@ -7,7 +7,7 @@ This tutorial takes you through 4 steps to building a backend for your web appli
 1. Update your function to work from a browser
 1. Call your function from frontend code
 
-## Setup your Binaris environment
+## 1. Setup your Binaris environment
 
 If you do not have a Binaris account, [sign up for free](https://binaris.com/signup?t=8CDa37). At the end of the sign-up process you will receive an account ID and API key. Save them for the next steps.
 
@@ -19,7 +19,7 @@ $ npm install binaris -g
 
 Run `bn login` and paste in the API key received above to authenticate your account.
 
-## Create a serverless function for your backend code
+## 2. Create a serverless function for your backend code
 
 Create a new folder and use the CLI to create the template code for your function:
 
@@ -70,7 +70,7 @@ $ bn show accountId
 
 Note that by default, Binaris functions are configured to receive JSON input and return JSON output.
 
-## Update your function to work from a browser
+## 3. Update your function to work from a browser
 
 Binaris provides an HTTP endpoint for every function out of the box (no need to configure an API gateway). However, in order to call the function from a browser we need to bypass the browser's [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) protection. We can do this by adding a bit of code to our function. First we will create a wrapper function to return CORS headers:
 
@@ -158,7 +158,7 @@ exports.handler = CORS(async (body, context) => {
 });
 ```
 
-## Call your function from frontend code
+## 4. Call your function from frontend code
 
 Our backend is now live and we can use a simple HTML app to call it. The app code is in a single file named `frontend.html`.
 
