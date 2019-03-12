@@ -1,5 +1,5 @@
 # Five-Minute Serverless Backend
-*How to build a **serverless backend** for your web applciation and have it up in running on the cloud in minutes.*
+*How to build a **serverless backend** for your web application and have it up and running on the cloud in minutes.*
 
 This tutorial takes you through 5 steps to building a backend for your web application:
 1. Setup your Binaris environment
@@ -58,11 +58,11 @@ Invoke with one of:
 Our function is up and running and will autoscale with invocations. We can use `curl` to invoke it:
 
 ```
-$ curl https://run.binaris.com/v2/run/<account-id>/public_backend -d '"hello"'
+$ curl https://run.binaris.com/v2/run/$(bn show accountId)/public_backend -d '"hello"'
 "HELLO"
 ```
 
-Make sure use your own account ID instead of `<account-id>` (the deploy command should print out your actual account ID). If you don't have it handy, you can find that by typing
+In the actual deploy printout `<account-id>` will be replaced by your own account ID. If you don't have it handy, you can find that by typing
 
 ```
 $ bn show accountId
