@@ -52,7 +52,7 @@ $ bn deploy public_backend
 Deployed function public_backend
 Invoke with one of:
   "bn invoke public_backend"
-  "curl https://run.binaris.com/v2/run/<account-id>/public_backend"
+  "curl https://run.binaris.com/v2/run/<Your_Account_Number>/public_backend"
 ```
 
 Our function is up and running and will autoscale with invocations. We can use `curl` to invoke it:
@@ -62,7 +62,7 @@ $ curl https://run.binaris.com/v2/run/$(bn show accountId)/public_backend -d '"h
 "HELLO"
 ```
 
-In the actual deploy printout `<account-id>` will be replaced by your own account ID. If you don't have it handy, you can find that by typing
+In the actual deploy printout `<Your_Account_Number>` will be replaced by your own account ID. If you don't have it handy, you can find that by typing
 
 ```
 $ bn show accountId
@@ -113,7 +113,7 @@ Our logic remains unchanged. We can now re-deploy and test:
 
 ```
 $ bn delpoy public_backend
-$ curl -i https://run.binaris.com/v2/run/<account-id>/public_backend -H 'Content-Type: application/json' -d '"hello"'
+$ curl -i https://run.binaris.com/v2/run/<Your_Account_Number>/public_backend -H 'Content-Type: application/json' -d '"hello"'
 HTTP/1.1 200 OK
 Server: openresty/1.13.6.1
 Date: Thu, 14 Feb 2019 23:16:06 GMT
@@ -163,10 +163,10 @@ Our backend is now live and we can use a simple HTML app to call it. The app cod
 First you need to plug in your Binaris account ID. At the very top of the file, locate the following line:
 
 ```htmlmixed
-    <script>const BINARIS_ACCOUNT_ID = '<account-id>'</script>
+    <script>const BINARIS_ACCOUNT_ID = '<Your_Account_Number>'</script>
 ```
 
-Replace `<account-id>` with your actual account ID.
+Replace `<Your_Account_Number>` with your actual account ID.
 
 You can now open `frontend.html` in your browser to run the app. Simply type in some text and hit Enter. The text will be sent to the backend and returned in upper-case to be displayed on screen.
 
