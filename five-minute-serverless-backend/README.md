@@ -188,7 +188,7 @@ const invoke = async (name, input) => {
   if (res.status !== 200 || !ct || !ct.startsWith('application/json')) {
     throw new Error(`Backend error: status=${res.status} response: ${res.body}`);
   }
-  return await res.json();
+  return res.json();
 };
 ```
 
