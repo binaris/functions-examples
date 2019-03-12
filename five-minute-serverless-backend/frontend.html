@@ -50,9 +50,10 @@
       const $output = document.getElementById('output');
       $input.addEventListener('keyup', async e => {
         if (e.keyCode === 13 && $input.value) {
-          const value = await invoke('public_backend', $input.value);
-          $output.innerHTML += value + '\n';
+          const inputValue = $input.value;
           $input.value = '';
+          const outputValue = await invoke('public_backend', inputValue);
+          $output.innerHTML += outputValue + '\n';
         }
       });
       $input.focus();
