@@ -82,7 +82,7 @@ Binaris provides an HTTP endpoint for every function out of the box (no need to 
 +      statusCode: 200,
 +      headers: {
 +        'Access-Control-Allow-Origin': '*',
-+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
++        'Access-Control-Allow-Headers': context.request.headers["access-control-request-headers"],
 +      },
 +    };
 +    if (context.request.method !== 'OPTIONS') {
@@ -139,7 +139,7 @@ const CORS = (handler) =>
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Headers': context.request.headers["access-control-request-headers"],
       },
     };
     if (context.request.method !== 'OPTIONS') {
@@ -170,35 +170,35 @@ Replace `<account-id>` with your actual account ID.
 
 You can now open `frontend.html` in your browser to run the app. Simply type in some text and hit Enter. The text will be sent to the backend and returned in upper-case to be displayed on screen.
 
-Calling our backend is a simple HTTP POST request. We included our own wrapper for `XMLHttpRequest` mostly to handle HTTP request and response headers. Our wrapper, called `request()` also returns a Promise so that the code calling it is cleaner.
+Calling our backend is a simple HTTP POST request, and this example uses `fetch` to handle HTTP request and response headers.
 
-We then implemented a helper function to invoke our backend cloud function:
+We implemented a helper function to invoke our backend cloud function:
 
 ```javascript
 const invoke = async (name, input) => {
   const url = `https://run.binaris.com/v2/run/${BINARIS_ACCOUNT_ID}/${name}`;
-  const data = JSON.stringify(input);
+  const body = JSON.stringify(input);
   const headers = { 'Content-Type': 'application/json' };
-  const res = await sendHttpRequest('post', url, data, headers);
-  const ct = res.headers['content-type'];
+  const res = await fetch(url, {
+    method: 'POST',
+    body,
+    headers,
+  });
+  const ct = res.headers.get('Content-Type');
   if (res.status !== 200 || !ct || !ct.startsWith('application/json')) {
     throw new Error(`Backend error: status=${res.status} response: ${res.body}`);
   }
-  return JSON.parse(res.body);
+  return await res.json();
 };
 ```
 
 This helper function uses the Binaris URL structure and the account ID configured above to form the backend URL. It also handles JSON encoding and decoding, and sets and verifies content type headers.
 
-All that's left now is to call our backend whever the user hits Enter:
+All that's left now is to call our backend whever the user change the input:
 
 ```javascript
-$input.addEventListener('keyup', async e => {
-  if (e.keyCode === 13 && $input.value) {
-    const value = await invoke('public_backend', $input.value);
-    $output.innerHTML += value + '\n';
-    $input.value = '';
-  }
+$input.addEventListener('input', async e => {
+  $output.innerHTML = await invoke('public_backend', $input.value);
 });
 ```
 
