@@ -176,7 +176,7 @@ First you need to plug in your Binaris account ID. At the very top of the file, 
 
 Replace `<Your_Account_Number>` with your actual account ID.
 
-You can now open `frontend.html` in your browser to run the app. Simply type in some text and hit Enter. The text will be sent to the backend and returned in upper-case to be displayed on screen.
+You can now open `frontend.html` in your browser to run the app. Simply type in some text. The text will be sent to the backend and returned in upper-case to be displayed on screen.
 
 Calling our backend is a simple HTTP POST request, and this example uses `fetch` to handle HTTP request and response headers.
 
