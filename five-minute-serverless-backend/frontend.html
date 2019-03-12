@@ -35,7 +35,7 @@
           const xhr = new XMLHttpRequest();
           xhr.onload = () => {
             const headers = {};
-            const strings = xhr.getAllResponseHeaders().split('\n');
+            const strings = xhr.getAllResponseHeaders().toLowerCase().split('\n');
             for (const s of strings) {
               if (s) {
                 const [key, val] = s.split(': ');
