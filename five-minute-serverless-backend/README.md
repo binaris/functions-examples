@@ -85,7 +85,10 @@ Binaris provides an HTTP endpoint for every function out of the box (no need to 
 +      },
 +    };
 +    if (context.request.method === 'OPTIONS') {
-+      response.headers['Access-Control-Allow-Headers'] = context.request.headers['access-control-request-headers'];
++      const accessControlRequestHeaders = context.request.headers['access-control-request-headers'];
++      if (accessControlRequestHeaders) {
++        response.headers['Access-Control-Allow-Headers'] = accessControlRequestHeaders;
++      }
 +    } else {
 +      const output = await handler(body);
 +      response.headers['Content-Type'] = 'application/json';
@@ -143,7 +146,10 @@ const CORS = (handler) =>
       },
     };
     if (context.request.method === 'OPTIONS') {
-      response.headers['Access-Control-Allow-Headers'] = context.request.headers['access-control-request-headers'];
+      const accessControlRequestHeaders = context.request.headers['access-control-request-headers'];
+      if (accessControlRequestHeaders) {
+        response.headers['Access-Control-Allow-Headers'] = accessControlRequestHeaders;
+      }
     } else {
       const output = await handler(body);
       response.headers['Content-Type'] = 'application/json';
