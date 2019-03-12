@@ -24,3 +24,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`five-minute-serverless-backend`](five-minute-serverless-backend) <br/> Build a serverless web backend in 5 minutes | nodeJS |
 | [`quines`](quines) <br/> A small collection of self-replicating functions | nodeJS and python2 |
 | [`python-crud-google-spreadsheet`](python-crud-google-spreadsheet) <br/> Google Spreadsheet CRUD with functions | python3 |
+| [`lambda-binaris-wrapper`](lambda-binaris-wrapper) <br/> Run AWS Lambda code directly on Binaris | nodeJS |
