@@ -1,0 +1,30 @@
+{
+  "name": "lambda-binaris-example",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Invoke existing AWS Lambdas as Binaris functions",
+  "main": "function.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binaris/functions-examples.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/binaris/functions-examples/issues"
+  },
+  "homepage": "https://github.com/binaris/functions-examples/lambda-binaris/README.md",
+  "author": "Ryland Goldstein",
+  "dependencies": {
+    "@binaris/lambda-binaris-wrapper": "^1.0.0-rc.1"
+  },
+  "keywords": [
+    "Binaris",
+    "Slack",
+    "FaaS",
+    "Pi",
+    "Command"
+  ]
+}

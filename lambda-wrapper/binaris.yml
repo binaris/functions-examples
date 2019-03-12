@@ -1,0 +1,9 @@
+functions:
+  wrapped_lambda:
+    file: function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
+    env:
+      LAMBDA_FILE_PATH: 'handler.js'
+      LAMBDA_HANDLER: 'hello'
