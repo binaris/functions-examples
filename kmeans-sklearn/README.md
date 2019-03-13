@@ -49,6 +49,7 @@ _Example URL_
 
 ht&#8203;tps://run.binaris.com/v2/run/0123456789/public_kmeans_image_quant_py2?image_url=https://i.imgur.com/DUSZHiX.jpg&num_colors=16
 
+> Note: "0123456789" is merely a placeholder and should be replaced with your personal Binaris account id
 
 ### Example output
 
