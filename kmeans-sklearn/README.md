@@ -1,6 +1,6 @@
 # KMeans via sklearn (Python2)
 
-Two clustering examples using [sklearn](https://scikit-learn.org/stable/).
+A clustering example using [sklearn](https://scikit-learn.org/stable/).
 
 If this is your first time using Binaris, visit our [Getting Started](https://dev.binaris.com/tutorials/python/getting-started/) page to set up your account for free.
 
