@@ -1,13 +1,18 @@
-import { FunctionContext } from './binaris';
+import { BinarisFunction } from './binaris';
 
 interface DataWithName { name: string; }
 
-export async function handler(body: unknown, ctx: FunctionContext): Promise<string> {
-  let name: string = 'World';
+function bodyHasName(body: unknown): body is DataWithName {
+  return body && typeof (body as DataWithName).name === 'string';
+}
+
+export const handler: BinarisFunction = async (body, ctx): Promise<string> => {
+  let name: string | undefined;
   if (typeof(ctx.request.query.name) === 'string') {
     name = ctx.request.query.name;
-  } else if ((body !== undefined) && Object.prototype.hasOwnProperty.call(body, 'name')) {
-    name = (body as DataWithName).name;
+  } else if (bodyHasName(body)) {
+    name = name || body.name;
   }
+  name = name || 'World';
   return `Hello ${name}!`;
-}
+};
