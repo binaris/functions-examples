@@ -26,3 +26,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`python-crud-google-spreadsheet`](python-crud-google-spreadsheet) <br/> Google Spreadsheet CRUD with functions | python3 |
 | [`kmeans-sklearn`](kmeans-sklearn) <br/> Simple kmeans examples using sklearn | python2 |
 | [`naive-serverless-map-reduce`](naive-serverless-map-reduce) <br/> Naive serverless MapReduce | nodeJS |
+| [`typescript-function`](typescript-function) <br/> Boilerplate TypeScript Binaris function | nodeJS and TypeScript |
