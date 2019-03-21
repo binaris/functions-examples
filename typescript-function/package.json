@@ -1,0 +1,28 @@
+{
+  "name": "typescript-function",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "A demo showing a common TypeScript setup on Binaris",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binaris/functions-examples.git"
+  },
+  "scripts": {
+    "deploy": "npm run build && bn deploy typescript",
+    "build": "tsc --p tsconfig.json",
+    "lint": "tslint -p tsconfig.json -c tslint.yml"
+  },
+  "bugs": {
+    "url": "https://github.com/binaris/functions-examples/issues"
+  },
+  "homepage": "https://github.com/binaris/functions-examples/typescript-function/README.md",
+  "author": "Ryland Goldstein",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^11.11.3",
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.3333"
+  }
+}

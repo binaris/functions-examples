@@ -1,0 +1,6 @@
+functions:
+  typescript:
+    file: dist/function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
