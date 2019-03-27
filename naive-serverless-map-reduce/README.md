@@ -30,6 +30,6 @@ $ bn logs public_mr_controller
 
 ## A naive serverless MapReduce framework
 
-Our framework has just one function `public_mr_controller` which takes the naive approach of invoking all mapper functions in parallel and witing for them to complete. Once they do, it invokes the reducer function and returns it result to the caller.
+Our framework has just one function `public_mr_controller` which takes the naive approach of invoking all mapper functions in parallel and waiting for them to complete. Once they complete, it invokes the reducer function and returns the result to the caller.
 
-This approach allows the user to have their map (`public_compute_pi_mapper`) and reduce (`public_compute_pi_reducer`) functions focus purely on computational logic. However, it does not account for failures, retries or laggards. In other examples we use streaming to implement a more robust asyncroneous.
+This approach allows the user to have their map (`public_compute_pi_mapper`) and reduce (`public_compute_pi_reducer`) functions focus purely on computational logic. However, it does not account for failures, retries or laggards. In other examples we use streaming to implement a more robust asynchronous framework.
