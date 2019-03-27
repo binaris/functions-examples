@@ -1,5 +1,5 @@
 # Map-Reduce Using Serverless Functions
-*Using serverless functions to parallelize [computation of Pi using the Monte Carlo](https://www.geeksforgeeks.org/estimating-value-pi-using-monte-carlo/)*
+*Parallelizing [computation of Pi using the Monte Carlo method](https://www.geeksforgeeks.org/estimating-value-pi-using-monte-carlo/) with serverless functions*
 
 ## Running this example
 
@@ -8,23 +8,24 @@ If you are new to Binaris, visit our [Getting Started](https://dev.binaris.com/t
 We start by deploying 3 functions to the cloud:
 
 ```bash
-bn deploy public_compute_pi_mapper
-bn deploy public_compute_pi_reducer
-bn deploy public_mr_controller
+$ bn deploy public_compute_pi_mapper
+$ bn deploy public_compute_pi_reducer
+$ npm install request request-promise-native
+$ bn deploy public_mr_controller
 ```
 
 The file `job.json` describes our MapReduce job and is pretty much self-explanatory. We pass its content as parameters when invoking our MapReduce framework:
 
 ```bash
-bn invoke public_mr_controller --json job.json
+$ bn invoke public_mr_controller --json job.json
 ```
 
-This should print an approximation of Pi. Feel free to play around with the number of points to get better accuracy. Make sure that the number of reduce points is the sum of all the input points.
+This should print an approximation of Pi. Feel free to play around with the number of points to achieve better accuracy. Make sure that the number of reduce points is the sum of all the input points.
 
-You can follow the execution course of the MapReduce job using:
+You can track the progress of the MapReduce job using:
 
 ```bash
-bn logs public_mr_controller
+$ bn logs public_mr_controller
 ```
 
 ## A naive serverless MapReduce framework
