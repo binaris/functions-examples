@@ -25,3 +25,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`quines`](quines) <br/> A small collection of self-replicating functions | nodeJS and python2 |
 | [`python-crud-google-spreadsheet`](python-crud-google-spreadsheet) <br/> Google Spreadsheet CRUD with functions | python3 |
 | [`kmeans-sklearn`](kmeans-sklearn) <br/> Simple kmeans examples using sklearn | python2 |
+| [`naive-serverless-map-reduce`](naive-serverless-map-reduce) <br/> Naive serverless MapReduce | nodeJS |
