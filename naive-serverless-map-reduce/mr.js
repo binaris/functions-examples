@@ -4,7 +4,6 @@ const invoke = async (fname, fargs) => {
   console.log(`Invoking ${fname}()`);
   const uri = `https://run.binaris.com/v2/run/${process.env.BINARIS_ACCOUNT_ID}/${fname}`;
   const res = await request.post(uri, {
-    headers: { 'content-type': 'application/json' },
     json: true,
     body: fargs
   });
