@@ -1,8 +1,8 @@
-exports.computePiMapper = body => {
+exports.computePiMapper = ({ points }) => {
   let inside = 0;
 
   // repeat points times:
-  for (let i = 0; i < body.points; i++) {
+  for (let i = 0; i < points; i++) {
 
     // random point (use R = 1)
     const x = Math.random() * 2 - 1;
@@ -17,6 +17,6 @@ exports.computePiMapper = body => {
   return inside;
 };
 
-exports.computePiReducer = body => {
-  return 4 * body.inputs.reduce((a, b) => a + b) / body.points;
+exports.computePiReducer = ({ inputs, points }) => {
+  return 4 * inputs.reduce((a, b) => a + b) / points;
 };
