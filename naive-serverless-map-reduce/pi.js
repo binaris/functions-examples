@@ -17,5 +17,6 @@ exports.computePiMapper = body => {
   return inside;
 };
 
-exports.computePiReducer = body =>
-  4 * body.inputs.reduce((a, b) => a + b) / body.points;
+exports.computePiReducer = body => {
+  return 4 * body.inputs.reduce((a, b) => a + b) / body.points;
+};
