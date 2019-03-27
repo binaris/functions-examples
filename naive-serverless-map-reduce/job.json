@@ -1,0 +1,17 @@
+{
+	"mapper": "public_compute_pi_mapper",
+	"reducer": "public_compute_pi_reducer",
+	"inputs": [
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 },
+		{ "points": 1000 }
+	],
+	"reduce": { "points": 10000 }
+}
