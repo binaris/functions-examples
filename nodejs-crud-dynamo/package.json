@@ -1,0 +1,34 @@
+{
+  "name": "nodejs-crud-dynamo",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "An example CRUD around DynamoDB",
+  "main": "function.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binaris/functions-examples.git"
+  },
+  "scripts": {
+    "deploy": "./deploy",
+    "remove": "./remove",
+    "createDriver": "bn invoke createDriver --json ./queries/createDriver.json",
+    "readDriver": "bn invoke readDriver --json ./queries/readDriver.json",
+    "updateDriver": "bn invoke updateDriver --json ./queries/updateDriver.json",
+    "deleteDriver": "bn invoke deleteDriver --json ./queries/deleteDriver.json"
+  },
+  "bugs": {
+    "url": "https://github.com/binaris/functions-examples/issues"
+  },
+  "homepage": "https://github.com/binaris/functions-examples/nodejs-crud-dynamo/README.md",
+  "author": "Ryland Goldstein",
+  "dependencies": {
+    "aws-sdk": "^2.430.0"
+  },
+  "keywords": [
+    "Binaris",
+    "FaaS",
+    "CRUD",
+    "DynamoDB"
+  ]
+}
