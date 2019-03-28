@@ -1,0 +1,46 @@
+functions:
+  createDriversTable:
+    file: function.js
+    entrypoint: createDriversTable
+    executionModel: concurrent
+    runtime: node8
+    env:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      AWS_REGION:
+  createDriver:
+    file: function.js
+    entrypoint: createDriver
+    executionModel: concurrent
+    runtime: node8
+    env:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      AWS_REGION:
+  readDriver:
+    file: function.js
+    entrypoint: readDriver
+    executionModel: concurrent
+    runtime: node8
+    env:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      AWS_REGION:
+  updateDriver:
+    file: function.js
+    entrypoint: updateDriver
+    executionModel: concurrent
+    runtime: node8
+    env:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      AWS_REGION:
+  deleteDriver:
+    file: function.js
+    entrypoint: deleteDriver
+    executionModel: concurrent
+    runtime: node8
+    env:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      AWS_REGION:
