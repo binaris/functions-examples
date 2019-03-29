@@ -22,7 +22,6 @@ functions:
     executionModel: concurrent
     runtime: node8
     env:
-      BINARIS_ACCOUNT_ID:
       REDIS_HOST:
       REDIS_PORT:
       REDIS_PASSWORD:
@@ -32,7 +31,6 @@ functions:
     executionModel: concurrent
     runtime: node8
     env:
-      BINARIS_ACCOUNT_ID:
       REDIS_HOST:
       REDIS_PORT:
       REDIS_PASSWORD:
