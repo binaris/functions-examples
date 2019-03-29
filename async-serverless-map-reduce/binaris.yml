@@ -1,0 +1,31 @@
+functions:
+  public_compute_pi_mapper:
+    file: pi.js
+    entrypoint: computePiMapper
+    executionModel: concurrent
+    runtime: node8
+  public_compute_pi_reducer:
+    file: pi.js
+    entrypoint: computePiReducer
+    executionModel: concurrent
+    runtime: node8
+  public_amr_controller:
+    file: amr.js
+    entrypoint: controller
+    executionModel: concurrent
+    runtime: node8
+    env:
+      BINARIS_ACCOUNT_ID:
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_PASSWORD:
+  public_amr_mapper:
+    file: amr.js
+    entrypoint: mapper
+    executionModel: concurrent
+    runtime: node8
+    env:
+      BINARIS_ACCOUNT_ID:
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_PASSWORD:
