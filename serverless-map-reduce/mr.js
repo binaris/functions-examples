@@ -1,6 +1,13 @@
 const request = require('request-promise-native');
 
-// Post an HTTP request to invoke a Binaris function
+/**
+ * Post an HTTP request to invoke a Binaris function.
+ *
+ * @param {string} [fname] Name of function to invoke
+ * @param {object} [fargs] Input arguments
+ *
+ * @return {object} Result returned from the function
+ */
 const invoke = async (fname, fargs) => {
   console.log(`Invoking ${fname}()`);
   const res = await request.post({
@@ -12,10 +19,12 @@ const invoke = async (fname, fargs) => {
   return res;
 };
 
-// public_mr_controller()
-//
-// Run a sync (naive) map-reduce job. Invoke all mapper, wait and invoke the reducer.
-//
+/**
+ * public_mr_controller() - Run a sync (naive) map-reduce job. Invoke all
+ * mappers, wait and invoke the reducer.
+ *
+ * @param {object} [job] Description of MapReduce job
+ */
 exports.controller = async job => {
 
   // Invoke all mappers and wait
