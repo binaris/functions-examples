@@ -67,12 +67,12 @@ $ bn logs --tail public_amr_mapper
 
 Our async framework uses two functions: `public_amr_controller` and `public_amr_mapper`. We also use a Redis stream to facilitate asynchronous invocation of the mapper function.
 
-The controller function posts invocation requests into the Redis stream. Each request corresponds to a single mapper job. A Binaris trigger is configured to listen to this Redis stream and invoke the `public_amr_mapper` functions for each data element posted onto the stream.
+The controller function posts invocation requests into the Redis stream. Each request corresponds to a single mapper job. A Binaris trigger is configured to listen to this Redis stream and invoke the `public_amr_mapper` functions for each data element posted into the stream.
 
 The mapper function `public_amr_mapper` is a bit more complicated and performs the following steps:
 * Extract the job information from the stream data element.
 * Invoke the user's mapper function specified in the job information. In our case, this is `public_compute_pi_mapper`.
-* Save the output from the mapper onto a Redis HSET.
+* Save the output from the mapper into a Redis HSET.
 * Use Redis atomic increment to count the number of completed map jobs.
 * When the count equals the overall number of map jobs (this will happen only once, because Redis increment is atomic), invoke the user's reducer function `public_compute_pi_reducer`.
 * At this point we have the final result of the computation and we could store it in Redis, or stream it back to the user (using another stream, of course). In this case, we just print it to the log.

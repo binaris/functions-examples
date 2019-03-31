@@ -1,7 +1,14 @@
 const request = require('request-promise-native');
 const Redis = require('ioredis');
 
-// Post an HTTP request to invoke a Binaris function
+/**
+ * Post an HTTP request to invoke a Binaris function.
+ *
+ * @param {string} [fname] Name of function to invoke
+ * @param {object} [fargs] Input arguments
+ *
+ * @return {object} Result returned from the function
+ */
 const invoke = async (fname, fargs) => {
   console.log(`Invoking ${fname}()`);
   const res = await request.post({
@@ -22,11 +29,12 @@ const redis = new Redis({
   tls: { rejectUnauthorized: false },
 });
 
-// public_amr_controller()
-//
-// Start an async map-reduce job by posting invocation of
-// function public_amr_mapper() into a Redis stream
-//
+/**
+ * public_amr_controller() - Start an async map-reduce job by posting
+ * invocations of function public_amr_mapper() into a Redis stream.
+ *
+ * @param {object} [job] Description of MapReduce job to start
+ */
 exports.controller = async job => {
 
   // Generate a random string for a job ID
@@ -41,11 +49,13 @@ exports.controller = async job => {
   }
 };
 
-// public_amr_mapper()
-//
-// Invoke one instance of the user's mapper function and,
-// in case all mappers are done, invoke the user's reducer function
-//
+/**
+ * public_amr_mapper() - Invoke one instance of the user's mapper function
+ * and, in case all mappers are done, invoke the user's reducer function.
+ *
+ * @param {object} [input] Description of MapReduce job with details of
+ *                         the specific map operation to perform
+ */
 exports.mapper = async input => {
 
   // Parse the input from the stream element
