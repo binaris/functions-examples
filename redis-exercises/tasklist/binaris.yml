@@ -1,0 +1,19 @@
+functions:
+  addTask:
+    file: function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
+  getNextTask:
+    file: function.js
+    entrypoint: getNextTask
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:

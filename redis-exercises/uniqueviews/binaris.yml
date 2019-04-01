@@ -1,0 +1,19 @@
+functions:
+  uniqueView:
+    file: function.js
+    entrypoint: uniqueView
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
+  getUniqueViews:
+    file: function.js
+    entrypoint: getUniqueViews
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:

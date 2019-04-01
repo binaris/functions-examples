@@ -1,0 +1,37 @@
+functions:
+  setName:
+    file: function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
+  getName:
+    file: function.js
+    entrypoint: getName
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
+  set:
+    file: kvparamgetset.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
+  get:
+    file: kvparamgetset.js
+    entrypoint: get
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:

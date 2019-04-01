@@ -1,0 +1,19 @@
+functions:
+  addItem:
+    file: function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
+  getAllItems:
+    file: function.js
+    entrypoint: getAllItems
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
