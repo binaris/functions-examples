@@ -59,7 +59,7 @@ exports.controller = async job => {
 exports.mapper = async input => {
 
   // Parse the input from the stream element
-  const job = JSON.parse(input.fields.toString('utf8').substr(6));
+  const job = JSON.parse(input.fields[0][1].toString('utf8'));
 
   // Invoke the user's mapper function
   const mapResult = await invoke(job.mapper, job.inputs[job.index]);
