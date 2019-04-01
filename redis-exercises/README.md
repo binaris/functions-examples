@@ -13,7 +13,7 @@ All of our exercises are written as Binaris functions, therefore a Binaris accou
 
 The exercises all assume access to a Redis instance. Knowing that this is impractical for most attendees, we're providing a temporary set of Redis instances.
 
-[Click here to get your Redis instance!](https://replacemewithredisinstance.com)
+[Click here to get your Redis instance!](https://run.binaris.com/v2/run/98101114103117110100121/public_redisConfCreds)
 
 ## Setup your environment for the exercises
 
