@@ -1,0 +1,19 @@
+functions:
+  geoView:
+    file: function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:
+  geoDistribution:
+    file: function.js
+    entrypoint: geoDistribution
+    executionModel: concurrent
+    runtime: node8
+    env:
+      REDIS_PORT:
+      REDIS_HOST:
+      REDIS_PASSWORD:

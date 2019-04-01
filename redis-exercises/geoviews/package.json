@@ -1,0 +1,36 @@
+{
+  "name": "redis-exercises-geoviews",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Binaris function that tracks unique pageviews and their geolocations",
+  "main": "function.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binaris/functions-examples.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/binaris/functions-examples/issues"
+  },
+  "homepage": "https://github.com/binaris/functions-examples/redis-exercises/geoviews/README.md",
+  "author": "Ryland Goldstein",
+  "dependencies": {
+    "ioredis": "^4.9.0",
+    "node-iplocate": "^1.0.1"
+  },
+  "keywords": [
+    "Binaris",
+    "Redis",
+    "Pageviews",
+    "Location",
+    "Geo",
+    "Redisio",
+    "RedisConf",
+    "Serverless",
+    "FaaS"
+  ],
+  "devDependencies": {}
+}
