@@ -3,7 +3,7 @@
 
 ## Running the synchronous example
 
-If you are new to Binaris, visit our [Getting Started](https://dev.binaris.com/tutorials/python/getting-started/) page to set up your free account.
+If you are new to Binaris, visit our [Getting Started](https://dev.binaris.com/tutorials/nodejs/getting-started/) page to set up your free account.
 
 We start by deploying 3 functions to the cloud:
 
@@ -72,7 +72,7 @@ The controller function posts invocation requests into the Redis stream. Each re
 The mapper function `public_amr_mapper` is a bit more complicated and performs the following steps:
 * Extract the job information from the stream data element.
 * Invoke the user's mapper function specified in the job information. In our case, this is `public_compute_pi_mapper`.
-* Save the output from the mapper into a Redis HSET.
+* Save the output from the mapper into a Redis Set.
 * Use Redis atomic increment to count the number of completed map jobs.
 * When the count equals the overall number of map jobs (this will happen only once, because Redis increment is atomic), invoke the user's reducer function `public_compute_pi_reducer`.
 * At this point we have the final result of the computation and we could store it in Redis, or stream it back to the user (using another stream, of course). In this case, we just print it to the log.
