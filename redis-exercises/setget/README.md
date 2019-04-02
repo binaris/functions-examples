@@ -11,7 +11,12 @@ __Potential Interface__
 `setName` function
 ```bash
 $ bn invoke setName --data '{ "name": "Bob" }'
-  'ok'
+  "ok"
+```
+Or if you're using Windows CMD:
+```shell
+$ bn invoke setName --data "{\"name\":\"Bob\"}"
+  "ok"
 ```
 
 `getName` function
