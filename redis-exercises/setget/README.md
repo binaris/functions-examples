@@ -252,4 +252,7 @@ $ bn invoke get --data '{ "key": "name" }'
 
 </details>
 
-<div align="center"><a href="../redis-exercises#exercises">List of Exercises</a></div><div align="right"><a href="../pageviews#pageview-redis-function">Next Exercises</a></div>
+<div style="display: flex; flex-direction: column">
+  <div style="flex: flex-grow"><a href="../redis-exercises#exercises">List of Exercises</a></div>
+  <div style="flex: flex-grow"><a href="../pageviews#pageview-redis-function">Next Exercises</a></div>
+</div>
