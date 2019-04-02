@@ -56,9 +56,9 @@ Although the content in the exercises is relatively diverse, there are some comm
 
 
 ## Exercises
-* [Hello Redis with GET and SET](setget)
-* [Count Page Views with INCR](pageviews)
-* [Track Unique Views with BITFIELD](uniqueviews)
-* [Map users with GEORADIUS](geoviews)
-* [Managing tasks with LPUSH/LPOP](tasklist)
-* [Shopping cart with HSET](shoppingcart)
+* [Hello Redis with GET and SET](setget#setget-redis-functions)
+* [Count Page Views with INCR](pageviews#pageview-redis-function)
+* [Track Unique Views with BITFIELD](uniqueviews#unique-page-views-redis-function)
+* [Map users with GEORADIUS](geoviews#geoviews-redis-function)
+* [Managing tasks with LPUSH/LPOP](tasklist#task-list-redis-function)
+* [Shopping cart with HSET](shoppingcart#shopping-cart-redis-function)
