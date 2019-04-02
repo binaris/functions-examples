@@ -1,4 +1,4 @@
-const { invoke } = require('./invoke.js');
+const { invoke } = require('./invoke');
 
 /**
  * public_mr_controller() - Run a sync (naive) map-reduce job. Invoke all

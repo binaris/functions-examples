@@ -1,5 +1,5 @@
 const Redis = require('ioredis');
-const { invoke } = require('./invoke.js');
+const { invoke } = require('./invoke');
 
 // Connect to Redis
 const { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD } = process.env;
