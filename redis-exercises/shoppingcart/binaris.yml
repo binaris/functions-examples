@@ -1,7 +1,7 @@
 functions:
   addItem:
     file: function.js
-    entrypoint: handler
+    entrypoint: addItem
     executionModel: concurrent
     runtime: node8
     env:

@@ -43,7 +43,7 @@ Use [HGETALL](https://redis.io/commands/hgetall) to easily retrieve all items in
 Let's start by creating the template for our function that adds items to the shopping cart.
 
 ```bash
-$ bn create node8 addItem
+$ bn create node8 addItem --config.entrypoint 'addItem'
 ```
 
 Before we can start implementing the logic for `addItem`, we should first update the generated `binaris.yml` so the function has access to our Redis credentials at runtime.
@@ -102,7 +102,7 @@ Now, it's time to get down to business. We decided at the beginning of the exerc
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.addItem = async (body, context) => {
 +  const quantity = body.quantity || 1;
 -  const name = context.request.query.name || body.name || 'World';
 -  return `Hello ${name}!`;
@@ -114,7 +114,7 @@ We support this functionality through the optional `quantity` parameter. If the 
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.addItem = async (body, context) => {
    const quantity = body.quantity || 1;
 +  if (body.item === undefined) {
 +    throw new Error('"item" body parameter required!');
@@ -214,7 +214,7 @@ const client = new Redis({
 
 const KEY = 'cart';
 
-exports.handler = async (body, context) => {
+exports.addItem = async (body, context) => {
   const quantity = body.quantity || 1;
   if (body.item === undefined) {
     throw new Error('"item" body parameter required!');
@@ -236,7 +236,7 @@ exports.getAllItems = async () => {
 functions:
   addItem:
     file: function.js
-    entrypoint: handler
+    entrypoint: addItem
     executionModel: concurrent
     runtime: node8
     env:

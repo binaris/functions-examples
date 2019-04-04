@@ -10,7 +10,7 @@ const client = new Redis({
 
 const KEY = 'cart';
 
-exports.handler = async (body, context) => {
+exports.addItem = async (body, context) => {
   const quantity = body.quantity || 1;
   if (body.item === undefined) {
     throw new Error('"item" body parameter required!');
