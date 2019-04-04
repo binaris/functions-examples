@@ -30,7 +30,7 @@ $ bn invoke getName
 We know that we need to create two functions, one for setting our name and another for getting that name. With this in mind, let's start by creating our `setName` function.
 
 ```bash
-$ bn create node8 setName
+$ bn create node8 setName --config.entrypoint 'setName'
 ```
 
 Before we can start implementing the logic to a set a name, we should first update the generated `binaris.yml` so the function has access to our Redis credentials at runtime.
@@ -96,12 +96,12 @@ Now, let's create a variable `KEY` which will be used for our `setName` operatio
 +const KEY = 'name';
 ```
 
-Finally, let's modify the auto-generated `exports.handler` to `set` the input value at `KEY`.
+Finally, let's modify the auto-generated `exports.setName` to `set` the input value at `KEY`.
 
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.setName = async (body, context) => {
    const name = context.request.query.name || body.name || 'World';
 +  await client.set(KEY, name);
 -  return `Hello ${name}!`;
@@ -128,8 +128,6 @@ Finally, let's modify the auto-generated `exports.handler` to `set` the input va
 +      REDIS_HOST:
 +      REDIS_PASSWORD:
 ```
-
-> Note: Because we have two Binaris functions defined in the same file our "getName" can't use "handler" as the entrypoint.
 
 As a final change to our `function.js`, we'll add our `getName` handler.
 
@@ -178,7 +176,7 @@ const client = new Redis({
 
 const KEY = 'name';
 
-exports.handler = async (body, context) => {
+exports.setName = async (body, context) => {
   const name = context.request.query.name || body.name || 'World';
   await client.set(KEY, name);
   return 'ok';
@@ -199,7 +197,7 @@ exports.getName = async (body) => {
 functions:
   setName:
     file: function.js
-    entrypoint: handler
+    entrypoint: setName
     executionModel: concurrent
     runtime: node8
     env:

@@ -10,7 +10,7 @@ const client = new Redis({
 
 const KEY = 'name';
 
-exports.handler = async (body, context) => {
+exports.setName = async (body, context) => {
   const name = context.request.query.name || body.name || 'World';
   await client.set(KEY, name);
   return 'ok';
