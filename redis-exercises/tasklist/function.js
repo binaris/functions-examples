@@ -10,7 +10,7 @@ const client = new Redis({
 
 const KEY = 'tasks';
 
-exports.handler = async (body, context) => {
+exports.addTask = async (body, context) => {
   if (body.task === undefined) {
     throw new Error('"task" body parameter required!');
   }

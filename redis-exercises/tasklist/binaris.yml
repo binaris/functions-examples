@@ -1,7 +1,7 @@
 functions:
   addTask:
     file: function.js
-    entrypoint: handler
+    entrypoint: addTask
     executionModel: concurrent
     runtime: node8
     env:

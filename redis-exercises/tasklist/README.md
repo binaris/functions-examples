@@ -98,7 +98,7 @@ We're ready to implement `addTask`, let's add validation for the `task` body par
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.addTask = async (body, context) => {
 +  if (body.task === undefined) {
 +    throw new Error('"task" body parameter required!');
 +  }
@@ -112,7 +112,7 @@ Considering that this is a task list, we need to hope Redis has some list like s
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.addTask = async (body, context) => {
    if (body.task === undefined) {
      throw new Error('"task" body parameter required!');
    }
@@ -196,7 +196,7 @@ const client = new Redis({
 
 const KEY = 'tasks';
 
-exports.handler = async (body, context) => {
+exports.addTask = async (body, context) => {
   if (body.task === undefined) {
     throw new Error('"task" body parameter required!');
   }
@@ -218,7 +218,7 @@ exports.getNextTask = async () => {
 functions:
   addTask:
     file: function.js
-    entrypoint: handler
+    entrypoint: addTask
     executionModel: concurrent
     runtime: node8
     env:
