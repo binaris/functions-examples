@@ -19,7 +19,7 @@ async function resolveLocation(body, context) {
   return IPLocator(callerIP);
 }
 
-exports.handler = async (body, context) => {
+exports.geoView = async (body, context) => {
   const resolved = await resolveLocation(body, context);
   await client.geoadd(KEY, resolved.longitude, resolved.latitude, resolved.ip);
   return 'ok';
