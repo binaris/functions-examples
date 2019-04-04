@@ -142,7 +142,7 @@ As a final change to our `function.js`, we'll add our `getName` handler.
 +
 +exports.getName = async (body) => {
 +  const name = await client.get(KEY);
-+  return `Hello ${name}`;
++  return `Hello ${name}!`;
 +};
 ```
 
@@ -186,7 +186,7 @@ exports.handler = async (body, context) => {
 
 exports.getName = async (body) => {
   const name = await client.get(KEY);
-  return `Hello ${name}`;
+  return `Hello ${name}!`;
 };
 ```
 

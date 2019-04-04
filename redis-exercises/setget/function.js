@@ -18,5 +18,5 @@ exports.handler = async (body, context) => {
 
 exports.getName = async (body) => {
   const name = await client.get(KEY);
-  return `Hello ${name}`;
+  return `Hello ${name}!`;
 };
