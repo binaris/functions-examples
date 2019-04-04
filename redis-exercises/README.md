@@ -29,7 +29,15 @@ Although the content in the exercises is relatively diverse, there are some comm
     $ npm install -g binaris
     ```
 
-    Please visit our [Getting Started Docs](https://dev.binaris.com/tutorials/nodejs/getting-started/) or ask a team member if you run into any issues.
+    After the CLI is installed, run...
+
+    ```bash
+    $ bn login
+    ```
+
+    to authenticate with Binaris on your local machine.
+
+    If you need to learn the basics of the system please visit our [Getting Started Docs](https://dev.binaris.com/tutorials/nodejs/getting-started/) or reach out to a team member if you run into any issues.
 
     > Note: In the case you don't have `npm` installed visit [the npm downloads page](https://www.npmjs.com/get-npm).
 
