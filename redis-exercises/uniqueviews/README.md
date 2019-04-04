@@ -37,7 +37,7 @@ The [BITFIELD](https://redis.io/commands/bitfield) type in Redis can be incredib
 Let's start by creating the template for our function that tracks unique views to a webpage.
 
 ```bash
-$ bn create node8 uniqueView
+$ bn create node8 uniqueView --config.entrypoint 'uniqueView'
 ```
 
 Before we can start implementing the logic for `uniqueView`, we should first update the generated `binaris.yml` so the function has access to our Redis credentials at runtime.
@@ -97,7 +97,7 @@ It's time to tackle the original problem. How do we store the number of times ou
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.uniqueView = async (body, context) => {
 +  const userId = context.request.query.userId || body.userId;
 -  const name = context.request.query.name || body.name || 'World';
 -  return `Hello ${name}!`;
@@ -109,7 +109,7 @@ It's unimportant to us whether the user provides the ID via the query or body, s
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.uniqueView = async (body, context) => {
    const userId = context.request.query.userId || body.userId;
 +  if (userId === undefined) {
 +    throw new Error('"userId" body/query parameter required!');
