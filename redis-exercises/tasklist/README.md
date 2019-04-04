@@ -39,7 +39,7 @@ Redis supports a [list](https://redis.io/topics/data-types) data type. Consider 
 Let's start by creating the template for our function that adds items to the task list.
 
 ```bash
-$ bn create node8 addTask
+$ bn create node8 addTask --config.entrypoint 'addTask'
 ```
 
 Before we can start implementing the logic for `addTask`, we should first update the generated `binaris.yml` so the function has access to our Redis credentials at runtime.
