@@ -40,7 +40,7 @@ IP addresses encode tons of useful information including relatively accurate loc
 Start off by creating the template for our `geoView` function.
 
 ```bash
-$ bn create node8 geoView
+$ bn create node8 geoView --config.entrypoint 'geoView'
 ```
 
 Before we can start implementing the logic for `geoView`, we should first update the generated `binaris.yml` so the function has access to our Redis credentials at runtime.
@@ -130,7 +130,7 @@ Don't forget to require our `node-iplocate` dependency!
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.geoView = async (body, context) => {
 +  const resolved = await resolveLocation(body, context);
 -  const name = context.request.query.name || body.name || 'World';
 -  return `Hello ${name}!`;
@@ -162,7 +162,7 @@ Now that we know what we have available to us, let's finish this function off by
 ```diff
 > function.js
 ---
- exports.handler = async (body, context) => {
+ exports.geoView = async (body, context) => {
    const resolved = await resolveLocation(body, context);
 +  await client.geoadd(KEY, resolved.longitude, resolved.latitude, resolved.ip);
 +  return 'ok';
@@ -263,7 +263,7 @@ async function resolveLocation(body, context) {
   return IPLocator(callerIP);
 }
 
-exports.handler = async (body, context) => {
+exports.geoView = async (body, context) => {
   const resolved = await resolveLocation(body, context);
   await client.geoadd(KEY, resolved.longitude, resolved.latitude, resolved.ip);
   return 'ok';
@@ -285,7 +285,7 @@ exports.geoDistribution = async (body, context) => {
 functions:
   geoView:
     file: function.js
-    entrypoint: handler
+    entrypoint: geoView
     executionModel: concurrent
     runtime: node8
     env:

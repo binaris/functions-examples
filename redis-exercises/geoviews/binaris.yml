@@ -1,7 +1,7 @@
 functions:
   geoView:
     file: function.js
-    entrypoint: handler
+    entrypoint: geoView
     executionModel: concurrent
     runtime: node8
     env:
