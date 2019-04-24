@@ -1,0 +1,9 @@
+functions:
+  deployer:
+    file: function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
+    env:
+      BINARIS_API_KEY:
+      BINARIS_ACCOUNT_ID:
