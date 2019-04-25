@@ -32,7 +32,7 @@ exports.handler = async (body, context) => {
   // to file in /tmp
   console.log(`Loading: ${uri}`);
   const srcImage = await request({ uri, encoding: null });
-  console.log(`Image has ${srcimg.length} bytes`);
+  console.log(`Image has ${srcImage.length} bytes`);
   await asyncWriteFile(SRCFILE, srcImage);
 
   // Use ImageMagick to resize and convert to PNG.
