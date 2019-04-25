@@ -13,7 +13,8 @@ async function localDeploy({ filePath, funcName, runtime }) {
     runtime,
     func: functionRepr,
   }
-  await invoke('deployer', JSON.stringify(funcData  );
+  const URL = await invoke('deployer', JSON.stringify(funcData));
+  console.log(URL.body);
 }
 
 yargs

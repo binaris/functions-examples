@@ -29,6 +29,8 @@ async function innerDeploy(funcName, func, runtime = 'node8') {
   const fullPath = join(dirHandle.path, functionConf.file);
   await writeAsync(fullPath, func);
   await deploy(funcName, dirHandle.path, functionConf);
+  const { BINARIS_ACCOUNT_ID } = process.env;
+  return `https://run.binaris.com/v2/run/${BINARIS_ACCOUNT_ID}/${funcName}`;
 }
 
 module.exports = innerDeploy;
