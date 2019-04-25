@@ -27,3 +27,4 @@ Each example contains a README.md with an explanation about the solution and it'
 | [`kmeans-sklearn`](kmeans-sklearn) <br/> Simple kmeans examples using sklearn | python2 |
 | [`serverless-map-reduce`](serverless-map-reduce) <br/> Serverless MapReduce | nodeJS |
 | [`redis-exercises`](redis-exercises) <br/> Various Redis exercises | nodeJS |
+| [`image-resize`](image-resize) <br/> Resize images with ImageMagick | nodeJS |
