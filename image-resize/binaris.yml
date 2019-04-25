@@ -1,0 +1,6 @@
+functions:
+  public_resize:
+    file: function.js
+    entrypoint: handler
+    executionModel: concurrent
+    runtime: node8
