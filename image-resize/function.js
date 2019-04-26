@@ -17,7 +17,7 @@ exports.handler = async (body, context) => {
   if (uri === undefined || uri === '') {
     // This will be caught by Binaris and returned as
     // a HTTP 500 status code
-  	throw new Error('No URL');
+    throw new Error('No URL');
   }
 
   // Get a target size for the image. Image will be
