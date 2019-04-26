@@ -20,7 +20,7 @@ We use the `public_` prefix to avoid needing an API to authenticate when invokin
 
 3. Invoke
 
-Out function expects a URL of an image and optionally the desired size (the default is 32x32). It loads the image, resizes it and returns an HTTP response with the image to the caller.
+The function expects a URL of an image and optionally the desired size (the default is 32x32). It loads the image, resizes it and returns an HTTP response with the image to the caller.
 
 Functions arguments can be specific in a JSON request body or as query string parameters like so:
 
