@@ -7,8 +7,7 @@ const asyncExec = promisify(exec);
 const asyncReadFile = promisify(readFile);
 const asyncWriteFile = promisify(writeFile);
 
-const SRCFILE = '/tmp/srcimg';
-const DSTFILE = '/tmp/dstimg.png';
+const randomString = () => Math.random().toString(36).substring(2, 15);
 
 exports.handler = async (body, context) => {
   // Get an image URL from the request body or query
@@ -28,19 +27,22 @@ exports.handler = async (body, context) => {
                parseInt(context.request.query.sz, 10) ||
                32;
 
+  const srcFile = `/tmp/${randomString()}`;
+  const dstFile = `/tmp/${randomString()}.png`;
+
   // Load the image from the specified url and save
   // to file in /tmp
   console.log(`Loading: ${uri}`);
   const srcImage = await request({ uri, encoding: null });
   console.log(`Image has ${srcImage.length} bytes`);
-  await asyncWriteFile(SRCFILE, srcImage);
+  await asyncWriteFile(srcFile, srcImage);
 
   // Use ImageMagick to resize and convert to PNG.
   // Always returning a PNG simplifies the response
   // encoding code below
   try {
     console.log(`Resiging to ${size}x${size} pixels`);
-    await asyncExec(`convert ${SRCFILE} -resize ${size}x${size} ${DSTFILE}`);
+    await asyncExec(`convert ${srcFile} -resize ${size}x${size} ${dstFile}`);
   } catch (e) {
     console.error('Error resizing image:');
     console.error(e.stderr.toString());
@@ -49,7 +51,7 @@ exports.handler = async (body, context) => {
   }
 
   // Read the resized image file
-  const dstImage = await asyncReadFile(DSTFILE);
+  const dstImage = await asyncReadFile(dstFile);
 
   // Return an HTTP response with PNG encoded binary
   // image
