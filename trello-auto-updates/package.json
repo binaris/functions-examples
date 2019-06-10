@@ -34,10 +34,10 @@
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
-    "eslint": "^5.8.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "jsdoc": "^3.5.5",
+    "eslint-plugin-import": "^2.17.3",
+    "jsdoc": "^3.6.2",
     "mocha": "^5.2.0"
   }
 }
