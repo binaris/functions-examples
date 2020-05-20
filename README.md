@@ -1,3 +1,5 @@
+# We have terminated the backend for this project.  Old Binaris projects can no longer be deployed.
+
 [Website](https://www.binaris.com) • [Docs](https://dev.binaris.com/) • [Blog](https://blog.binaris.com/)
 
 # Binaris Functions Examples
